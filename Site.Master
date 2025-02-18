@@ -78,7 +78,7 @@
                 <%--Site Scripts--%>
             </Scripts>
         </asp:ScriptManager>
-
+        <asp:Panel runat="server" ID="pnlNavbar">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" runat="server" href="~/">Unishape  <i class="fa-solid fa-dumbbell"></i> </a>
@@ -112,6 +112,8 @@
                 </div>
             </div>
         </nav>
+       </asp:Panel>
+
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>

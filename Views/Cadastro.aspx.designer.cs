@@ -33,15 +33,6 @@ namespace ProjectFit
         protected global::System.Web.UI.WebControls.TextBox txtCpf;
 
         /// <summary>
-        /// Controle btnBuscar.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBuscar;
-
-        /// <summary>
         /// Controle txtNome.
         /// </summary>
         /// <remarks>
@@ -130,6 +121,15 @@ namespace ProjectFit
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCadastrar;
+
+        /// <summary>
+        /// Controle btnBuscar.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnBuscar;
 
         /// <summary>
         /// Controle btnLimpar.

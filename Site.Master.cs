@@ -16,6 +16,13 @@ namespace ProjectFit
         private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
         private string _antiXsrfTokenValue;
 
+
+        public bool ShowNavbar
+        {
+            get { return pnlNavbar.Visible; }
+            set { pnlNavbar.Visible = value; }
+        }
+
         protected void Page_Init(object sender, EventArgs e)
         {
             // O código abaixo ajuda a proteger contra ataques XSRF

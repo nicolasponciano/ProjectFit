@@ -46,11 +46,14 @@ namespace ProjectFit.Models
         [Column("ALN_VL_IMC")] // Mapeia a propriedade para a coluna ALN_VL_IMC
         public double IMC { get; set; }
 
+        [Column("ALN_CD_META")] // Mapeia a propriedade para a coluna ALN_CD_META
+        public int? CodigoMeta { get; set; }
+
         [Column("ALN_NM_META")] // Mapeia a propriedade para a coluna ALN_NM_META
         public string Meta { get; set; }
 
         [Column("ALN_CD_PLANO_TREINO")] // Mapeia a propriedade para a coluna ALN_CD_PLANO_TREINO
-        public int CodigoPlanoTreino { get; set; }
+        public int? CodigoPlanoTreino { get; set; }
 
         [Column("ALN_NM_PLANO_TREINO")] // Mapeia a propriedade para a coluna ALN_NM_PLANO_TREINO
         public string PlanoTreino { get; set; }
