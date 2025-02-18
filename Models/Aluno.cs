@@ -67,6 +67,10 @@ namespace ProjectFit.Models
         [Column("ALN_DT_ALTERACAO")] // Mapeia a propriedade para a coluna ALN_DT_ALTERACAO
         public DateTime? DataAlteracao { get; set; }
 
+        [Required(ErrorMessage = "A senha é obrigatória.")]
+        [Column("ALN_HASH_SENHA")] // Mapeia para a coluna ALN_HASH_SENHA
+        public string HashSenha { get; set; }
+
         // Método para calcular o IMC
         public double CalcularIMC()
         {
@@ -78,5 +82,17 @@ namespace ProjectFit.Models
             IMC = Peso / (Altura * Altura);
             return IMC;
         }
+
+        public void DefinirSenha(string senha)
+        {
+            HashSenha = BCrypt.Net.BCrypt.HashPassword(senha);
+        }
+
+        public bool VerificarSenha(string senha)
+        {
+            return BCrypt.Net.BCrypt.Verify(senha, HashSenha);
+        }
+
+
     }
 }

@@ -1,6 +1,45 @@
 ﻿<%@ Page Title="Cadastro" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Cadastro.aspx.cs" Inherits="ProjectFit.Cadastro" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+        function confirmarExclusao(botao) {
+            // Verifica se a ação já foi confirmada
+            if (botao.dataset.confirmado === "true") {
+                // Reseta o atributo para futuras operações
+                botao.dataset.confirmado = "false";
+                // Permite o postback
+                return true;
+            }
+
+            // Previne o postback inicial
+            event.preventDefault();
+
+            // Exibe o modal de confirmação
+            Swal.fire({
+                title: 'Tem certeza?',
+                text: "Esta ação não poderá ser desfeita!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, excluir!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Marca que a confirmação foi obtida
+                    botao.dataset.confirmado = "true";
+                    // Dispara o clique novamente para proceder com o postback
+                    botao.click();
+                }
+            });
+
+            // Impede o postback até que a confirmação seja obtida
+            return false;
+        }
+    </script>
+
+
     <div class="container">
         <h1 class="text-center mb-4"><strong>Cadastro de Alunos</strong></h1>
         <div class="col-md-6 mx-auto">
@@ -10,7 +49,6 @@
                     <asp:TextBox ID="txtCpf" CssClass="form-control mb-3" runat="server"></asp:TextBox>
                     <asp:Button ID="btnBuscar" CssClass="btn btn-success me-2" runat="server" Text="Buscar" OnClick="btnBuscar_Click" />
                     <div class="d-flex">
-                        
                     </div>
                 </div>
 
@@ -22,6 +60,11 @@
                 <div class="form-group">
                     <label for="txtEmail">E-Mail:</label>
                     <asp:TextBox ID="txtEmail" CssClass="form-control mb-3" runat="server"></asp:TextBox>
+                </div>
+
+                <div class="form-group">
+                    <label for="txtSenha">Senha:</label>
+                    <asp:TextBox ID="txtSenha" runat="server" TextMode="Password" CssClass="form-control" placeholder="Digite a senha"></asp:TextBox>
                 </div>
 
                 <div class="form-group">
@@ -57,7 +100,8 @@
                 <div class="d-flex">
                     <asp:Button ID="btnCadastrar" CssClass="btn btn-primary me-2" runat="server" Text="Salvar" OnClick="btnCadastrar_Click" />
                     <asp:Button ID="btnLimpar" CssClass="btn btn-secondary me-2" runat="server" Text="Limpar" OnClick="btnLimpar_Click" />
-                    <asp:Button ID="btnExcluir" CssClass="btn btn-danger" runat="server" Text="Excluir" OnClick="btnExcluir_Click" />
+                    <asp:Button ID="btnExcluir" CssClass="btn btn-danger" runat="server" Text="Excluir"
+                        OnClientClick="return confirmarExclusao(this);" OnClick="btnExcluir_Click" />
                 </div>
             </asp:Panel>
         </div>

@@ -35,6 +35,8 @@ namespace ProjectFit
                 // Verifica se o CPF já existe
                 var alunoExistente = db.Alunos.FirstOrDefault(a => a.Cpf == txtCpf.Text);
 
+
+
                 if (alunoExistente == null)
                 {
                     // Novo cadastro
@@ -49,7 +51,8 @@ namespace ProjectFit
                         Altura = Convert.ToDouble(txtAltura.Text),
                         IMC = CalcularIMC(Convert.ToDouble(txtPeso.Text), Convert.ToDouble(txtAltura.Text)),
                         Meta = txtMeta.Text,
-                        DataGravacao = DateTime.Now
+                        DataGravacao = DateTime.Now,
+                        HashSenha = txtSenha.Text
                     };
 
                     db.Alunos.Add(aluno);
@@ -214,6 +217,20 @@ namespace ProjectFit
             if (!double.TryParse(txtAltura.Text, out double altura) || altura <= 0)
             {
                 ExibirMensagem("Altura inválida!", "error");
+                return false;
+            }
+
+            // Verifica se a senha foi preenchida
+            if (string.IsNullOrEmpty(txtSenha.Text))
+            {
+                ExibirMensagem("A senha é obrigatória!", "error");
+                return false;
+            }
+
+            // Verifica se a senha tem o tamanho mínimo de 6 caracteres
+            if (txtSenha.Text.Length < 6)
+            {
+                ExibirMensagem("A senha deve ter no mínimo 6 caracteres!", "error");
                 return false;
             }
 
