@@ -1,0 +1,50 @@
+CREATE TABLE T_ALUNOS (
+    ALN_ID_ALUNO INT PRIMARY KEY IDENTITY(1,1),
+    ALN_NM_ALUNO NVARCHAR(100) NOT NULL,
+    ALN_CD_CPF CHAR(11) NOT NULL,
+    ALN_CD_CEP CHAR(11) NULL,
+    ALN_NR_TELEFONE NVARCHAR(15) NULL,
+    ALN_DS_EMAIL NVARCHAR(100) NOT NULL,
+    ALN_VL_PESO FLOAT NOT NULL,
+    ALN_VL_ALTURA FLOAT NOT NULL,
+    ALN_VL_IMC FLOAT NULL,
+    ALN_NM_META NVARCHAR(MAX) NULL,
+	ALN_CD_PLANO_TREINO INT,
+    ALN_NM_PLANO_TREINO NVARCHAR(MAX) NULL,
+	ALN_CD_USER_CREATE INT,
+	ALN_DT_GRAVACAO DATETIME DEFAULT GETDATE(),
+	ALN_CD_USER_ALTER INT,
+	ALN_DT_ALTERACAO  DATETIME
+);
+
+--DROP TABLE T_ALUNOS
+
+--SELECT * FROM T_ALUNOS
+
+--DELETE FROM T_ALUNOS
+
+--DBCC CHECKIDENT ('T_ALUNOS', RESEED, 0);
+
+
+--INSERT INTO T_ALUNOS (
+--    ALN_NM_ALUNO,
+--    ALN_CD_CPF,
+--    ALN_CD_CEP,
+--    ALN_NR_TELEFONE,
+--    ALN_DS_EMAIL,
+--    ALN_VL_PESO,
+--    ALN_VL_ALTURA,
+--    ALN_VL_IMC,
+--    ALN_NM_META,
+--    ALN_NM_PLANO_TREINO,
+--    ALN_CD_USER_CREATE
+--) VALUES 
+--('Carlos Silva', '12345678901', '12345678', '11987654321', 'carlos.silva@example.com', 70.5, 1.75, 23.02, 'Perder Peso', 'Treino Cardio', 1),
+
+--('Maria Oliveira', '23456789012', '87654321', '11987654322', 'maria.oliveira@example.com', 65.0, 1.60, 25.39, 'Ganhar Massa', 'Treino Força', 1),
+
+--('João Santos', '34567890123', '45678901', '11987654323', 'joao.santos@example.com', 85.2, 1.80, 26.30, 'Manter Forma', 'Treino Funcional', 1),
+
+--('Ana Costa', '45678901234', '65432109', '11987654324', 'ana.costa@example.com', 55.3, 1.55, 22.99, 'Melhorar Condição Física', 'Treino HIIT', 1),
+
+--('Lucas Pereira', '56789012345', '78901234', '11987654325', 'lucas.pereira@example.com', 90.0, 1.85, 26.29, 'Definição Muscular', 'Treino Misto', 1);
