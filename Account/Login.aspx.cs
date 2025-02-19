@@ -15,12 +15,23 @@ namespace ProjectFit.Account
             RegisterHyperLink.NavigateUrl = "Register";
             // Ativar quando tiver a confirmação da conta habilitada para a funcionalidade de redefinição de senha
             //ForgotPasswordHyperLink.NavigateUrl = "Forgot";
-            OpenAuthLogin.ReturnUrl = Request.QueryString["ReturnUrl"];
+            //OpenAuthLogin.ReturnUrl = Request.QueryString["ReturnUrl"];
             var returnUrl = HttpUtility.UrlEncode(Request.QueryString["ReturnUrl"]);
             if (!String.IsNullOrEmpty(returnUrl))
             {
                 RegisterHyperLink.NavigateUrl += "?ReturnUrl=" + returnUrl;
             }
+
+            if (!IsPostBack)
+            {
+                // Acessar a MasterPage e esconder a navbar
+                var master = this.Master as SiteMaster;
+                if (master != null)
+                {
+                    master.ShowNavbar = false;
+                }
+            }
+
         }
 
         protected void LogIn(object sender, EventArgs e)
