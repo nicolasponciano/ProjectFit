@@ -46,11 +46,14 @@ namespace ProjectFit.Models
         [Column("ALN_VL_IMC")] // Mapeia a propriedade para a coluna ALN_VL_IMC
         public double IMC { get; set; }
 
+        [Column("ALN_CD_META")] // Mapeia a propriedade para a coluna ALN_CD_META
+        public int? CodigoMeta { get; set; }
+
         [Column("ALN_NM_META")] // Mapeia a propriedade para a coluna ALN_NM_META
         public string Meta { get; set; }
 
         [Column("ALN_CD_PLANO_TREINO")] // Mapeia a propriedade para a coluna ALN_CD_PLANO_TREINO
-        public int CodigoPlanoTreino { get; set; }
+        public int? CodigoPlanoTreino { get; set; }
 
         [Column("ALN_NM_PLANO_TREINO")] // Mapeia a propriedade para a coluna ALN_NM_PLANO_TREINO
         public string PlanoTreino { get; set; }
@@ -67,6 +70,10 @@ namespace ProjectFit.Models
         [Column("ALN_DT_ALTERACAO")] // Mapeia a propriedade para a coluna ALN_DT_ALTERACAO
         public DateTime? DataAlteracao { get; set; }
 
+        [Required(ErrorMessage = "A senha é obrigatória.")]
+        [Column("ALN_HASH_SENHA")] // Mapeia para a coluna ALN_HASH_SENHA
+        public string HashSenha { get; set; }
+
         // Método para calcular o IMC
         public double CalcularIMC()
         {
@@ -78,5 +85,17 @@ namespace ProjectFit.Models
             IMC = Peso / (Altura * Altura);
             return IMC;
         }
+
+        public void DefinirSenha(string senha)
+        {
+            HashSenha = BCrypt.Net.BCrypt.HashPassword(senha);
+        }
+
+        public bool VerificarSenha(string senha)
+        {
+            return BCrypt.Net.BCrypt.Verify(senha, HashSenha);
+        }
+
+
     }
 }
