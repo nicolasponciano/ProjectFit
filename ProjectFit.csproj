@@ -543,6 +543,14 @@
     <Compile Include="Migrations\202502182059384_CodigoMeta.Designer.cs">
       <DependentUpon>202502182059384_CodigoMeta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202502190124185_InicialIdentity.cs" />
+    <Compile Include="Migrations\202502190124185_InicialIdentity.Designer.cs">
+      <DependentUpon>202502190124185_InicialIdentity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202502190124514_ForcarIdentity.cs" />
+    <Compile Include="Migrations\202502190124514_ForcarIdentity.Designer.cs">
+      <DependentUpon>202502190124514_ForcarIdentity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -614,6 +622,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\" />
+    <Folder Include="imagens\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -661,6 +670,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202502182059384_CodigoMeta.resx">
       <DependentUpon>202502182059384_CodigoMeta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502190124185_InicialIdentity.resx">
+      <DependentUpon>202502190124185_InicialIdentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502190124514_ForcarIdentity.resx">
+      <DependentUpon>202502190124514_ForcarIdentity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
