@@ -12,6 +12,16 @@ namespace ProjectFit.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Define que o valor é gerado automaticamente pelo banco de dados
         public int Id_Aluno { get; set; }
 
+
+        [ForeignKey("ApplicationUser")]
+        [Column("UserId")] // Garante que o nome da coluna no banco seja "UserId"
+        public string UserId { get; set; } // Relaciona com ASP.NET Users
+
+        public virtual ApplicationUser ApplicationUser { get; set; }
+
+        [Column("ALN_IN_ADMIN")]
+        public bool IsAdmin { get; set; }  // Indica se o usuário é administrador
+
         [Required(ErrorMessage = "O nome é obrigatório.")]
         [StringLength(100, ErrorMessage = "O nome deve ter no máximo 100 caracteres.")]
         [Column("ALN_NM_ALUNO")] // Mapeia a propriedade para a coluna ALN_NM_ALUNO
