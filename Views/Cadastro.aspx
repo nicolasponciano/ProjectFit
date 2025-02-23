@@ -1,9 +1,14 @@
-﻿<%@ Page Title="Cadastro" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Cadastro.aspx.cs" Inherits="ProjectFit.Cadastro" %>
+﻿<%@ Page Title="Cadastro" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Cadastro.aspx.cs" Async="true" Inherits="ProjectFit.Cadastro" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <!-- Inclusão de CSS de ícones e SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Inclusão do jQuery e jQuery Mask Plugin para máscaras -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
         <div class="card shadow-lg" style="width: 100%; max-width: 1200px;">
@@ -25,9 +30,7 @@
                             <div class="mb-3">
                                 <label for="txtCpf" class="form-label fw-bold"><i class="fas fa-id-card"></i> CPF</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-card-text"></i>
-                                    </span>
+                                    <span class="input-group-text"><i class="bi bi-card-text"></i></span>
                                     <asp:TextBox ID="txtCpf" CssClass="form-control form-control-lg" runat="server" placeholder="000.000.000-00" />
                                 </div>
                             </div>
@@ -36,9 +39,7 @@
                             <div class="mb-3">
                                 <label for="txtNome" class="form-label fw-bold"><i class="fas fa-user"></i> Nome Completo</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-person"></i>
-                                    </span>
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
                                     <asp:TextBox ID="txtNome" CssClass="form-control form-control-lg" runat="server" />
                                 </div>
                             </div>
@@ -47,9 +48,7 @@
                             <div class="mb-3">
                                 <label for="txtEmail" class="form-label fw-bold"><i class="fas fa-envelope"></i> E-Mail</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-envelope"></i>
-                                    </span>
+                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                                     <asp:TextBox ID="txtEmail" CssClass="form-control form-control-lg" runat="server" placeholder="nome@exemplo.com" />
                                 </div>
                                 <div class="invalid-feedback" id="emailFeedback"></div>
@@ -59,9 +58,7 @@
                             <div class="mb-3">
                                 <label for="txtSenha" class="form-label fw-bold"><i class="fas fa-lock"></i> Senha</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-lock"></i>
-                                    </span>
+                                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
                                     <asp:TextBox ID="txtSenha" runat="server" TextMode="Password" CssClass="form-control form-control-lg" placeholder="Digite a senha" />
                                     <button class="btn btn-outline-secondary" type="button" id="togglePassword">
                                         <i class="bi bi-eye-slash"></i>
@@ -74,9 +71,7 @@
                             <div class="mb-3">
                                 <label for="txtCep" class="form-label fw-bold"><i class="fas fa-map-marker-alt"></i> CEP</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-geo-alt"></i>
-                                    </span>
+                                    <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
                                     <asp:TextBox ID="txtCep" CssClass="form-control form-control-lg" runat="server" placeholder="00000-000" />
                                 </div>
                             </div>
@@ -88,9 +83,7 @@
                             <div class="mb-3">
                                 <label for="txtTelefone" class="form-label fw-bold"><i class="fas fa-phone"></i> Telefone</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-telephone"></i>
-                                    </span>
+                                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
                                     <asp:TextBox ID="txtTelefone" CssClass="form-control form-control-lg" runat="server" placeholder="(00) 00000-0000" />
                                 </div>
                             </div>
@@ -99,10 +92,8 @@
                             <div class="mb-3">
                                 <label for="txtPeso" class="form-label fw-bold"><i class="fas fa-weight"></i> Peso (kg)</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-speedometer2"></i>
-                                    </span>
-                                    <asp:TextBox ID="txtPeso" CssClass="form-control form-control-lg" runat="server" placeholder="Ex: 75" />
+                                    <span class="input-group-text"><i class="bi bi-speedometer2"></i></span>
+                                    <asp:TextBox ID="txtPeso" CssClass="form-control form-control-lg" runat="server" placeholder="Ex: 75,00" />
                                 </div>
                             </div>
 
@@ -110,10 +101,8 @@
                             <div class="mb-3">
                                 <label for="txtAltura" class="form-label fw-bold"><i class="fas fa-ruler-vertical"></i> Altura (m)</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-arrow-up"></i>
-                                    </span>
-                                    <asp:TextBox ID="txtAltura" CssClass="form-control form-control-lg" runat="server" placeholder="Ex: 1.75" />
+                                    <span class="input-group-text"><i class="bi bi-arrow-up"></i></span>
+                                    <asp:TextBox ID="txtAltura" CssClass="form-control form-control-lg" runat="server" placeholder="Ex: 1,75" />
                                 </div>
                             </div>
 
@@ -121,21 +110,31 @@
                             <div class="mb-3">
                                 <label for="txtIMC" class="form-label fw-bold"><i class="fas fa-calculator"></i> IMC</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-calculator"></i>
-                                    </span>
+                                    <span class="input-group-text"><i class="bi bi-calculator"></i></span>
                                     <asp:TextBox ID="txtIMC" CssClass="form-control form-control-lg bg-light" runat="server" ReadOnly="True" />
                                 </div>
                             </div>
 
                             <!-- Meta -->
                             <div class="mb-3">
-                                <label for="txtMeta" class="form-label fw-bold"><i class="fas fa-bullseye"></i> Meta</label>
+                                <label for="cboMeta" class="form-label fw-bold"><i class="fas fa-bullseye"></i>Meta</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-bullseye"></i>
-                                    </span>
-                                    <asp:TextBox ID="txtMeta" CssClass="form-control form-control-lg" runat="server" />
+                                    <span class="input-group-text"><i class="bi bi-bullseye"></i></span>
+                                    <asp:DropDownList ID="cboMeta" runat="server" CssClass="form-control form-control-lg">
+                                        <asp:ListItem Text="Selecione a Meta..." Value="0" Selected="True" />
+                                        <asp:ListItem Text="Definição" Value="1" />
+                                        <asp:ListItem Text="Ganho de Massa" Value="2" />
+                                        <asp:ListItem Text="Perda de Peso" Value="3" />
+                                    </asp:DropDownList>
+                                </div>
+                            </div>
+
+                            <!-- Administrador -->
+                            <div class="mb-3">
+                                <label for="chkAdmin" class="form-label fw-bold"><i class="fas fa-user-shield"></i> Administrador</label>
+                                <div class="form-check">
+                                    <asp:CheckBox ID="chkAdmin" runat="server" CssClass="form-check-input" />
+                                    <label class="form-check-label" for="chkAdmin">Marcar como Administrador</label>
                                 </div>
                             </div>
                         </div>
@@ -146,8 +145,7 @@
                         <asp:Button ID="btnCadastrar" CssClass="btn btn-primary me-2" runat="server" Text="Salvar" OnClick="btnCadastrar_Click" />
                         <asp:Button ID="btnBuscar" CssClass="btn btn-success me-2" runat="server" Text="Buscar" OnClick="btnBuscar_Click" />
                         <asp:Button ID="btnLimpar" CssClass="btn btn-secondary me-2" runat="server" Text="Limpar" OnClick="btnLimpar_Click" />
-                        <asp:Button ID="btnExcluir" CssClass="btn btn-danger" runat="server" Text="Excluir"
-                            OnClientClick="return confirmarExclusao(this);" OnClick="btnExcluir_Click" />
+                        <asp:Button ID="btnExcluir" CssClass="btn btn-danger" runat="server" Text="Excluir" OnClientClick="return confirmarExclusao(this);" OnClick="btnExcluir_Click" />
                     </div>
                 </asp:Panel>
 
@@ -159,6 +157,7 @@
                                 <asp:BoundField DataField="Id_Aluno" HeaderText="ID Aluno" />
                                 <asp:BoundField DataField="Nome" HeaderText="Nome Completo" />
                                 <asp:BoundField DataField="Cpf" HeaderText="CPF" />
+                                <asp:BoundField DataField="IsAdmin" HeaderText="Administrador" />
                                 <asp:BoundField DataField="Email" HeaderText="E-Mail" />
                                 <asp:BoundField DataField="Cep" HeaderText="CEP" />
                                 <asp:BoundField DataField="Telefone" HeaderText="Telefone" />
@@ -181,62 +180,36 @@
         </div>
     </div>
 
+    <!-- Estilos customizados -->
     <style>
         .min-vh-100 {
             min-height: 100vh;
             background: #ffffff;
         }
-
         .card {
             border-radius: 20px;
             border: none;
             transition: transform 0.3s ease;
         }
-
-       
-
         .input-group-text {
             background: #fff;
             border-right: none;
         }
-
         .form-control {
             border-left: none;
             transition: all 0.3s ease;
         }
-
         .form-control:focus {
             box-shadow: none;
             border-color: #dee2e6;
         }
-
         .btn-primary {
             background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
             border: none;
-            position: relative;
-            overflow: hidden;
         }
-
         .btn-primary:hover {
             background: linear-gradient(135deg, #0056b3 0%, #003d80 100%);
         }
-
-        .hover-scale {
-            transition: transform 0.2s ease;
-        }
-
-        .hover-scale:hover {
-            transform: scale(1.02);
-        }
-
-        .invalid-feedback {
-            display: none;
-        }
-
-        .was-validated .invalid-feedback {
-            display: block;
-        }
-
         .modern-grid {
             border: 1px solid #e0e0e0;
             border-radius: 8px;
@@ -244,33 +217,17 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             background-color: #ffffff;
         }
-
-        .modern-grid th {
-            background-color: #f8f9fa;
-            color: #495057;
-            font-weight: 600;
+        .modern-grid th, .modern-grid td {
             text-align: center;
             padding: 12px;
-            border-bottom: 2px solid #e0e0e0;
         }
-
-        .modern-grid td {
-            padding: 12px;
-            text-align: center;
-            vertical-align: middle;
-            border-bottom: 1px solid #e0e0e0;
-            color: #495057;
-        }
-
         .modern-grid tr:nth-child(even) {
             background-color: #f8f9fa;
         }
-
         .modern-grid tr:hover {
             background-color: #e9ecef;
             transition: background-color 0.3s ease;
         }
-
         .pagination > li > a {
             color: #495057;
             border: 1px solid #e0e0e0;
@@ -279,25 +236,27 @@
             padding: 8px 12px;
             transition: all 0.3s ease;
         }
-
-        .pagination > li > a:hover {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-
-        .pagination > .active > a {
+        .pagination > li > a:hover, .pagination > .active > a {
             background-color: #007bff;
             color: white;
             border-color: #007bff;
         }
     </style>
 
+    <!-- Scripts para máscaras, toggle de senha e confirmação de exclusão -->
     <script>
-        // Função para alternar visibilidade da senha
+        $(document).ready(function () {
+            // Aplica máscaras nos campos
+            $('#<%= txtCpf.ClientID %>').mask('000.000.000-00');
+            $('#<%= txtTelefone.ClientID %>').mask('(00) 00000-0000');
+            $('#<%= txtCep.ClientID %>').mask('00000-000');
+            $('#<%= txtPeso.ClientID %>').mask('000.00', {reverse: true});
+            $('#<%= txtAltura.ClientID %>').mask('0.00', {reverse: true});
+        });
+
+        // Toggle para mostrar/ocultar senha
         const togglePassword = document.getElementById('togglePassword');
         const passwordField = document.getElementById('<%= txtSenha.ClientID %>');
-
         togglePassword.addEventListener('click', () => {
             const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordField.setAttribute('type', type);
@@ -311,9 +270,7 @@
                 botao.dataset.confirmado = "false";
                 return true;
             }
-
             event.preventDefault();
-
             Swal.fire({
                 title: 'Tem certeza?',
                 text: "Esta ação não poderá ser desfeita!",
@@ -329,7 +286,6 @@
                     botao.click();
                 }
             });
-
             return false;
         }
     </script>
