@@ -1,7 +1,15 @@
 ﻿<%@ Page Title="Registre-se" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="ProjectFit.Account.Register" %>
 
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
+
+    <!-- Inclusão de CSS de ícones e SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Inclusão do jQuery e jQuery Mask Plugin para máscaras -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
         <div class="card shadow-lg" style="width: 100%; max-width: 800px;">
@@ -98,7 +106,7 @@
                                 <div class="invalid-feedback" id="passwordFeedback"></div>
                             </div>
 
-                            <!-- Confirmar Senha -->
+                            <!-- Confirmar Senha com opção de visualizar -->
                             <div class="mb-3">
                                 <label for="ConfirmPassword" class="form-label fw-bold">Confirmar Senha</label>
                                 <div class="input-group">
@@ -108,6 +116,9 @@
                                     <asp:TextBox runat="server" ID="ConfirmPassword" TextMode="Password"
                                         CssClass="form-control form-control-lg"
                                         placeholder="Confirme sua senha" />
+                                    <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                        <i class="bi bi-eye-slash"></i>
+                                    </button>
                                 </div>
                                 <div class="invalid-feedback" id="confirmPasswordFeedback"></div>
                             </div>
@@ -163,7 +174,7 @@
                                             <i class="bi bi-bullseye"></i>
                                         </span>
                                         <asp:DropDownList ID="cboMeta" CssClass="form-control form-control-lg" runat="server">
-                                            <asp:ListItem Text="Selecione..." Value="0" Selected="True" />
+                                            <asp:ListItem Text="Selecione a Meta..." Value="0" Selected="True" />
                                             <asp:ListItem Text="Definição" Value="1" />
                                             <asp:ListItem Text="Ganho de Massa" Value="2" />
                                             <asp:ListItem Text="Perda de Peso" Value="3" />
@@ -187,6 +198,7 @@
                     <p class="text-muted mb-0">
                         Já tem uma conta?
                         <asp:HyperLink runat="server" NavigateUrl="~/Account/Login" CssClass="fw-bold">Entrar</asp:HyperLink>
+                    </p>
                 </div>
             </div>
         </div>
@@ -203,7 +215,6 @@
             border: none;
             transition: transform 0.3s ease;
         }
-
 
         .logo-container {
             transition: transform 0.3s ease;
@@ -271,7 +282,7 @@
             logo.style.transform = 'rotate(0deg)';
         });
 
-        // Toggle Password
+        // Toggle para o campo Senha
         const togglePassword = document.getElementById('togglePassword');
         const passwordField = document.getElementById('<%= Password.ClientID %>');
 
@@ -280,6 +291,26 @@
             passwordField.setAttribute('type', type);
             togglePassword.querySelector('i').classList.toggle('bi-eye');
             togglePassword.querySelector('i').classList.toggle('bi-eye-slash');
+        });
+
+        // Toggle para o campo Confirmar Senha
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const confirmPasswordField = document.getElementById('<%= ConfirmPassword.ClientID %>');
+
+        toggleConfirmPassword.addEventListener('click', () => {
+            const type = confirmPasswordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPasswordField.setAttribute('type', type);
+            toggleConfirmPassword.querySelector('i').classList.toggle('bi-eye');
+            toggleConfirmPassword.querySelector('i').classList.toggle('bi-eye-slash');
+        });
+
+        // Máscaras para os campos utilizando jQuery Mask Plugin
+        $(document).ready(function () {
+            $('#<%= txtCpf.ClientID %>').mask('000.000.000-00');
+            $('#<%= txtTelefone.ClientID %>').mask('(00) 00000-0000');
+            $('#<%= txtCep.ClientID %>').mask('00000-000');
+            $('#<%= txtPeso.ClientID %>').mask('000,00', {reverse: true});
+            $('#<%= txtAltura.ClientID %>').mask('0,00', { reverse: true });
         });
 
         // Validação em Tempo Real

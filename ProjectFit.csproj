@@ -551,6 +551,31 @@
     <Compile Include="Migrations\202502190124514_ForcarIdentity.Designer.cs">
       <DependentUpon>202502190124514_ForcarIdentity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202502221915475_RelacionarAlunoComUsuario.cs" />
+    <Compile Include="Migrations\202502221915475_RelacionarAlunoComUsuario.Designer.cs">
+      <DependentUpon>202502221915475_RelacionarAlunoComUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202502221940089_AddIsAdminToApplicationUser.cs" />
+    <Compile Include="Migrations\202502221940089_AddIsAdminToApplicationUser.Designer.cs">
+      <DependentUpon>202502221940089_AddIsAdminToApplicationUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202502222026073_AddIdAspUserAlunoReference.cs" />
+    <Compile Include="Migrations\202502222026073_AddIdAspUserAlunoReference.Designer.cs">
+      <DependentUpon>202502222026073_AddIdAspUserAlunoReference.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202502230423006_AddIsAdminToAspNetUsers.cs" />
+    <Compile Include="Migrations\202502230423006_AddIsAdminToAspNetUsers.Designer.cs">
+      <DependentUpon>202502230423006_AddIsAdminToAspNetUsers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202502230438130_UnificarContextos.cs" />
+    <Compile Include="Migrations\202502230438130_UnificarContextos.Designer.cs">
+      <DependentUpon>202502230438130_UnificarContextos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202502230511386_UnifiedContextMigration.cs" />
+    <Compile Include="Migrations\202502230511386_UnifiedContextMigration.Designer.cs">
+      <DependentUpon>202502230511386_UnifiedContextMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Views\About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -585,7 +610,6 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Aluno.cs" />
-    <Compile Include="Models\DbContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\TESTE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -676,6 +700,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202502190124514_ForcarIdentity.resx">
       <DependentUpon>202502190124514_ForcarIdentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502221915475_RelacionarAlunoComUsuario.resx">
+      <DependentUpon>202502221915475_RelacionarAlunoComUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502221940089_AddIsAdminToApplicationUser.resx">
+      <DependentUpon>202502221940089_AddIsAdminToApplicationUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502222026073_AddIdAspUserAlunoReference.resx">
+      <DependentUpon>202502222026073_AddIdAspUserAlunoReference.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502230423006_AddIsAdminToAspNetUsers.resx">
+      <DependentUpon>202502230423006_AddIsAdminToAspNetUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502230438130_UnificarContextos.resx">
+      <DependentUpon>202502230438130_UnificarContextos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502230511386_UnifiedContextMigration.resx">
+      <DependentUpon>202502230511386_UnifiedContextMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

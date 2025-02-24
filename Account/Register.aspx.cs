@@ -1,27 +1,23 @@
 ﻿using System;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Owin;
 using ProjectFit.Models;
-
-
+using System.Data.Entity.Validation;
+using System.Web;
 
 namespace ProjectFit.Account
 {
     public partial class Register : Page
     {
-        private readonly AppDbContext db = new AppDbContext();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                // Acessar a MasterPage e esconder a navbar
-                var master = this.Master as SiteMaster;
-                if (master != null)
+                if (this.Master is SiteMaster master)
                 {
                     master.ShowNavbar = false;
                 }
@@ -30,84 +26,105 @@ namespace ProjectFit.Account
 
         protected void CreateUser_Click(object sender, EventArgs e)
         {
-            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var signInManager = Context.GetOwinContext().Get<ApplicationSignInManager>();
-            var user = new ApplicationUser() { UserName = txtEmail.Text, Email = txtEmail.Text };
-
-            IdentityResult result = manager.Create(user, Password.Text);
-
-            // Para obter mais informações sobre como habilitar a confirmação da conta e redefinição de senha, visite https://go.microsoft.com/fwlink/?LinkID=320771
-            //string code = manager.GenerateEmailConfirmationToken(user.Id);
-            //string callbackUrl = IdentityHelper.GetUserConfirmationRedirectUrl(code, user.Id, Request);
-            //manager.SendEmail(user.Id, "Confirme sua conta", "Confirme sua conta clicando <a href=\"" + callbackUrl + "\">aqui</a>.");
-
-
-
-            if (result.Succeeded)
+            if (!ValidarDados())
             {
-                if (Page.IsValid && ValidarDados())
-                {
-                    // Verifica se o CPF já existe
-                    var alunoExistente = db.Alunos.FirstOrDefault(a => a.Cpf == txtCpf.Text);
-
-                    if (alunoExistente == null)
-                    {
-                        // Novo cadastro
-                        var aluno = new Aluno
-                        {
-                            Cpf = txtCpf.Text,
-                            Nome = txtNome.Text,
-                            Email = txtEmail.Text,
-                            Cep = txtCep.Text,
-                            Telefone = txtTelefone.Text,
-                            Peso = Convert.ToDouble(txtPeso.Text),
-                            Altura = Convert.ToDouble(txtAltura.Text),
-                            IMC = CalcularIMC(Convert.ToDouble(txtPeso.Text), Convert.ToDouble(txtAltura.Text)),
-                            CodigoMeta = Convert.ToInt32(cboMeta.SelectedValue ?? "0"),
-                            Meta = cboMeta.SelectedItem.Text, // Use SelectedItem.Text para obter o texto correto
-                            DataGravacao = DateTime.Now,
-                            HashSenha = Password.Text
-                        };
-
-                        // Adiciona e salva no banco de dados
-                        db.Alunos.Add(aluno);
-                        db.SaveChanges();
-
-                        ExibirMensagem("Cadastro realizado com sucesso!", "success");
-                        LimparCampos();
-
-                        // Autentica o usuário
-                        signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
-                        IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
-                    }
-                    else
-                    {
-                        ExibirMensagem("CPF já cadastrado!", "error");
-                    }
-                }
+                return;
             }
-            else
+
+            try
             {
-                ErrorMessage.Text = result.Errors.FirstOrDefault();
+                var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var signInManager = Context.GetOwinContext().Get<ApplicationSignInManager>();
+
+                // Remove as máscaras do CPF, telefone e CEP
+                string cpf = RemoverMascaras(txtCpf.Text);
+                string telefone = RemoverMascaras(txtTelefone.Text);
+                string cep = RemoverMascaras(txtCep.Text);
+                string email = txtEmail.Text.Trim();
+
+                // Verifica se o CPF já existe na tabela de alunos
+                if (db.Alunos.Any(a => a.Cpf == cpf))
+                {
+                    ExibirMensagem("CPF já cadastrado!", "error");
+                    return;
+                }
+
+                // Criação do usuário (já insere o registro na tabela AspNetUsers)
+                var user = new ApplicationUser() { UserName = email, Email = email };
+                IdentityResult result = manager.Create(user, Password.Text);
+                if (!result.Succeeded)
+                {
+                    ErrorMessage.Text = result.Errors.FirstOrDefault();
+                    return;
+                }
+
+                // Criação do aluno, vinculando pelo UserId gerado
+                double peso = Convert.ToDouble(txtPeso.Text);
+                double altura = Convert.ToDouble(txtAltura.Text);
+                double imc = CalcularIMC(peso, altura);
+
+                var aluno = new Aluno
+                {
+                    Cpf = cpf,
+                    Nome = txtNome.Text.Trim(),
+                    Email = email,
+                    Cep = txtCep.Text.Trim(),
+                    Telefone = telefone,
+                    Peso = peso,
+                    Altura = altura,
+                    IMC = imc,
+                    CodigoMeta = Convert.ToInt32(cboMeta.SelectedValue),
+                    Meta = cboMeta.SelectedItem.Text,
+                    DataGravacao = DateTime.Now,
+                    // Atenção: Armazenar a senha em texto puro não é recomendado.
+                    // Considere armazenar apenas o hash ou remover esse campo.
+                    HashSenha = Password.Text,
+                    UserId = user.Id
+                };
+
+                // Tenta salvar o aluno
+                try
+                {
+                    db.Alunos.Add(aluno);
+                    db.SaveChanges();
+                }
+                catch (Exception exAluno)
+                {
+                    // Se falhar, remove o usuário criado para evitar inconsistência
+                    manager.Delete(user);
+                    ExibirMensagem($"Erro ao salvar aluno: {exAluno.Message}", "error");
+                    return;
+                }
+
+                // Se tudo ocorrer bem, exibe a mensagem de sucesso e realiza o login
+                ExibirMensagem("Cadastro realizado com sucesso!", "success");
+                LimparCampos();
+
+                signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
+                IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                // Extrai as mensagens de validação
+                string errors = string.Join("; ",
+                    ex.EntityValidationErrors.SelectMany(ev => ev.ValidationErrors)
+                                               .Select(es => es.PropertyName + ": " + es.ErrorMessage));
+                ExibirMensagem("Erro de validação: " + errors, "error");
+            }
+            catch (Exception ex)
+            {
+                ExibirMensagem($"Erro ao processar o cadastro: {ex.Message}", "error");
             }
         }
-
-
 
 
         private double CalcularIMC(double peso, double altura)
         {
-            if (altura > 0)
-            {
-                return peso / (altura * altura);
-            }
-            return 0;
+            return altura > 0 ? peso / (altura * altura) : 0;
         }
-
 
         private void ExibirMensagem(string mensagem, string tipoAlerta)
         {
-            // Definindo o tipo de alerta com base no parâmetro passado
             string script = $"Swal.fire({{ title: 'Mensagem', text: '{mensagem}', icon: '{tipoAlerta}', confirmButtonText: 'OK' }});";
             ClientScript.RegisterStartupScript(this.GetType(), "sweetalert", script, true);
         }
@@ -127,35 +144,39 @@ namespace ProjectFit.Account
 
         private bool ValidarDados()
         {
-            // Verificar se os campos obrigatórios estão preenchidos
-            if (string.IsNullOrEmpty(txtCpf.Text) ||
-                string.IsNullOrEmpty(txtNome.Text) ||
-                string.IsNullOrEmpty(txtEmail.Text) ||
-                string.IsNullOrEmpty(txtCep.Text) ||
-                string.IsNullOrEmpty(txtTelefone.Text) ||
-                string.IsNullOrEmpty(txtPeso.Text) ||
-                string.IsNullOrEmpty(txtAltura.Text) ||
-                string.IsNullOrEmpty(cboMeta.SelectedValue))
+            if (string.IsNullOrWhiteSpace(txtCpf.Text) ||
+                string.IsNullOrWhiteSpace(txtNome.Text) ||
+                string.IsNullOrWhiteSpace(txtEmail.Text) ||
+                string.IsNullOrWhiteSpace(txtCep.Text) ||
+                string.IsNullOrWhiteSpace(txtTelefone.Text) ||
+                string.IsNullOrWhiteSpace(txtPeso.Text) ||
+                string.IsNullOrWhiteSpace(txtAltura.Text) ||
+                string.IsNullOrWhiteSpace(cboMeta.SelectedValue))
             {
                 ExibirMensagem("Todos os campos são obrigatórios!", "error");
                 return false;
             }
 
-            // Validar CPF (Formato simples de exemplo - pode ser melhorado)
-            if (!ValidarCpf(txtCpf.Text))
+            string cpfLimpo = RemoverMascaras(txtCpf.Text);
+
+            if (!ValidarCpf(cpfLimpo))
             {
                 ExibirMensagem("CPF inválido!", "error");
                 return false;
             }
 
-            // Validar Email
+            if (db.Alunos.Any(a => a.Cpf == cpfLimpo))
+            {
+                ExibirMensagem("CPF já cadastrado!", "error");
+                return false;
+            }
+
             if (!ValidarEmail(txtEmail.Text))
             {
                 ExibirMensagem("E-mail inválido!", "error");
                 return false;
             }
 
-            // Validar Peso e Altura (deve ser um número)
             if (!double.TryParse(txtPeso.Text, out double peso) || peso <= 0)
             {
                 ExibirMensagem("Peso inválido!", "error");
@@ -168,14 +189,12 @@ namespace ProjectFit.Account
                 return false;
             }
 
-            // Verifica se a senha foi preenchida
-            if (string.IsNullOrEmpty(Password.Text))
+            if (string.IsNullOrWhiteSpace(Password.Text))
             {
                 ExibirMensagem("A senha é obrigatória!", "error");
                 return false;
             }
 
-            // Verifica se a senha tem o tamanho mínimo de 6 caracteres
             if (Password.Text.Length < 6)
             {
                 ExibirMensagem("A senha deve ter no mínimo 6 caracteres!", "error");
@@ -185,20 +204,37 @@ namespace ProjectFit.Account
             return true;
         }
 
-        // Função para validar CPF
         private bool ValidarCpf(string cpf)
         {
-            // Aqui você pode usar uma expressão regular para validar o formato do CPF ou implementar uma função de validação
-            return cpf.Length == 11 && cpf.All(char.IsDigit);
+            if (cpf.Length != 11 || !cpf.All(char.IsDigit))
+                return false;
+
+            if (new string(cpf[0], 11) == cpf)
+                return false;
+
+            int soma = 0;
+            for (int i = 0; i < 9; i++)
+                soma += (cpf[i] - '0') * (10 - i);
+            int primeiroDigito = (soma % 11) < 2 ? 0 : 11 - (soma % 11);
+            if (primeiroDigito != (cpf[9] - '0'))
+                return false;
+
+            soma = 0;
+            for (int i = 0; i < 10; i++)
+                soma += (cpf[i] - '0') * (11 - i);
+            int segundoDigito = (soma % 11) < 2 ? 0 : 11 - (soma % 11);
+            if (segundoDigito != (cpf[10] - '0'))
+                return false;
+
+            return true;
         }
 
-        // Função para validar Email
         private bool ValidarEmail(string email)
         {
             try
             {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
+                var addr = new System.Net.Mail.MailAddress(email.Trim());
+                return addr.Address == email.Trim();
             }
             catch
             {
@@ -206,5 +242,10 @@ namespace ProjectFit.Account
             }
         }
 
+        // Função para remover qualquer máscara (como CPF, telefone, etc.)
+        private string RemoverMascaras(string valor)
+        {
+            return new string(valor.Where(char.IsDigit).ToArray());
+        }
     }
 }

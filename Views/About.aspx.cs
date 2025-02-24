@@ -34,7 +34,7 @@ namespace ProjectFit
 
             try
             {
-                using (var context = new AppDbContext())
+                using (var context = new ApplicationDbContext())
                 {
                     // Cria um novo aluno com dados de exemplo
                     var aluno = new Aluno
