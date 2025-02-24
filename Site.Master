@@ -25,6 +25,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mask-plugin/1.14.15/jquery.mask.min.js"></script>
 
+    <!-- Bootstrap 5 CSS (atualize para versão mais recente) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap 5 JS + Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- CSS Adicional para Animações -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
     <style>
         body {
             background-color: #ffffff;
@@ -90,6 +99,24 @@
         .content-card {
             background: #ffffff;
         }
+
+        .carousel-item {
+            transition: transform 1s ease-in-out;
+        }
+
+        .carousel-caption {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #007bff;
+        }
+
+        .embed-responsive-16by9::before {
+            padding-top: 56.25%;
+        }
     </style>
 </head>
 <body>
@@ -115,7 +142,10 @@
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/About">Sobre</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Contact">Contato</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Cadastro">Cadastro</a></li>
+
+                        <li class="nav-item" runat="server" id="liCadastro" visible="false">
+                            <a class="nav-link" runat="server" href="~/Views/Cadastro">Gerenciamento</a>
+                        </li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
@@ -170,5 +200,6 @@
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/Scripts/bootstrap.js") %>
     </asp:PlaceHolder>
+
 </body>
 </html>
