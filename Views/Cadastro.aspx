@@ -13,7 +13,7 @@
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
         <div class="card shadow-lg" style="width: 100%; max-width: 1200px;">
             <div class="card-body p-5">
-                <h1 class="text-center mb-4"><strong>Cadastro de Alunos</strong></h1>
+                <h1 class="text-center mb-4"><strong>Gerenciamento de Alunos</strong></h1>
 
                 <!-- Mensagens de Erro -->
                 <asp:ValidationSummary runat="server" CssClass="alert alert-danger mb-4" />
