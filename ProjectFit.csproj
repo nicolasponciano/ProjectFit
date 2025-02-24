@@ -531,6 +531,9 @@
       <DependentUpon>VerifyPhoneNumber.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="Controllers\BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Migrations\202502142153346_AtualizacaoTabelaAlunos.cs" />
     <Compile Include="Migrations\202502142153346_AtualizacaoTabelaAlunos.Designer.cs">
       <DependentUpon>202502142153346_AtualizacaoTabelaAlunos.cs</DependentUpon>
@@ -645,8 +648,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="imagens\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
