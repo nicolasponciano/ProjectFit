@@ -7,36 +7,59 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ProjectFit.Models;
+using System.Collections.Generic;
+using System.Data.Entity;
 
 namespace ProjectFit.Models
 {
     // É possível adicionar Dados de usuário para o usuário ao incluir mais propriedades na sua Classe de usuário, visite https://go.microsoft.com/fwlink/?LinkID=317594 para obter mais informações.
     public class ApplicationUser : IdentityUser
     {
-        public ClaimsIdentity GenerateUserIdentity(ApplicationUserManager manager)
+        public bool IsAdmin { get; set; } // Adicione esta propriedade
+        public virtual ICollection<Aluno> Alunos { get; set; }
+
+        // Método para gerar a identidade do usuário com Claims
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
-            // authenticationType deve corresponder a um definido em CookieAuthenticationOptions.AuthenticationType
-            var userIdentity = manager.CreateIdentity(this, DefaultAuthenticationTypes.ApplicationCookie);
-            // Adicione declarações de usuários aqui
+            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+
+            // Adiciona o Claim IsAdmin
+            userIdentity.AddClaim(new Claim("IsAdmin", IsAdmin.ToString()));
+
             return userIdentity;
         }
 
-        public Task<ClaimsIdentity> GenerateUserIdentityAsync(ApplicationUserManager manager)
-        {
-            return Task.FromResult(GenerateUserIdentity(manager));
-        }
-    }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public ApplicationDbContext()
-            : base("ProjectFitDbContext", throwIfV1Schema: false)
+        // Contexto unificado que gerencia tanto os usuários do Identity quanto as entidades da aplicação
+        public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         {
-        }
+            public DbSet<Aluno> Alunos { get; set; }
 
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
+            // Construtor que utiliza a string de conexão definida no Web.config
+            public ApplicationDbContext()
+                : base("ProjectFitDbContext", throwIfV1Schema: false)
+            {
+            }
+
+            // Configuração das entidades (se necessário)
+            protected override void OnModelCreating(DbModelBuilder modelBuilder)
+            {
+                base.OnModelCreating(modelBuilder); // Configurações do Identity
+
+                // Configuração da relação entre Aluno e ApplicationUser (se necessário)
+                modelBuilder.Entity<Aluno>()
+                    .HasRequired(a => a.ApplicationUser) // Relacionamento com o usuário
+                    .WithMany(u => u.Alunos) // Cada ApplicationUser pode ter muitos Alunos
+                    .HasForeignKey(a => a.UserId); // A chave estrangeira é UserId
+
+                modelBuilder.Entity<Aluno>().ToTable("T_ALUNOS"); // Tabela personalizada, se necessário
+            }
+
+            // Método para criar a instância do contexto
+            public static ApplicationDbContext Create()
+            {
+                return new ApplicationDbContext();
+            }
         }
     }
 }
