@@ -7,7 +7,7 @@ using ProjectFit.Models;
 
 namespace ProjectFit
 {
-    public partial class Cadastro : System.Web.UI.Page
+    public partial class Cadastro : BasePage
     {
         private readonly ApplicationDbContext _appDb = new ApplicationDbContext();
         private readonly UserManager<ApplicationUser> _userManager;
@@ -22,6 +22,28 @@ namespace ProjectFit
         {
             try
             {
+                //verificar se o usuário é admin
+                if (!UserIsAdmin)
+                {
+
+                    if (User != null && User.Identity.IsAuthenticated)
+                    {
+                        string nomeUsuario = User.Identity.Name;
+                        Response.Redirect("~/Default.aspx", false);
+                        Context.ApplicationInstance.CompleteRequest();
+                        return;
+                        
+                    }
+                    else
+                    {
+                        // Usuário não está logado
+                        // Redirecione para a tela de login, se necessário
+                        Response.Redirect("~/Account/Login.aspx", false);
+                        Context.ApplicationInstance.CompleteRequest();
+                    }
+
+                }
+
                 if (!IsPostBack)
                 {
                     CarregarGrid();
