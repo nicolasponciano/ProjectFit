@@ -1,97 +1,85 @@
 ﻿<%@ Page Title="Treino Personalizado" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Treino.aspx.cs" Inherits="ProjectFit.Treino" Async="true" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <main aria-labelledby="title">
-        <div class="question-container">
+        <div class="container">
             <h2 id="title"><%= Title %></h2>
-            <h3>Responda as perguntas para gerar seu treino personalizado</h3>
-            
+            <h3>Responda as perguntas para gerar seu treino</h3>
+
             <div class="question-form">
-                <!-- Pergunta 1 -->
-                <div class="question-item">
-                    <label for="txtTrainingExperience">Você já treina? Se sim, há quanto tempo?</label>
-                    <asp:TextBox ID="txtTrainingExperience" runat="server" CssClass="textbox" placeholder="Ex: Sim, treino há 1 ano"></asp:TextBox>
+                <asp:Panel ID="pnlQuestions" runat="server" CssClass="question-panel">
+                    <div class="question-item">
+                        <label for="txtTrainingExperience">Você já treina? Se sim, há quanto tempo?</label>
+                        <asp:TextBox ID="txtTrainingExperience" runat="server" CssClass="textbox" placeholder="Ex: Sim, treino há 1 ano"></asp:TextBox>
+                    </div>
+
+                    <div class="question-item">
+                        <label for="txtTrainingDays">Quantos dias por semana você consegue treinar?</label>
+                        <asp:TextBox ID="txtTrainingDays" runat="server" CssClass="textbox" placeholder="Ex: 3 dias"></asp:TextBox>
+                    </div>
+
+                    <div class="question-item">
+                        <label for="txtTrainingTime">Quanto tempo você tem disponível por treino?</label>
+                        <asp:TextBox ID="txtTrainingTime" runat="server" CssClass="textbox" placeholder="Ex: 1 hora"></asp:TextBox>
+                    </div>
+
+                    <div class="question-item">
+                        <label for="txtTrainingLevel">Como é/foi seu nível de treino anterior?</label>
+                        <asp:TextBox ID="txtTrainingLevel" runat="server" CssClass="textbox" placeholder="Ex: Intermediário, treino há 2 anos"></asp:TextBox>
+                    </div>
+
+                    <div class="question-item">
+                        <label for="txtInjuries">Tem alguma lesão ou dor frequente?</label>
+                        <asp:TextBox ID="txtInjuries" runat="server" CssClass="textbox" placeholder="Ex: Dor no joelho"></asp:TextBox>
+                    </div>
+
+                    <div class="question-item">
+                        <label for="txtLimitations">Possui alguma limitação de movimento?</label>
+                        <asp:TextBox ID="txtLimitations" runat="server" CssClass="textbox" placeholder="Ex: Cirurgia no ombro"></asp:TextBox>
+                    </div>
+
+                    <div class="question-item">
+                        <label for="txtHealthConditions">Tem alguma condição de saúde?</label>
+                        <asp:TextBox ID="txtHealthConditions" runat="server" CssClass="textbox" placeholder="Ex: Hipertensão"></asp:TextBox>
+                    </div>
+
+                    <div class="question-item">
+                        <label for="txtActivityLevel">Como é seu nível de atividade física fora da academia?</label>
+                        <asp:TextBox ID="txtActivityLevel" runat="server" CssClass="textbox" placeholder="Ex: Trabalho sedentário"></asp:TextBox>
+                    </div>
+
+                    <asp:Button ID="btnSubmit" runat="server" Text="Gerar Treino" CssClass="btn-submit" OnClick="btnSubmit_Click" />
+                </asp:Panel>
+
+                <div class="treino-container">
+                    <h2>Treino Gerado</h2>
+                    <asp:Label ID="lblTreino" runat="server" CssClass="dieta-content" />
                 </div>
-
-                <!-- Pergunta 2 -->
-                <div class="question-item">
-                    <label for="txtTrainingDays">Quantos dias por semana você consegue treinar?</label>
-                    <asp:TextBox ID="txtTrainingDays" runat="server" CssClass="textbox" placeholder="Ex: 3 dias"></asp:TextBox>
-                </div>
-
-                <!-- Pergunta 3 -->
-                <div class="question-item">
-                    <label for="txtTrainingTime">Quanto tempo você tem disponível por treino? (Exemplo: 45 min, 1h, 1h30)</label>
-                    <asp:TextBox ID="txtTrainingTime" runat="server" CssClass="textbox" placeholder="Ex: 1 hora"></asp:TextBox>
-                </div>
-
-                <!-- Pergunta 4 -->
-                <div class="question-item">
-                    <label for="txtTrainingLevel">Como é/foi seu nível de treino anterior? (A quanto tempo treina)</label>
-                    <asp:TextBox ID="txtTrainingLevel" runat="server" CssClass="textbox" placeholder="Ex: Intermediário, treino há 2 anos"></asp:TextBox>
-                </div>
-
-                <!-- Pergunta 5 -->
-                <div class="question-item">
-                    <label for="txtInjuries">Tem alguma lesão ou dor frequente? (Joelho, ombro, coluna, etc.)</label>
-                    <asp:TextBox ID="txtInjuries" runat="server" CssClass="textbox" placeholder="Ex: Dor no joelho"></asp:TextBox>
-                </div>
-
-                <!-- Pergunta 6 -->
-                <div class="question-item">
-                    <label for="txtLimitations">Possui alguma limitação de movimento ou cirurgia prévia?</label>
-                    <asp:TextBox ID="txtLimitations" runat="server" CssClass="textbox" placeholder="Ex: Cirurgia no ombro"></asp:TextBox>
-                </div>
-
-                <!-- Pergunta 7 -->
-                <div class="question-item">
-                    <label for="txtHealthConditions">Tem alguma condição de saúde que deve ser considerada? (Hipertensão, diabetes, problemas cardíacos)</label>
-                    <asp:TextBox ID="txtHealthConditions" runat="server" CssClass="textbox" placeholder="Ex: Hipertensão"></asp:TextBox>
-                </div>
-
-                <!-- Pergunta 8 -->
-                <div class="question-item">
-                    <label for="txtActivityLevel">Como é seu nível de atividade física fora da academia? (Trabalho ativo ou sedentário?)</label>
-                    <asp:TextBox ID="txtActivityLevel" runat="server" CssClass="textbox" placeholder="Ex: Trabalho sedentário"></asp:TextBox>
-                </div>
-
-                <!-- Botão de Envio -->
-                <asp:Button ID="btnSubmit" runat="server" Text="Gerar Treino" CssClass="btn-submit" OnClick="btnSubmit_Click" />
-
-               
-                <h2>Treino Gerado</h2>
-                <asp:Label ID="lblTreino" runat="server" Text="Aqui aparecerá o treino." CssClass="treino-content" />
-
             </div>
         </div>
     </main>
 
     <style>
-        /* Estilos da página (já estão presentes no seu código) */
-        .question-container {
-            padding: 20px;
+        .container {
             max-width: 800px;
-            margin: 0 auto;
+            margin: auto;
+            padding: 20px;
             text-align: center;
         }
 
-        .question-container h3 {
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            color: #0070e8; /* Azul padrão do site */
-        }
-
         .question-form {
-            text-align: left;
+            text-align: center;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .question-item {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .question-item label {
-            font-size: 1.1em;
             font-weight: bold;
             display: block;
             margin-bottom: 5px;
@@ -99,34 +87,41 @@
         }
 
         .textbox {
-            width: 100%;
+            width: 300px;
             padding: 10px;
-            font-size: 1em;
             border: 1px solid #ccc;
             border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .textbox:focus {
-            border-color: #0070e8;
-            box-shadow: 0 4px 8px rgba(0, 112, 232, 0.2);
-            outline: none;
+            text-align: center;
         }
 
         .btn-submit {
+            width: 300px;
             background-color: #0070e8;
             color: white;
-            padding: 10px 20px;
+            padding: 10px;
             border: none;
             border-radius: 5px;
             font-size: 1em;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            margin-top: 10px;
         }
 
         .btn-submit:hover {
             background-color: #005bb5;
+        }
+
+        .treino-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dieta-content {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #0070e8;
         }
     </style>
 </asp:Content>
