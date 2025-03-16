@@ -11,89 +11,80 @@ namespace ProjectFit
 {
 
 
-    public partial class Treino
+    public partial class Dieta
     {
 
         /// <summary>
-        /// Controle pnlQuestions.
+        /// Controle ddlObjetivo.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlQuestions;
+        protected global::System.Web.UI.WebControls.DropDownList ddlObjetivo;
 
         /// <summary>
-        /// Controle txtTrainingExperience.
+        /// Controle txtRefeicoes.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTrainingExperience;
+        protected global::System.Web.UI.WebControls.TextBox txtRefeicoes;
 
         /// <summary>
-        /// Controle txtTrainingDays.
+        /// Controle txtRestricoes.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTrainingDays;
+        protected global::System.Web.UI.WebControls.TextBox txtRestricoes;
 
         /// <summary>
-        /// Controle txtTrainingTime.
+        /// Controle txtAgua.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTrainingTime;
+        protected global::System.Web.UI.WebControls.TextBox txtAgua;
 
         /// <summary>
-        /// Controle txtTrainingLevel.
+        /// Controle ddlFastFood.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTrainingLevel;
+        protected global::System.Web.UI.WebControls.DropDownList ddlFastFood;
 
         /// <summary>
-        /// Controle txtInjuries.
+        /// Controle ddlPreferencias.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtInjuries;
+        protected global::System.Web.UI.WebControls.DropDownList ddlPreferencias;
 
         /// <summary>
-        /// Controle txtLimitations.
+        /// Controle txtRotina.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLimitations;
+        protected global::System.Web.UI.WebControls.TextBox txtRotina;
 
         /// <summary>
-        /// Controle txtHealthConditions.
+        /// Controle txtAlimentosEvitados.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtHealthConditions;
-
-        /// <summary>
-        /// Controle txtActivityLevel.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtActivityLevel;
+        protected global::System.Web.UI.WebControls.TextBox txtAlimentosEvitados;
 
         /// <summary>
         /// Controle btnSubmit.
@@ -105,12 +96,12 @@ namespace ProjectFit
         protected global::System.Web.UI.WebControls.Button btnSubmit;
 
         /// <summary>
-        /// Controle lblTreino.
+        /// Controle lblDieta.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTreino;
+        protected global::System.Web.UI.WebControls.Label lblDieta;
     }
 }
