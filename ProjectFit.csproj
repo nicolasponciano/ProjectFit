@@ -591,6 +591,7 @@
       <DependentUpon>202502230511386_UnifiedContextMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\DietaModel.cs" />
     <Compile Include="Views\About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
