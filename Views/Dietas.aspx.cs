@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.UI;
 using Newtonsoft.Json;
 using ProjectFit.Controllers;
+using ProjectFit.Models;
 
 namespace ProjectFit
 {
-    public partial class Dieta : Page
+    public partial class Dietas : BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -45,10 +47,33 @@ namespace ProjectFit
                     string dietaGerada = responseObj.Candidates[0].Content.Parts[0].Text;
                     var refeicoes = ProcessarRespostaDieta(dietaGerada);
 
-                    // Gerar observações automáticas para cada refeição
-                    foreach (var refeicao in refeicoes)
+                    using (var db = new ApplicationDbContext())
                     {
-                        refeicao.Observacoes = await GerarObservacoesAutomaticas(refeicao);
+                        var aluno = db.Alunos.FirstOrDefault(a => a.ApplicationUser.Id == CurrentUserId);
+
+                        if (aluno == null)
+                        {
+                            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Complete seu perfil primeiro!');", true);
+                            return;
+                        }
+
+                        foreach (var refeicao in refeicoes)
+                        {
+                            var dieta = new Dieta
+                            {
+                                AlunoId = aluno.Id_Aluno,
+                                Refeicao = refeicao.Refeicao,
+                                Horario = refeicao.Horario,
+                                Alimentos = refeicao.Alimentos,
+                                Calorias = refeicao.Calorias,
+                                Observacoes = refeicao.Observacoes
+                            };
+
+                            db.Dietas.Add(dieta);
+                        }
+
+                        await db.SaveChangesAsync();
+                        ClientScript.RegisterStartupScript(this.GetType(), "success", "alert('Dieta salva com sucesso!');", true);
                     }
 
                     gridDieta.DataSource = refeicoes;
@@ -88,11 +113,9 @@ namespace ProjectFit
                 {
                     refeicoes.Add(new RefeicaoDieta
                     {
-                        // Mantém o HTML formatado
                         Refeicao = partes[0].Trim(),
                         Horario = partes[1].Trim(),
-                        // Converte ** para tags <strong> válidas
-                        Alimentos = partes[2].Trim().Replace("**", "<strong>").Replace("**", "</strong>"),
+                        Alimentos = partes[2].Trim().Replace("**", ""),
                         Calorias = partes[3].Trim(),
                         Observacoes = partes[4].Trim()
                     });
@@ -104,8 +127,8 @@ namespace ProjectFit
         private async Task<string> GerarObservacoesAutomaticas(RefeicaoDieta refeicao)
         {
             var iaController = new IAController();
-            string prompt = "Gere 2 dicas práticas de preparo para: " + refeicao.Refeicao + ".\n" +
-                           "Ingredientes: " + refeicao.Alimentos.Replace("<strong>", "").Replace("</strong>", "") + "\n" +
+            string prompt = $"Gere 2 dicas práticas de preparo para: {refeicao.Refeicao}.\n" +
+                           $"Ingredientes: {refeicao.Alimentos.Replace("<strong>", "").Replace("</strong>", "")}\n" +
                            "Regras:\n" +
                            "- Máximo 40 palavras\n" +
                            "- Formato: <li>[dica]</li>\n" +
@@ -119,10 +142,9 @@ namespace ProjectFit
 
                 if (responseObj?.Candidates?.Length > 0)
                 {
-                    // Corrija a formatação
                     var dicas = responseObj.Candidates[0].Content.Parts[0].Text
-                        .Replace("*", "") // Remove asteriscos
-                        .Replace("<li>", "") // Remove tags incompletas
+                        .Replace("*", "")
+                        .Replace("<li>", "")
                         .Replace("</li>", "")
                         .Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -156,26 +178,6 @@ namespace ProjectFit
             {
                 return "<ul class='dicas-lista'><li>Mantenha porções equilibradas</li><li>Higienize bem os alimentos</li></ul>";
             }
-        }
-
-
-        private string FormatRefeicao(string nomeRefeicao)
-        {
-            var nomeLower = nomeRefeicao.ToLower();
-
-            if (nomeLower == "café da manhã" || nomeLower == "cafe da manha")
-                return $"<span class='meal-type-badge breakfast-badge'>{nomeRefeicao}</span>";
-
-            if (nomeLower == "almoço" || nomeLower == "almoco")
-                return $"<span class='meal-type-badge lunch-badge'>{nomeRefeicao}</span>";
-
-            if (nomeLower == "jantar")
-                return $"<span class='meal-type-badge dinner-badge'>{nomeRefeicao}</span>";
-
-            if (nomeLower.Contains("lanche"))
-                return $"<span class='meal-type-badge snack-badge'>{nomeRefeicao}</span>";
-
-            return nomeRefeicao;
         }
 
         public class RefeicaoDieta

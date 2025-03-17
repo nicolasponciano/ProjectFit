@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.UI;
 using Microsoft.AspNet.Identity;
@@ -25,7 +26,10 @@ public class BasePage : Page
 
         using (var db = new ApplicationDbContext())
         {
-            var user = db.Users.FirstOrDefault(u => u.Id == CurrentUserId);
+            var user = db.Users
+            .Include(u => u.Alunos)
+            .Include(u => u.Alunos.Select(a => a.Dietas)) // Carrega dietas
+            .FirstOrDefault(u => u.Id == CurrentUserId);
             if (user != null)
             {
                 UserIsAdmin = user.IsAdmin;

@@ -22,6 +22,8 @@ namespace ProjectFit.Controllers
                 instructionText = @"
                 Você é um nutricionista especializado em planejamento dietético. 
                 Gere um plano de dieta detalhado com as seguintes informações para cada refeição:
+                - Dados físicos do usuário (idade, peso, altura)
+                - Gênero e objetivo físico
                 - Nome da refeição (ex: Café da Manhã)
                 - Horário sugerido (ex: 07:00)
                 - Lista de alimentos (itens separados por vírgula)

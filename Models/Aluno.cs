@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -83,6 +84,9 @@ namespace ProjectFit.Models
         [Required(ErrorMessage = "A senha é obrigatória.")]
         [Column("ALN_HASH_SENHA")] // Mapeia para a coluna ALN_HASH_SENHA
         public string HashSenha { get; set; }
+
+        [Column("ALN_NM_DIETA")]
+        public virtual ICollection<Dieta> Dietas { get; set; }
 
         // Método para calcular o IMC
         public double CalcularIMC()

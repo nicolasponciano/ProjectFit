@@ -11,7 +11,7 @@ namespace ProjectFit
 {
 
 
-    public partial class Dieta
+    public partial class Dietas
     {
 
         /// <summary>

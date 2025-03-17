@@ -429,7 +429,7 @@
     <Content Include="Site.Master" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Views\Cadastro.aspx" />
-    <Content Include="Views\Dieta.aspx" />
+    <Content Include="Views\Dietas.aspx" />
     <Content Include="Views\Treino.aspx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -590,7 +590,12 @@
     <Compile Include="Migrations\202502230511386_UnifiedContextMigration.Designer.cs">
       <DependentUpon>202502230511386_UnifiedContextMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202503170201002_TabelaDieta.cs" />
+    <Compile Include="Migrations\202503170201002_TabelaDieta.Designer.cs">
+      <DependentUpon>202503170201002_TabelaDieta.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\Dieta.cs" />
     <Compile Include="Models\DietaModel.cs" />
     <Compile Include="Views\About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
@@ -658,12 +663,12 @@
     <Compile Include="Views\Cadastro.aspx.designer.cs">
       <DependentUpon>Cadastro.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dieta.aspx.cs">
-      <DependentUpon>Dieta.aspx</DependentUpon>
+    <Compile Include="Views\Dietas.aspx.cs">
+      <DependentUpon>Dietas.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Views\Dieta.aspx.designer.cs">
-      <DependentUpon>Dieta.aspx</DependentUpon>
+    <Compile Include="Views\Dietas.aspx.designer.cs">
+      <DependentUpon>Dietas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\Treino.aspx.cs">
       <DependentUpon>Treino.aspx</DependentUpon>
@@ -747,6 +752,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202502230511386_UnifiedContextMigration.resx">
       <DependentUpon>202502230511386_UnifiedContextMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202503170201002_TabelaDieta.resx">
+      <DependentUpon>202503170201002_TabelaDieta.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

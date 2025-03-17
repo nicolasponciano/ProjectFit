@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Dieta Personalizada" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dieta.aspx.cs" Inherits="ProjectFit.Dieta" Async="true" %>
+﻿<%@ Page Title="Dieta Personalizada" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dietas.aspx.cs" Inherits="ProjectFit.Dietas" Async="true" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <!-- Como o MasterPage já possui o ScriptManager, não adicionamos outro aqui -->
