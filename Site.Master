@@ -140,6 +140,8 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Dietas">Dieta</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Treino">Treino</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/About">Sobre</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Contact">Contato</a></li>
 
