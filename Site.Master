@@ -15,7 +15,7 @@
 
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">--%>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.0/dist/sweetalert2.min.css" rel="stylesheet">
@@ -24,6 +24,10 @@
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mask-plugin/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="/bundles/MsAjaxJs?v=..."></script>
+    <script src="/Scripts/WebForms/WebForms.js?v=..."></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
     <!-- Bootstrap 5 CSS (atualize para versão mais recente) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -34,16 +38,31 @@
     <!-- CSS Adicional para Animações -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
     <style>
+        /* Estilo global */
         body {
             background-color: #ffffff;
             font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
+        /* Navbar */
         .navbar {
             background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            position: relative;
+            z-index: 1000;
+            height: auto; /* Altura automática baseada no conteúdo */
+            min-height: 80px; /* Altura mínima fixa para garantir consistência */
+            padding: 0.5rem 1rem; /* Espaçamento interno */
+            display: flex;
+            align-items: center; /* Centraliza verticalmente */
         }
 
         .navbar-brand {
@@ -53,18 +72,19 @@
             color: #ffffff !important;
             display: flex;
             align-items: center;
+            white-space: nowrap; /* Evita que o texto quebre em várias linhas */
         }
 
-        .navbar-brand i {
-            color: #ffffff;
-            font-size: 28px;
-            margin-right: 10px;
-            transition: transform 0.3s ease;
-        }
+            .navbar-brand i {
+                color: #ffffff;
+                font-size: 28px;
+                margin-right: 10px;
+                transition: transform 0.3s ease;
+            }
 
-        .navbar-brand:hover i {
-            transform: rotate(-10deg);
-        }
+            .navbar-brand:hover i {
+                transform: rotate(-10deg);
+            }
 
         .nav-link {
             color: rgba(255, 255, 255, 0.8) !important;
@@ -73,22 +93,26 @@
             transition: all 0.3s ease;
         }
 
-        .nav-link:hover {
-            color: #ffffff !important;
-            transform: translateY(-2px);
-        }
+            .nav-link:hover {
+                color: #ffffff !important;
+                transform: translateY(-2px);
+            }
 
+        /* Layout principal */
         .main-container {
-            min-height: calc(100vh - 120px);
+            flex: 1; /* Ocupa o espaço restante da página */
+            padding: 20px;
             display: flex;
             flex-direction: column;
         }
 
+        /* Rodapé */
         footer {
             background: #f8f9fa;
             padding: 20px 0;
-            margin-top: auto;
+            margin-top: auto; /* Mantém o rodapé sempre no final */
             box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
         }
 
         .footer-content {
@@ -96,10 +120,7 @@
             color: #6c757d;
         }
 
-        .content-card {
-            background: #ffffff;
-        }
-
+        /* Carousel */
         .carousel-item {
             transition: transform 1s ease-in-out;
         }
@@ -107,6 +128,7 @@
         .carousel-caption {
             background: rgba(0, 0, 0, 0.6);
             border-radius: 15px;
+            padding: 15px;
         }
 
         .feature-icon {
@@ -117,63 +139,269 @@
         .embed-responsive-16by9::before {
             padding-top: 56.25%;
         }
+
+        /* Tela de carregamento global */
+        .loading-overlay-global {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente escuro */
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+        }
+
+        .lottie-container {
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #ffffff;
+            animation: pulseText 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulseText {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .dropdown-menu {
+            border-radius: 8px; /* Bordas arredondadas */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        }
+
+        .dropdown-item {
+            font-size: 14px; /* Tamanho da fonte */
+            padding: 8px 16px; /* Espaçamento interno */
+            transition: background-color 0.3s ease; /* Transição suave */
+        }
+
+            .dropdown-item:hover {
+                background-color: #f8f9fa; /* Fundo ao passar o mouse */
+            }
     </style>
+
+    <script type="text/javascript">
+        // Função para exibir a tela de carregamento
+        function showGlobalLoading() {
+            var loadingElement = document.getElementById('globalLoading');
+            if (loadingElement) {
+                loadingElement.style.display = 'flex';
+            } else {
+                console.error("Elemento 'globalLoading' não encontrado.");
+            }
+        }
+
+        // Função para ocultar a tela de carregamento
+        function hideGlobalLoading() {
+            var loadingElement = document.getElementById('globalLoading');
+            if (loadingElement) {
+                loadingElement.style.display = 'none';
+            } else {
+                console.error("Elemento 'globalLoading' não encontrado.");
+            }
+        }
+
+        // Função para fechar o carregamento e exibir o SweetAlert
+        function fecharCarregamentoEExibirAlerta(mensagem, tipoAlerta) {
+            // Oculta a tela de carregamento
+            hideGlobalLoading();
+
+            // Exibe o SweetAlert
+            Swal.fire({
+                title: 'Mensagem',
+                text: mensagem,
+                icon: tipoAlerta,
+                confirmButtonText: 'OK'
+            });
+        }
+
+        // Exibir tela de carregamento para navegação entre páginas
+        document.addEventListener("DOMContentLoaded", function () {
+            // Intercepta cliques em links internos e externos
+            document.body.addEventListener("click", function (event) {
+                const target = event.target;
+
+                // Verifica se o clique foi em um link (<a>)
+                if (target.tagName === "A") {
+                    const href = target.getAttribute("href");
+
+                    // Se for um link externo (não contém "#")
+                    if (href && !href.includes("#")) {
+                        // Exibe a tela de carregamento
+                        showGlobalLoading();
+
+                        // Aguarda 500ms antes de seguir o link externo
+                        setTimeout(function () {
+                            window.location.href = href; // Redireciona para o link externo
+                        }, 500); // Ajuste o tempo conforme necessário
+
+                        // Impede o comportamento padrão do link
+                        event.preventDefault();
+                    }
+                }
+            });
+
+            // Intercepta envios de formulários
+            const forms = document.querySelectorAll("form");
+            forms.forEach(form => {
+                form.addEventListener("submit", function () {
+                    showGlobalLoading();
+                });
+            });
+        });
+
+        // Para postbacks assíncronos (UpdatePanel)
+        if (typeof Sys !== 'undefined' && Sys.WebForms && Sys.WebForms.PageRequestManager) {
+            Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(function () {
+                showGlobalLoading();
+            });
+
+            Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
+                hideGlobalLoading();
+
+                // Fecha qualquer alerta SweetAlert aberto anteriormente
+                if (typeof Swal !== 'undefined') {
+                    Swal.close();
+                }
+            });
+        } else {
+            console.error("Sys.WebForms.PageRequestManager não está disponível.");
+        }
+    </script>
+
 </head>
 <body>
     <form runat="server">
-        <asp:ScriptManager runat="server">
+        <asp:ScriptManager runat="server" ID="ScriptManager1">
             <Scripts>
-                <%-- Script references... --%>
+                <%-- Carrega os scripts necessários para o ASP.NET AJAX --%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
             </Scripts>
         </asp:ScriptManager>
 
         <!-- Navbar -->
         <asp:Panel runat="server" ID="pnlNavbar">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container">
-                <a class="navbar-brand" runat="server" href="~/">
-                    <i class="bi bi-heart-pulse-fill"></i>ProjectFit
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Dietas">Dieta</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Treino">Treino</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/About">Sobre</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Views/Contact">Contato</a></li>
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container">
+                    <!-- Brand -->
+                    <a class="navbar-brand" runat="server" href="~/">
+                        <i class="fa-solid fa-heart-pulse me-2"></i>ProjectFit
+            </a>
 
-                        <li class="nav-item" runat="server" id="liCadastro" visible="false">
-                            <a class="nav-link" runat="server" href="~/Views/Cadastro">Gerenciamento</a>
-                        </li>
-                    </ul>
-                    <asp:LoginView runat="server" ViewStateMode="Disabled">
-                        <AnonymousTemplate>
-                            <ul class="navbar-nav">
-                                <li class="nav-item"><a runat="server" class="nav-link" href="~/Account/Register">Registrar</a></li>
-                                <li class="nav-item"><a runat="server" class="nav-link" href="~/Account/Login">Entrar</a></li>
-                            </ul>
-                        </AnonymousTemplate>
-                        <LoggedInTemplate>
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a runat="server" class="nav-link" href="~/Account/Manage">
-                                        <i class="bi bi-person-circle me-2"></i><%: Context.User.Identity.GetUserName()  %>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <asp:LoginStatus runat="server" CssClass="nav-link" LogoutAction="Redirect" 
-                                     LogoutText="Sair" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
-                                </li>
-                            </ul>
-                        </LoggedInTemplate>
-                    </asp:LoginView>
+                    <!-- Toggler Button -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <!-- Links -->
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                            <!-- Home -->
+                            <li class="nav-item">
+                                <a class="nav-link" runat="server" href="~/">
+                                    <i class="fa-solid fa-house me-2"></i>Home
+                        </a>
+                            </li>
+
+                            <!-- Dieta -->
+
+                            <li class="nav-item">
+                                <a class="nav-link" runat="server" href="~/Views/Dietas">
+                                    <i class="fa-solid fa-utensils me-2"></i>Dieta
+                                  </a>
+                            </li>
+
+                          <%--  <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDieta" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-utensils me-2"></i>Dieta
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownDieta">
+                                    <li><a class="dropdown-item" runat="server" href="~/Views/MinhasDietas">Minhas Dietas</a></li>
+                                </ul>
+                            </li>--%>
+
+                            <!-- Treino -->
+                            <li class="nav-item">
+                                <a class="nav-link" runat="server" href="~/Views/Treinos">
+                                    <i class="fa-solid fa-dumbbell me-2"></i>Treino
+                        </a>
+                            </li>
+
+                            <!-- Sobre -->
+                            <li class="nav-item">
+                                <a class="nav-link" runat="server" href="~/Views/About">
+                                    <i class="fa-solid fa-circle-info me-2"></i>Sobre
+                        </a>
+                            </li>
+
+                            <!-- Contato -->
+                            <li class="nav-item">
+                                <a class="nav-link" runat="server" href="~/Views/Contact">
+                                    <i class="fa-solid fa-envelope me-2"></i>Contato
+                        </a>
+                            </li>
+
+                            <!-- Gerenciamento (Visível apenas para administradores) -->
+                            <li class="nav-item" runat="server" id="liCadastro" visible="false">
+                                <a class="nav-link" runat="server" href="~/Views/Cadastro">
+                                    <i class="fa-solid fa-gear me-2"></i>Gerenciamento
+                        </a>
+                            </li>
+                        </ul>
+
+                        <!-- LoginView -->
+                        <asp:LoginView runat="server" ViewStateMode="Disabled">
+                            <AnonymousTemplate>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a runat="server" class="nav-link" href="~/Account/Register">
+                                            <i class="fa-solid fa-user-plus me-2"></i>Registrar
+                                </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a runat="server" class="nav-link" href="~/Account/Login">
+                                            <i class="fa-solid fa-right-to-bracket me-2"></i>Login
+                                </a>
+                                    </li>
+                                </ul>
+                            </AnonymousTemplate>
+                            <LoggedInTemplate>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a runat="server" class="nav-link" href="~/Account/Manage">
+                                            <i class="fa-solid fa-user-circle me-2"></i>Perfil
+                                </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a runat="server" class="nav-link" href="~/Account/Logout">
+                                            <i class="fa-solid fa-right-from-bracket me-2"></i>Sair
+                                </a>
+                                    </li>
+                                </ul>
+                            </LoggedInTemplate>
+                        </asp:LoginView>
+                    </div>
                 </div>
-            </div>
-        </nav>
-      </asp:Panel>
+            </nav>
+        </asp:Panel>
 
         <!-- Conteúdo Principal -->
         <main class="main-container">
@@ -183,6 +411,19 @@
                     </asp:ContentPlaceHolder>
                 </div>
             </div>
+            <div id="globalLoading" class="loading-overlay-global" style="display: none;">
+                <div class="lottie-container">
+                    <lottie-player
+                        src="/Images/Animation.json"
+                        background="transparent"
+                        speed="1"
+                        loop
+                        autoplay
+                        style="width: 70px; height: 70px;">
+                    </lottie-player>
+                </div>
+                <p class="loading-text">Carregando...</p>
+            </div>
         </main>
 
         <!-- Footer -->
@@ -191,8 +432,8 @@
                 <div class="footer-content text-center">
                     <p class="mb-0">&copy; <%: DateTime.Now.Year %> Project Fit - Todos os direitos reservados</p>
                     <div class="mt-2">
-                        <a href="#" class="text-muted me-3"><i class="bi bi-globe"></i> Termos de Uso</a>
-                        <a href="#" class="text-muted"><i class="bi bi-shield-lock"></i> Política de Privacidade</a>
+                        <a href="#" class="text-muted me-3"><i class="bi bi-globe"></i>Termos de Uso</a>
+                        <a href="#" class="text-muted"><i class="bi bi-shield-lock"></i>Política de Privacidade</a>
                     </div>
                 </div>
             </div>

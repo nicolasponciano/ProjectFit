@@ -25,7 +25,7 @@ namespace ProjectFit
             set { pnlNavbar.Visible = value; }
         }
 
-       
+
 
         protected void Page_Init(object sender, EventArgs e)
         {

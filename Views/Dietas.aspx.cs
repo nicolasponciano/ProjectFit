@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.UI;
 using Newtonsoft.Json;
@@ -14,15 +15,60 @@ namespace ProjectFit
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Mantém a página sempre com o UpdatePanel ativo
+            if (IsPostBack)
+            {
+                // Registra o script para ocultar a tela de carregamento após o postback
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "hideLoading", "hideGlobalLoading();", true);
+            }
+        }
+
+        private bool ValidarCampos()
+        {
+            if (string.IsNullOrWhiteSpace(ddlObjetivo.SelectedValue))
+            {
+                ExibirMensagem("O campo 'Objetivo' é obrigatório.", "error");
+                return false;
+            }
+
+            if (!int.TryParse(txtRefeicoes.Text, out int refeicoes) || refeicoes <= 0 || refeicoes > 10)
+            {
+                ExibirMensagem("O campo 'Refeições por dia' deve ser um número entre 1 e 10.", "error");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtRestricoes.Text))
+            {
+                ExibirMensagem("O campo 'Restrições Alimentares' é obrigatório.", "error");
+                return false;
+            }
+
+            if (!double.TryParse(txtAgua.Text, out double agua) || agua <= 0)
+            {
+                ExibirMensagem("O campo 'Ingestão de Água' deve ser um valor positivo.", "error");
+                return false;
+            }
+
+            return true;
         }
 
         protected async void btnSubmit_Click(object sender, EventArgs e)
         {
+            if (!ValidarCampos())
+            {
+                return;
+            }
+
+            var aluno = ObterAlunoLogado();
+            if (aluno == null)
+            {
+                ExibirMensagem("Complete seu perfil primeiro!", "error");
+                return;
+            }
+
             var formData = new
             {
                 objetivo = ddlObjetivo.SelectedValue,
-                refeicoes = txtRefeicoes.Text,
+                refeicoesPorDia = txtRefeicoes.Text,
                 restricoes = txtRestricoes.Text,
                 agua = txtAgua.Text,
                 fastFood = ddlFastFood.SelectedValue,
@@ -31,7 +77,7 @@ namespace ProjectFit
                 alimentosEvitados = txtAlimentosEvitados.Text
             };
 
-            string formattedText = $"Objetivo: {formData.objetivo}, Refeições: {formData.refeicoes}, " +
+            string formattedText = $"Objetivo: {formData.objetivo}, Refeições: {formData.refeicoesPorDia}, " +
                                    $"Restrições: {formData.restricoes}, Água: {formData.agua}, " +
                                    $"FastFood: {formData.fastFood}, Preferências: {formData.preferencias}, " +
                                    $"Rotina: {formData.rotina}, Alimentos evitados: {formData.alimentosEvitados}.";
@@ -39,8 +85,8 @@ namespace ProjectFit
             var iaController = new IAController();
             try
             {
-                var result = await iaController.GetAIBasedResultAsync(formattedText, "dieta");
-                var responseObj = JsonConvert.DeserializeObject<ApiResponse>(result);
+                var jsonResponse = await iaController.GetAIBasedResultAsync(formattedText, "dieta", aluno);
+                var responseObj = JsonConvert.DeserializeObject<ApiResponse>(jsonResponse);
 
                 if (responseObj?.Candidates?.Length > 0)
                 {
@@ -49,31 +95,25 @@ namespace ProjectFit
 
                     using (var db = new ApplicationDbContext())
                     {
-                        var aluno = db.Alunos.FirstOrDefault(a => a.ApplicationUser.Id == CurrentUserId);
-
-                        if (aluno == null)
-                        {
-                            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Complete seu perfil primeiro!');", true);
-                            return;
-                        }
-
                         foreach (var refeicao in refeicoes)
                         {
                             var dieta = new Dieta
                             {
-                                AlunoId = aluno.Id_Aluno,
+                                AlunoIdDieta = aluno.Id_Aluno,
                                 Refeicao = refeicao.Refeicao,
                                 Horario = refeicao.Horario,
                                 Alimentos = refeicao.Alimentos,
                                 Calorias = refeicao.Calorias,
-                                Observacoes = refeicao.Observacoes
+                                Observacoes = refeicao.Observacoes,
+                                LinksReferenciaisDieta = refeicao.LinksReferenciais,
+                                DataRegistro = DateTime.Now
                             };
 
                             db.Dietas.Add(dieta);
                         }
 
                         await db.SaveChangesAsync();
-                        ClientScript.RegisterStartupScript(this.GetType(), "success", "alert('Dieta salva com sucesso!');", true);
+                        ExibirMensagem("Dieta salva com sucesso!", "success");
                     }
 
                     gridDieta.DataSource = refeicoes;
@@ -81,132 +121,101 @@ namespace ProjectFit
                 }
                 else
                 {
-                    gridDieta.DataSource = new List<RefeicaoDieta> { new RefeicaoDieta {
-                        Refeicao = "Erro",
-                        Alimentos = "Não foi possível gerar a dieta",
-                        Observacoes = "Tente novamente"
-                    }};
-                    gridDieta.DataBind();
+                    ExibirMensagem("Erro ao gerar a dieta. Tente novamente.", "error");
                 }
             }
             catch (Exception ex)
             {
-                gridDieta.DataSource = new List<RefeicaoDieta> { new RefeicaoDieta {
-                    Refeicao = "Erro",
-                    Alimentos = ex.Message,
-                    Observacoes = "Contate o suporte"
-                }};
-                gridDieta.DataBind();
+                ExibirMensagem($"Erro ao gerar a dieta: {ex.Message}", "error");
+            }
+        }
+
+        private Aluno ObterAlunoLogado()
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                return db.Alunos.FirstOrDefault(a => a.UserId == CurrentUserId);
             }
         }
 
         private List<RefeicaoDieta> ProcessarRespostaDieta(string resposta)
         {
-            var refeicoes = new List<RefeicaoDieta>();
+            var refeicoesList = new List<RefeicaoDieta>();
             var linhas = resposta.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var linha in linhas)
             {
-                var partes = linha.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-
-                if (partes.Length >= 5)
+                var partes = linha.Split('|');
+                if (partes.Length == 6) // Formato esperado: [Refeição]| [Horário]| [Alimentos]| [Calorias]| [Dicas]| [Links]
                 {
-                    refeicoes.Add(new RefeicaoDieta
+                    string linksRaw = partes[5].Trim();
+                    var linksValidos = ExtrairLinksValidos(linksRaw);
+
+                    refeicoesList.Add(new RefeicaoDieta
                     {
                         Refeicao = partes[0].Trim(),
                         Horario = partes[1].Trim(),
-                        Alimentos = partes[2].Trim().Replace("**", ""),
+                        Alimentos = partes[2].Trim(),
                         Calorias = partes[3].Trim(),
-                        Observacoes = partes[4].Trim()
+                        Observacoes = partes[4].Trim(),
+                        LinksReferenciais = string.Join(", ", linksValidos) // Salva os links válidos
                     });
                 }
             }
-            return refeicoes;
+
+            return refeicoesList;
         }
 
-        private async Task<string> GerarObservacoesAutomaticas(RefeicaoDieta refeicao)
+        // Método para extrair e validar links
+        private List<string> ExtrairLinksValidos(string input)
         {
-            var iaController = new IAController();
-            string prompt = $"Gere 2 dicas práticas de preparo para: {refeicao.Refeicao}.\n" +
-                           $"Ingredientes: {refeicao.Alimentos.Replace("<strong>", "").Replace("</strong>", "")}\n" +
-                           "Regras:\n" +
-                           "- Máximo 40 palavras\n" +
-                           "- Formato: <li>[dica]</li>\n" +
-                           "Exemplo:\n" +
-                           "<li>Cozinhe os ovos em fogo médio</li>";
+            var links = new List<string>();
+            var regex = new Regex(@"https?:\/\/[^\s]+");
 
-            try
+            var matches = regex.Matches(input);
+            foreach (Match match in matches)
             {
-                var result = await iaController.GetAIBasedResultAsync(prompt, "preparo");
-                var responseObj = JsonConvert.DeserializeObject<ApiResponse>(result);
-
-                if (responseObj?.Candidates?.Length > 0)
+                var link = match.Value.TrimEnd(',', '.', ';', ')'); // Remove caracteres indesejados no final
+                if (Uri.IsWellFormedUriString(link, UriKind.Absolute))
                 {
-                    var dicas = responseObj.Candidates[0].Content.Parts[0].Text
-                        .Replace("*", "")
-                        .Replace("<li>", "")
-                        .Replace("</li>", "")
-                        .Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    return string.Join("", dicas.Select(d => $"<li>{d.Trim()}</li>"));
+                    links.Add(link);
                 }
             }
-            catch
-            {
-                return GerarDicasFallback(refeicao.Refeicao);
-            }
-            return GerarDicasFallback(refeicao.Refeicao);
+
+            return links;
         }
 
-        private string GerarDicasFallback(string refeicao)
+        protected string FormatLinks(string links)
         {
-            var refLower = refeicao.ToLower();
+            if (string.IsNullOrEmpty(links))
+            {
+                return "Nenhum link disponível";
+            }
 
-            if (refLower.Contains("café") || refLower.Contains("cafe"))
+            var linkArray = links.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var formattedLinks = new List<string>();
+
+            foreach (var link in linkArray)
             {
-                return "<ul class='dicas-lista'><li>Utilize métodos de cocção com pouca gordura</li><li>Prefira alimentos integrais</li></ul>";
+                var trimmedLink = link.Trim();
+                if (Uri.IsWellFormedUriString(trimmedLink, UriKind.Absolute))
+                {
+                    formattedLinks.Add($"<a href='{trimmedLink}' target='_blank'>'{trimmedLink}'</a>");
+                }
             }
-            else if (refLower.Contains("almoço") || refLower.Contains("almoco"))
-            {
-                return "<ul class='dicas-lista'><li>Cozinhe os vegetais no vapor</li><li>Controle o tempo de cocção</li></ul>";
-            }
-            else if (refLower.Contains("jantar"))
-            {
-                return "<ul class='dicas-lista'><li>Reduza o uso de sal</li><li>Utilize ervas para temperar</li></ul>";
-            }
-            else
-            {
-                return "<ul class='dicas-lista'><li>Mantenha porções equilibradas</li><li>Higienize bem os alimentos</li></ul>";
-            }
+
+            return string.Join(", ", formattedLinks);
         }
 
-        public class RefeicaoDieta
-        {
-            public string Refeicao { get; set; }
-            public string Horario { get; set; }
-            public string Alimentos { get; set; }
-            public string Calorias { get; set; }
-            public string Observacoes { get; set; }
-        }
+    }
 
-        public class ApiResponse
-        {
-            public Candidate[] Candidates { get; set; }
-
-            public class Candidate
-            {
-                public Content Content { get; set; }
-            }
-
-            public class Content
-            {
-                public Part[] Parts { get; set; }
-            }
-
-            public class Part
-            {
-                public string Text { get; set; }
-            }
-        }
+    public class RefeicaoDieta
+    {
+        public string Refeicao { get; set; }
+        public string Horario { get; set; }
+        public string Alimentos { get; set; }
+        public string Calorias { get; set; }
+        public string Observacoes { get; set; }
+        public string LinksReferenciais { get; set; }
     }
 }

@@ -430,7 +430,7 @@
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Views\Cadastro.aspx" />
     <Content Include="Views\Dietas.aspx" />
-    <Content Include="Views\Treino.aspx" />
+    <Content Include="Views\Treinos.aspx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
     <Content Include="Views\web.config" />
@@ -546,57 +546,15 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Controllers\IAController.cs" />
-    <Compile Include="Migrations\202502142153346_AtualizacaoTabelaAlunos.cs" />
-    <Compile Include="Migrations\202502142153346_AtualizacaoTabelaAlunos.Designer.cs">
-      <DependentUpon>202502142153346_AtualizacaoTabelaAlunos.cs</DependentUpon>
+    <Compile Include="Migrations\202503230650190_InitialCreate.cs" />
+    <Compile Include="Migrations\202503230650190_InitialCreate.Designer.cs">
+      <DependentUpon>202503230650190_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202502180306074_AdicionarHashSenha.cs" />
-    <Compile Include="Migrations\202502180306074_AdicionarHashSenha.Designer.cs">
-      <DependentUpon>202502180306074_AdicionarHashSenha.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502182059384_CodigoMeta.cs" />
-    <Compile Include="Migrations\202502182059384_CodigoMeta.Designer.cs">
-      <DependentUpon>202502182059384_CodigoMeta.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502190124185_InicialIdentity.cs" />
-    <Compile Include="Migrations\202502190124185_InicialIdentity.Designer.cs">
-      <DependentUpon>202502190124185_InicialIdentity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502190124514_ForcarIdentity.cs" />
-    <Compile Include="Migrations\202502190124514_ForcarIdentity.Designer.cs">
-      <DependentUpon>202502190124514_ForcarIdentity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502221915475_RelacionarAlunoComUsuario.cs" />
-    <Compile Include="Migrations\202502221915475_RelacionarAlunoComUsuario.Designer.cs">
-      <DependentUpon>202502221915475_RelacionarAlunoComUsuario.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502221940089_AddIsAdminToApplicationUser.cs" />
-    <Compile Include="Migrations\202502221940089_AddIsAdminToApplicationUser.Designer.cs">
-      <DependentUpon>202502221940089_AddIsAdminToApplicationUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502222026073_AddIdAspUserAlunoReference.cs" />
-    <Compile Include="Migrations\202502222026073_AddIdAspUserAlunoReference.Designer.cs">
-      <DependentUpon>202502222026073_AddIdAspUserAlunoReference.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502230423006_AddIsAdminToAspNetUsers.cs" />
-    <Compile Include="Migrations\202502230423006_AddIsAdminToAspNetUsers.Designer.cs">
-      <DependentUpon>202502230423006_AddIsAdminToAspNetUsers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502230438130_UnificarContextos.cs" />
-    <Compile Include="Migrations\202502230438130_UnificarContextos.Designer.cs">
-      <DependentUpon>202502230438130_UnificarContextos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502230511386_UnifiedContextMigration.cs" />
-    <Compile Include="Migrations\202502230511386_UnifiedContextMigration.Designer.cs">
-      <DependentUpon>202502230511386_UnifiedContextMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202503170201002_TabelaDieta.cs" />
-    <Compile Include="Migrations\202503170201002_TabelaDieta.Designer.cs">
-      <DependentUpon>202503170201002_TabelaDieta.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Models\ApiResponse.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Dieta.cs" />
     <Compile Include="Models\DietaModel.cs" />
+    <Compile Include="Models\Treino.cs" />
     <Compile Include="Views\About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -624,10 +582,6 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502130459426_Inicial.cs" />
-    <Compile Include="Migrations\202502130459426_Inicial.Designer.cs">
-      <DependentUpon>202502130459426_Inicial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Aluno.cs" />
@@ -670,12 +624,12 @@
     <Compile Include="Views\Dietas.aspx.designer.cs">
       <DependentUpon>Dietas.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Treino.aspx.cs">
-      <DependentUpon>Treino.aspx</DependentUpon>
+    <Compile Include="Views\Treinos.aspx.cs">
+      <DependentUpon>Treinos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Views\Treino.aspx.designer.cs">
-      <DependentUpon>Treino.aspx</DependentUpon>
+    <Compile Include="Views\Treinos.aspx.designer.cs">
+      <DependentUpon>Treinos.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -717,44 +671,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202502130459426_Inicial.resx">
-      <DependentUpon>202502130459426_Inicial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502142153346_AtualizacaoTabelaAlunos.resx">
-      <DependentUpon>202502142153346_AtualizacaoTabelaAlunos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502180306074_AdicionarHashSenha.resx">
-      <DependentUpon>202502180306074_AdicionarHashSenha.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502182059384_CodigoMeta.resx">
-      <DependentUpon>202502182059384_CodigoMeta.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502190124185_InicialIdentity.resx">
-      <DependentUpon>202502190124185_InicialIdentity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502190124514_ForcarIdentity.resx">
-      <DependentUpon>202502190124514_ForcarIdentity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502221915475_RelacionarAlunoComUsuario.resx">
-      <DependentUpon>202502221915475_RelacionarAlunoComUsuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502221940089_AddIsAdminToApplicationUser.resx">
-      <DependentUpon>202502221940089_AddIsAdminToApplicationUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502222026073_AddIdAspUserAlunoReference.resx">
-      <DependentUpon>202502222026073_AddIdAspUserAlunoReference.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502230423006_AddIsAdminToAspNetUsers.resx">
-      <DependentUpon>202502230423006_AddIsAdminToAspNetUsers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502230438130_UnificarContextos.resx">
-      <DependentUpon>202502230438130_UnificarContextos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502230511386_UnifiedContextMigration.resx">
-      <DependentUpon>202502230511386_UnifiedContextMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202503170201002_TabelaDieta.resx">
-      <DependentUpon>202503170201002_TabelaDieta.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202503230650190_InitialCreate.resx">
+      <DependentUpon>202503230650190_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
