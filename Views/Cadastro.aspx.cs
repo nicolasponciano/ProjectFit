@@ -314,12 +314,6 @@ namespace ProjectFit
             return altura > 0 ? peso / (altura * altura) : 0;
         }
 
-        private void ExibirMensagem(string mensagem, string tipoAlerta)
-        {
-            string script = $"Swal.fire({{ title: 'Mensagem', text: '{mensagem}', icon: '{tipoAlerta}', confirmButtonText: 'OK' }});";
-            ClientScript.RegisterStartupScript(this.GetType(), "sweetalert", script, true);
-        }
-
         protected void gvAlunos_PageIndexChanging(object sender, System.Web.UI.WebControls.GridViewPageEventArgs e)
         {
             gvAlunos.PageIndex = e.NewPageIndex;

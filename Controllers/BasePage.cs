@@ -27,9 +27,10 @@ public class BasePage : Page
         using (var db = new ApplicationDbContext())
         {
             var user = db.Users
-            .Include(u => u.Alunos)
-            .Include(u => u.Alunos.Select(a => a.Dietas)) // Carrega dietas
-            .FirstOrDefault(u => u.Id == CurrentUserId);
+                .Include(u => u.Alunos)
+                .Include(u => u.Alunos.Select(a => a.Dietas)) // Carrega dietas
+                .Include(u => u.Alunos.Select(a => a.Treinos)) // Carrega treinos
+                .FirstOrDefault(u => u.Id == CurrentUserId);
             if (user != null)
             {
                 UserIsAdmin = user.IsAdmin;
@@ -42,5 +43,15 @@ public class BasePage : Page
                 return;
             }
         }
+    }
+
+    public void ExibirMensagem(string mensagem, string tipoAlerta)
+    {
+        // Remove caracteres especiais ou substitui por entidades HTML
+        mensagem = mensagem.Replace("'", "\\'").Replace("\n", "\\n");
+
+        // Registra o script para fechar o carregamento e exibir o alerta
+        string script = $"fecharCarregamentoEExibirAlerta('{mensagem}', '{tipoAlerta}');";
+        ScriptManager.RegisterStartupScript(this, this.GetType(), "sweetalert", script, true);
     }
 }

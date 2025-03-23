@@ -7,13 +7,13 @@ namespace ProjectFit.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class ForcarIdentity : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ForcarIdentity));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "202502190124514_ForcarIdentity"; }
+            get { return "202503230650190_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

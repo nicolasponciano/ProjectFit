@@ -88,6 +88,9 @@ namespace ProjectFit.Models
         [Column("ALN_NM_DIETA")]
         public virtual ICollection<Dieta> Dietas { get; set; }
 
+        [Column("ALN_NM_TREINO")]
+        public virtual ICollection<Treino> Treinos { get; set; }
+
         // Método para calcular o IMC
         public double CalcularIMC()
         {

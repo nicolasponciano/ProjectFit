@@ -11,8 +11,17 @@ namespace ProjectFit
 {
 
 
-    public partial class Treino
+    public partial class Treinos
     {
+
+        /// <summary>
+        /// Controle updatePanelTreino.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updatePanelTreino;
 
         /// <summary>
         /// Controle pnlQuestions.
@@ -57,7 +66,7 @@ namespace ProjectFit
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTrainingLevel;
+        protected global::System.Web.UI.WebControls.DropDownList txtTrainingLevel;
 
         /// <summary>
         /// Controle txtInjuries.
@@ -93,7 +102,7 @@ namespace ProjectFit
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtActivityLevel;
+        protected global::System.Web.UI.WebControls.DropDownList txtActivityLevel;
 
         /// <summary>
         /// Controle btnSubmit.
@@ -105,12 +114,12 @@ namespace ProjectFit
         protected global::System.Web.UI.WebControls.Button btnSubmit;
 
         /// <summary>
-        /// Controle lblTreino.
+        /// Controle gridTreino.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTreino;
+        protected global::System.Web.UI.WebControls.GridView gridTreino;
     }
 }

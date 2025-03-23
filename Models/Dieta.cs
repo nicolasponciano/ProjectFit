@@ -15,7 +15,7 @@ namespace ProjectFit.Models
 
         [ForeignKey("Aluno")]
         [Column("DIE_ID_ALUNO")] // Chave estrangeira para Aluno (ALN_ID_ALUNO)
-        public int AlunoId { get; set; }
+        public int AlunoIdDieta { get; set; }
 
         [Required]
         [Column("DIE_NM_REFEICAO")] // Nome da refeição
@@ -43,6 +43,10 @@ namespace ProjectFit.Models
         [Required]
         [Column("DIE_DT_REGISTRO")] // Data de registro automática
         public DateTime DataRegistro { get; set; } = DateTime.Now;
+
+        [Column("DIE_DS_LINKS_REFERENCIAIS")] // Links referenciais
+        [StringLength(500, ErrorMessage = "Máximo de 500 caracteres")] // Ajuste o tamanho conforme necessário
+        public string LinksReferenciaisDieta { get; set; }
 
         // Relacionamento
         public virtual Aluno Aluno { get; set; }
