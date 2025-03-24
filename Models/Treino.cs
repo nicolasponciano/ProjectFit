@@ -58,6 +58,9 @@ namespace ProjectFit.Models
         [Column("TRE_DT_REGISTRO")] // Data de registro automática
         public DateTime DataCriacao { get; set; } = DateTime.Now;
 
+        [Column("TRE_NR_TREINO")] // Chave estrangeira para Aluno (ALN_ID_ALUNO)
+        public int NumeroTreino { get; set; }
+
         // Relacionamento
         public virtual Aluno Aluno { get; set; }
     }

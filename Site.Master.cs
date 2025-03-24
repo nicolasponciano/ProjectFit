@@ -85,12 +85,13 @@ namespace ProjectFit
                 // Verifica se o usuário está autenticado
                 if (Context.User.Identity.IsAuthenticated)
                 {
-                    // Recupera o ID do usuário logado
-                    var userId = Context.User.Identity.GetUserId();
+                    // Recupera o nome do usuário logado (ou mude para outra forma de identificação, se necessário)
+                    var userName = Context.User.Identity.Name;
 
                     using (var db = new ApplicationDbContext())
                     {
-                        var user = db.Users.FirstOrDefault(u => u.Id == userId);
+                        // Busca o usuário no banco pelo nome (ou ID, se preferir)
+                        var user = db.Users.FirstOrDefault(u => u.UserName == userName);
 
                         if (user != null)
                         {
@@ -99,18 +100,17 @@ namespace ProjectFit
                         }
                         else
                         {
-                            // Oculta se o usuário não for encontrado
                             liCadastro.Visible = false;
                         }
                     }
                 }
                 else
                 {
-                    // Oculta o item se o usuário não estiver logado
                     liCadastro.Visible = false;
                 }
             }
         }
+
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
         {

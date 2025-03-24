@@ -54,4 +54,32 @@ public class BasePage : Page
         string script = $"fecharCarregamentoEExibirAlerta('{mensagem}', '{tipoAlerta}');";
         ScriptManager.RegisterStartupScript(this, this.GetType(), "sweetalert", script, true);
     }
+
+    //public Aluno ObterAlunoLogado()
+    //{
+    //    // Verifica se o usuário está autenticado
+    //    if (!Context.User.Identity.IsAuthenticated)
+    //    {
+    //        return null; // Retorna null se o usuário não estiver logado
+    //    }
+
+    //    // Obtém o ID do usuário logado
+    //    var userId = Context.User.Identity.GetUserId();
+
+    //    // Busca o aluno no banco de dados pelo UserId
+    //    using (var db = new ApplicationDbContext())
+    //    {
+    //        var aluno = db.Alunos.FirstOrDefault(a => a.UserId == userId);
+    //        return aluno;
+    //    }
+    //}
+
+    public Aluno ObterAlunoLogado()
+    {
+        using (var db = new ApplicationDbContext())
+        {
+            return db.Alunos.FirstOrDefault(a => a.UserId == CurrentUserId);
+        }
+    }
+
 }

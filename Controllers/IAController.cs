@@ -46,12 +46,12 @@ namespace ProjectFit.Controllers
                 },
                 contents = new[]
                 {
-                    new
-                    {
-                        role = "user",
-                        parts = new[] { new { text = searchText } }
-                    }
-                }
+            new
+            {
+                role = "user",
+                parts = new[] { new { text = searchText } }
+            }
+        }
             };
 
             // Envia a solicitação para a API da IA
@@ -64,7 +64,27 @@ namespace ProjectFit.Controllers
                 throw new Exception($"Erro na API Gemini: {errorContent}");
             }
 
-            return await response.Content.ReadAsStringAsync();
+            // Lê e processa a resposta da API
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Resposta da API: {jsonResponse}"); // Log para depuração
+
+            try
+            {
+                var responseObj = JsonConvert.DeserializeObject<ApiResponse>(jsonResponse);
+                if (responseObj?.Candidates?.Length > 0)
+                {
+                    string dietaGerada = responseObj.Candidates[0].Content.Parts[0].Text;
+                    return dietaGerada; // Retorna a dieta gerada
+                }
+                else
+                {
+                    throw new Exception("A IA não retornou nenhuma resposta válida.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro ao desserializar a resposta: {ex.Message}. Resposta recebida: {jsonResponse}");
+            }
         }
 
         /// <summary>
@@ -81,110 +101,116 @@ namespace ProjectFit.Controllers
             if (context == "dieta")
             {
                 prompt = $@"
-        Você é um nutricionista especializado em planejamento dietético.
-        Gere um plano de dieta detalhado com base nos seguintes dados do usuário:
-        - Nome: {aluno.Nome}
-        - Idade: {CalcularIdade(aluno.DataGravacao)} anos
-        - Peso: {aluno.Peso} kg
-        - Altura: {aluno.Altura} m
-        - IMC: {aluno.IMC}
-        - Objetivo: {aluno.Meta}
-        - Respostas do formulário: {searchText}
-
-        Inclua as seguintes informações para cada refeição:
-        - Nome da refeição (ex: Café da Manhã)
-        - Horário sugerido (ex: 07:00)
-        - Lista de alimentos (itens separados por vírgula)
-        - Calorias aproximadas (formato: XXXX kcal)
-        - Dicas de preparo (curtas e objetivas)
-        - Links referenciais sobre os alimentos (formato: https://example.com/alimentos/nome-do-alimento)
-
-        Exemplos de links confiáveis:
-        - Ovos: https://pt.wikipedia.org/wiki/Ovo_(alimento)
-        - Tomate: https://pt.wikipedia.org/wiki/Tomate
-        - Café: https://pt.wikipedia.org/wiki/Caf%C3%A9
-        - Leite sem lactose: https://www.todamateria.com.br/leite-sem-lactose/
-
-        Formato obrigatório para cada linha:
-        [Nome da Refeição] | [Horário] | [Alimentos] | [Calorias] | [Dicas de Preparo] | [Links Referenciais]
-
-        Regras:
-        1. Use o separador '|' para dividir as colunas
-        2. Mantenha cada refeição em uma linha única
-        3. Priorize alimentos comuns da região do usuário
-        4. Inclua pelo menos 5 refeições diárias
-        5. Destaque alimentos importantes em negrito usando **
-        6. Não use markdown ou formatação complexa
-        ";
+                    Você é um nutricionista especializado em planejamento dietético.
+                    Gere um plano de dieta detalhado com base nos seguintes dados do usuário:
+                    - Nome: {aluno.Nome}
+                    - Idade: {CalcularIdade(aluno.DataGravacao)} anos
+                    - Peso: {aluno.Peso} kg
+                    - Altura: {aluno.Altura} m
+                    - IMC: {aluno.IMC}
+                    - Objetivo: {aluno.Meta}
+                    - Respostas do formulário: {searchText}
+    
+                    Para cada refeição, inclua as seguintes informações:
+                    - Nome da refeição (ex: Café da Manhã)
+                    - Horário sugerido (ex: 07:00)
+                    - Lista de alimentos (itens separados por vírgula)
+                    - Calorias aproximadas (formato: XXXX kcal)
+                    - Dicas de preparo (curtas e objetivas)
+                    - Links referenciais sobre os alimentos para consulta adicional. Utilize os seguintes sites confiáveis:
+                      - https://alimentacaosaudavel.org.br
+                      - https://www.tbca.net.br
+                      - https://nutritionsource.hsph.harvard.edu
+                      - https://www.bvsms.saude.gov.br
+                      - https://www.sns24.gov.pt
+                      - https://www.paho.org
+                      - https://www.gov.br/saude
+                      - https://www.tuasaude.com
+    
+                    Formato obrigatório para cada linha:
+                    [Nome da Refeição] | [Horário] | [Alimentos] | [Calorias] | [Dicas de Preparo] | [Links Referenciais]
+    
+                    Regras:
+                    1. Use o separador '|' para dividir as colunas.
+                    2. Mantenha cada refeição em uma linha única.
+                    3. Priorize alimentos comuns da região do usuário.
+                    4. Inclua a quantidade de refeições que o usuário inserir.
+                    5. Não use markdown ou formatação complexa.
+                    ";
             }
             else if (context == "treino")
             {
                 prompt = $@"
-        Você é um personal trainer virtual.
-        Gere um plano de treino detalhado com base nos seguintes dados do usuário:
-        - Nome: {aluno.Nome}
-        - Idade: {CalcularIdade(aluno.DataGravacao)} anos
-        - Peso: {aluno.Peso} kg
-        - Altura: {aluno.Altura} m
-        - IMC: {aluno.IMC}
-        - Objetivo: {aluno.Meta}
-        - Respostas do formulário: {searchText}
+                Você é um personal trainer virtual.
+                Gere um plano de treino detalhado com base nos seguintes dados do usuário:
+                - Nome: {aluno.Nome}
+                - Idade: {CalcularIdade(aluno.DataGravacao)} anos
+                - Peso: {aluno.Peso} kg
+                - Altura: {aluno.Altura} m
+                - IMC: {aluno.IMC}
+                - Objetivo: {aluno.Meta}
+                - Respostas do formulário: {searchText}
 
-        Inclua as seguintes informações para cada dia de treino:
-        - Dia da semana (ex: Segunda-feira)
-        - Exercício (ex: Supino Reto)
-        - Séries x Repetições (ex: 3x10)
-        - Tempo de descanso (ex: 60 segundos)
-        - Equipamento necessário (ex: Halteres)
-        - Grupo muscular trabalhado (ex: Peito)
-        - Dicas de execução (curtas e objetivas)
-        - Links referenciais sobre o exercício ou equipamento (formato: https://example.com/treinos/nome-do-exercicio)
+                Inclua as seguintes informações para cada dia de treino:
+                - Dia da semana (ex: Segunda-feira)
+                - Exercício (ex: Supino Reto)
+                - Séries x Repetições (ex: 3x10)
+                - Tempo de descanso (ex: 60 segundos)
+                - Equipamento necessário (ex: Halteres)
+                - Grupo muscular trabalhado (ex: Peito)
+                - Dicas de execução (curtas e objetivas)
+                - Links referenciais sobre o exercício ou equipamento (formato: https://example.com/treinos/nome-do-exercicio)
 
-        Exemplos de links confiáveis:
-        - Supino Reto: https://pt.wikipedia.org/wiki/Supino
-        - Agachamento: https://pt.wikipedia.org/wiki/Agachamento
-        - Flexão de Braço: https://pt.wikipedia.org/wiki/Flex%C3%A3o_de_bra%C3%A7o
-        - Halteres: https://www.todamateria.com.br/halteres/
+                Exemplos de links confiáveis:
+                - Supino Reto: https://www.musculacao.net/como-fazer-supino-reto/
+                - Agachamento: https://www.dicasdetreino.com.br/agachamento-completo/
+                - Flexão de Braço: https://www.treinomestre.com.br/como-fazer-flexao-de-bracos/
+                - Halteres: https://www.todamateria.com.br/halteres/
+                - Equipamentos: https://www.educacaofisica.com.br/musculacao-e-equipamentos/
+                - Guia de Exercícios: https://www.treinomestre.com.br/guia-de-exercicios/
 
-        Formato obrigatório para cada linha:
-        [Dia da Semana] | [Exercício] | [Séries x Repetições] | [Descanso] | [Equipamento] | [Grupo Muscular] | [Dicas] | [Links Referenciais]
+                Formato obrigatório para cada linha:
+                [Dia da Semana] | [Exercício] | [Séries x Repetições] | [Descanso] | [Equipamento] | [Grupo Muscular] | [Dicas] | [Links Referenciais]
 
-        Regras:
-        1. Use o separador '|' para dividir as colunas
-        2. Mantenha cada exercício em uma linha única
-        3. Priorize exercícios adequados ao nível de experiência do usuário
-        4. Inclua pelo menos 3 dias de treino semanais
-        5. Não use markdown ou formatação complexa
-        ";
+                Regras:
+                1. Use o separador '|' para dividir as colunas
+                2. Mantenha cada exercício em uma linha única
+                3. Priorize exercícios adequados ao nível de experiência do usuário
+                4. Inclua quantos treinos o usuário inserir
+                5. Não use markdown ou formatação complexa
+                ";
             }
             else if (context == "preparo")
             {
                 prompt = $@"
-        Você é um chef nutricional.
-        Gere dicas práticas de preparo para os alimentos especificados abaixo:
-        - Ingredientes: {searchText}
+                    Você é um chef especializado em nutrição saudável.
+                    Gere dicas práticas de preparo para os alimentos especificados abaixo, priorizando métodos saudáveis e que preservem os nutrientes:
+                    - Ingredientes: {searchText}
 
-        Inclua as seguintes informações para cada alimento:
-        - Nome do alimento
-        - Método de preparo (ex: Cozinhe no vapor)
-        - Benefícios nutricionais (ex: Rico em proteínas)
-        - Links referenciais sobre o alimento (formato: https://example.com/alimentos/nome-do-alimento)
+                    Para cada alimento, inclua as seguintes informações:
+                    - Nome do alimento
+                    - Método de preparo recomendado (ex: Cozinhe no vapor por 5 minutos para preservar os nutrientes)
+                    - Benefícios nutricionais (ex: Rico em proteínas, fonte de fibras, antioxidantes naturais)
+                    - Sugestão de combinação com outros alimentos (ex: Combine com azeite de oliva para melhor absorção de nutrientes)
+                    - Links referenciais sobre o alimento e seus benefícios (formato: https://example.com/alimentos/nome-do-alimento)
 
-        Exemplos de links confiáveis:
-        - Ovos: https://pt.wikipedia.org/wiki/Ovo_(alimento)
-        - Tomate: https://pt.wikipedia.org/wiki/Tomate
-        - Café: https://pt.wikipedia.org/wiki/Caf%C3%A9
-        - Leite sem lactose: https://www.todamateria.com.br/leite-sem-lactose/
+                    Exemplos de links confiáveis:
+                    - Ovos: https://pt.wikipedia.org/wiki/Ovo_(alimento)
+                    - Tomate: https://pt.wikipedia.org/wiki/Tomate
+                    - Café: https://pt.wikipedia.org/wiki/Caf%C3%A9
+                    - Leite sem lactose: https://www.todamateria.com.br/leite-sem-lactose/
+                    - Guia de alimentos: https://www.brasildefato.com.br/2022/09/27/guia-de-alimentos-naturais
+                    - Métodos de preparo: https://www.treinomestre.com.br/metodos-saudaveis-de-preparo/
 
-        Formato obrigatório para cada linha:
-        [Nome do Alimento] | [Método de Preparo] | [Benefícios Nutricionais] | [Links Referenciais]
+                    Formato obrigatório para cada linha:
+                    [Nome do Alimento] | [Método de Preparo] | [Benefícios Nutricionais] | [Sugestão de Combinação] | [Links Referenciais]
 
-        Regras:
-        1. Use o separador '|' para dividir as colunas
-        2. Mantenha cada alimento em uma linha única
-        3. Priorize métodos de preparo saudáveis
-        4. Não use markdown ou formatação complexa
-        ";
+                    Regras:
+                    1. Use o separador '|' para dividir as colunas
+                    2. Mantenha cada alimento em uma linha única
+                    3. Priorize métodos que realcem o sabor e mantenham o valor nutricional
+                    4. Não use markdown ou formatação complexa
+                    ";
             }
             else
             {
