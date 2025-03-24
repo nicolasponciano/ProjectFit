@@ -85,44 +85,50 @@ namespace ProjectFit
             var iaController = new IAController();
             try
             {
+                // Obtém a resposta da API
                 var jsonResponse = await iaController.GetAIBasedResultAsync(formattedText, "dieta", aluno);
-                var responseObj = JsonConvert.DeserializeObject<ApiResponse>(jsonResponse);
 
-                if (responseObj?.Candidates?.Length > 0)
+                // Log para depuração
+                Console.WriteLine($"Resposta da API: {jsonResponse}");
+
+                // Verifica se a resposta é válida
+                if (string.IsNullOrWhiteSpace(jsonResponse))
                 {
-                    string dietaGerada = responseObj.Candidates[0].Content.Parts[0].Text;
-                    var refeicoes = ProcessarRespostaDieta(dietaGerada);
+                    throw new Exception("A resposta da API está vazia.");
+                }
 
-                    using (var db = new ApplicationDbContext())
+                // Processa a resposta diretamente (sem desserialização)
+                var refeicoes = ProcessarRespostaDieta(jsonResponse);
+
+                // Obter o próximo número da dieta para o aluno
+                int proximoNumeroDieta = ObterProximoNumeroDieta(aluno.Id_Aluno);
+
+                using (var db = new ApplicationDbContext())
+                {
+                    foreach (var refeicao in refeicoes)
                     {
-                        foreach (var refeicao in refeicoes)
+                        var dieta = new Dieta
                         {
-                            var dieta = new Dieta
-                            {
-                                AlunoIdDieta = aluno.Id_Aluno,
-                                Refeicao = refeicao.Refeicao,
-                                Horario = refeicao.Horario,
-                                Alimentos = refeicao.Alimentos,
-                                Calorias = refeicao.Calorias,
-                                Observacoes = refeicao.Observacoes,
-                                LinksReferenciaisDieta = refeicao.LinksReferenciais,
-                                DataRegistro = DateTime.Now
-                            };
+                            AlunoIdDieta = aluno.Id_Aluno,
+                            Refeicao = refeicao.Refeicao,
+                            Horario = refeicao.Horario,
+                            Alimentos = refeicao.Alimentos,
+                            Calorias = refeicao.Calorias,
+                            Observacoes = refeicao.Observacoes,
+                            LinksReferenciaisDieta = refeicao.LinksReferenciais,
+                            DataRegistro = DateTime.Now,
+                            NumeroDieta = proximoNumeroDieta
+                        };
 
-                            db.Dietas.Add(dieta);
-                        }
-
-                        await db.SaveChangesAsync();
-                        ExibirMensagem("Dieta salva com sucesso!", "success");
+                        db.Dietas.Add(dieta);
                     }
 
-                    gridDieta.DataSource = refeicoes;
-                    gridDieta.DataBind();
+                    await db.SaveChangesAsync();
+                    ExibirMensagem("Dieta salva com sucesso!", "success");
                 }
-                else
-                {
-                    ExibirMensagem("Erro ao gerar a dieta. Tente novamente.", "error");
-                }
+
+                gridDieta.DataSource = refeicoes;
+                gridDieta.DataBind();
             }
             catch (Exception ex)
             {
@@ -130,13 +136,6 @@ namespace ProjectFit
             }
         }
 
-        private Aluno ObterAlunoLogado()
-        {
-            using (var db = new ApplicationDbContext())
-            {
-                return db.Alunos.FirstOrDefault(a => a.UserId == CurrentUserId);
-            }
-        }
 
         private List<RefeicaoDieta> ProcessarRespostaDieta(string resposta)
         {
@@ -161,6 +160,17 @@ namespace ProjectFit
                         LinksReferenciais = string.Join(", ", linksValidos) // Salva os links válidos
                     });
                 }
+                else
+                {
+                    // Log de erro para depuração
+                    Console.WriteLine($"Formato incorreto na linha: {linha}");
+                }
+            }
+
+            // Verifica se foram geradas pelo menos 5 refeições
+            if (refeicoesList.Count < 0)
+            {
+                throw new Exception($"A IA gerou apenas {refeicoesList.Count} refeições. Esperava pelo menos 1.");
             }
 
             return refeicoesList;
@@ -207,6 +217,20 @@ namespace ProjectFit
             return string.Join(", ", formattedLinks);
         }
 
+        private int ObterProximoNumeroDieta(int alunoId)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                // Obtém o maior número de dieta já salvo para o aluno
+                var ultimoNumeroDieta = db.Dietas
+                    .Where(d => d.AlunoIdDieta == alunoId)
+                    .Max(d => (int?)d.NumeroDieta); // Usamos (int?) para permitir valores nulos
+
+                // Se não houver dietas, retorna 1 (primeira dieta)
+                return ultimoNumeroDieta.HasValue ? ultimoNumeroDieta.Value + 1 : 1;
+            }
+        }
+
     }
 
     public class RefeicaoDieta
@@ -217,5 +241,7 @@ namespace ProjectFit
         public string Calorias { get; set; }
         public string Observacoes { get; set; }
         public string LinksReferenciais { get; set; }
+
+        public int NumeroDieta { get; set; }
     }
 }

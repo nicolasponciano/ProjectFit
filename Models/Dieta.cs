@@ -48,6 +48,9 @@ namespace ProjectFit.Models
         [StringLength(500, ErrorMessage = "Máximo de 500 caracteres")] // Ajuste o tamanho conforme necessário
         public string LinksReferenciaisDieta { get; set; }
 
+        [Column("DIE_NR_DIETA")] // Chave estrangeira para Aluno (ALN_ID_ALUNO)
+        public int NumeroDieta { get; set; }
+
         // Relacionamento
         public virtual Aluno Aluno { get; set; }
     }

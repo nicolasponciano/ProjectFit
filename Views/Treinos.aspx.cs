@@ -129,13 +129,6 @@ namespace ProjectFit
             }
         }
 
-        private Aluno ObterAlunoLogado()
-        {
-            using (var db = new ApplicationDbContext())
-            {
-                return db.Alunos.FirstOrDefault(a => a.UserId == CurrentUserId);
-            }
-        }
 
         private List<ItemTreino> ProcessarRespostaTreino(string resposta, int alunoId)
         {
@@ -222,7 +215,9 @@ namespace ProjectFit
         public string GrupoMuscular { get; set; }
         public string Dicas { get; set; }
         public string LinksReferenciaisTreino { get; set; }
-        
+        public int NumeroTreino { get; set; }
+
+
         public DateTime DataCriacao { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Treino Personalizado" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Treinos.aspx.cs" Inherits="ProjectFit.Treinos" Async="true" %>
+
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <main aria-labelledby="title">
         <div class="container">
@@ -67,7 +68,7 @@
                                 </div>
                             </div>
                             <div class="submit-button">
-                                <asp:Button ID="btnSubmit" runat="server" Text="Gerar Treino" CssClass="btn-submit" OnClick="btnSubmit_Click"  />
+                                <asp:Button ID="btnSubmit" runat="server" Text="Gerar Treino" CssClass="btn-submit" OnClick="btnSubmit_Click" />
                             </div>
                         </asp:Panel>
                     </div>
@@ -96,7 +97,6 @@
     </main>
 
     <style>
-
         .question-form {
             background: #f9f9f9;
             padding: 20px;
@@ -114,11 +114,11 @@
             text-align: left;
         }
 
-        .question-item label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
+            .question-item label {
+                font-weight: bold;
+                display: block;
+                margin-bottom: 5px;
+            }
 
         .textbox, .dropdown {
             width: 100%;
@@ -152,35 +152,35 @@
             font-size: 14px;
         }
 
-        .treino-grid th, .treino-grid td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
+            .treino-grid th, .treino-grid td {
+                padding: 10px;
+                border: 1px solid #ddd;
+                text-align: left;
+            }
 
-        .treino-grid th {
-            background-color: #0070e8;
-            color: #ffffff;
-            text-align: center;
-            font-weight: bold;
-        }
+            .treino-grid th {
+                background-color: #0070e8;
+                color: #ffffff;
+                text-align: center;
+                font-weight: bold;
+            }
 
-        .treino-grid tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+            .treino-grid tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
 
-        .treino-grid tr:hover {
-            background-color: #f1f1f1;
-        }
+            .treino-grid tr:hover {
+                background-color: #f1f1f1;
+            }
 
         @media screen and (max-width: 768px) {
             .treino-grid {
                 font-size: 12px;
             }
 
-            .treino-grid th, .treino-grid td {
-                padding: 6px;
-            }
+                .treino-grid th, .treino-grid td {
+                    padding: 6px;
+                }
         }
     </style>
 
