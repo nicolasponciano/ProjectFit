@@ -71,10 +71,13 @@ namespace ProjectFit.Controllers
             try
             {
                 var responseObj = JsonConvert.DeserializeObject<ApiResponse>(jsonResponse);
+
                 if (responseObj?.Candidates?.Length > 0)
                 {
-                    string dietaGerada = responseObj.Candidates[0].Content.Parts[0].Text;
-                    return dietaGerada; // Retorna a dieta gerada
+                    string resultadoGerado = responseObj.Candidates[0].Content.Parts[0].Text;
+
+                    // Retorna o resultado com base no contexto
+                    return resultadoGerado;
                 }
                 else
                 {

@@ -555,18 +555,11 @@
     <Compile Include="Controllers\BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Controllers\IAChatController.cs" />
     <Compile Include="Controllers\IAController.cs" />
-    <Compile Include="Migrations\202503230650190_InitialCreate.cs" />
-    <Compile Include="Migrations\202503230650190_InitialCreate.Designer.cs">
-      <DependentUpon>202503230650190_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202503232046144_numeroDieta.cs" />
-    <Compile Include="Migrations\202503232046144_numeroDieta.Designer.cs">
-      <DependentUpon>202503232046144_numeroDieta.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202503240109453_numeroTreino.cs" />
-    <Compile Include="Migrations\202503240109453_numeroTreino.Designer.cs">
-      <DependentUpon>202503240109453_numeroTreino.cs</DependentUpon>
+    <Compile Include="Migrations\202503242013439_BancoLocal.cs" />
+    <Compile Include="Migrations\202503242013439_BancoLocal.Designer.cs">
+      <DependentUpon>202503242013439_BancoLocal.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ApiResponse.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -703,14 +696,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202503230650190_InitialCreate.resx">
-      <DependentUpon>202503230650190_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202503232046144_numeroDieta.resx">
-      <DependentUpon>202503232046144_numeroDieta.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202503240109453_numeroTreino.resx">
-      <DependentUpon>202503240109453_numeroTreino.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202503242013439_BancoLocal.resx">
+      <DependentUpon>202503242013439_BancoLocal.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

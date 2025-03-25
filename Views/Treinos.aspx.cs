@@ -65,6 +65,7 @@ namespace ProjectFit
                 return;
             }
 
+            // Monta os dados do formulário
             var formData = new
             {
                 trainingExperience = txtTrainingExperience.Text,
@@ -84,44 +85,52 @@ namespace ProjectFit
             var iaController = new IAController();
             try
             {
+                // Obtém a resposta da API
                 var jsonResponse = await iaController.GetAIBasedResultAsync(formattedText, "treino", aluno);
-                var responseObj = JsonConvert.DeserializeObject<ApiResponse>(jsonResponse);
 
-                if (responseObj?.Candidates?.Length > 0)
+                // Log para depuração
+                Console.WriteLine($"Resposta da API: {jsonResponse}");
+
+                // Verifica se a resposta é válida
+                if (string.IsNullOrWhiteSpace(jsonResponse))
                 {
-                    string treinoGerado = responseObj.Candidates[0].Content.Parts[0].Text;
-                    var treinoList = ProcessarRespostaTreino(treinoGerado, aluno.Id_Aluno);
+                    throw new Exception("A resposta da API está vazia.");
+                }
 
-                    using (var db = new ApplicationDbContext())
+                // Processa a resposta diretamente (sem desserialização desnecessária)
+                var treinoList = ProcessarRespostaTreino(jsonResponse, aluno.Id_Aluno);
+
+                // Obter o próximo número do treino para o aluno
+                int proximoNumeroTreino = ObterProximoNumeroTreino(aluno.Id_Aluno);
+
+                using (var db = new ApplicationDbContext())
+                {
+                    foreach (var itemTreino in treinoList)
                     {
-                        foreach (var itemTreino in treinoList)
+                        var treinoDb = new Treino
                         {
-                            var treinoDb = new Treino
-                            {
-                                AlunoIdTreino = itemTreino.AlunoIdTreino,
-                                DiaTreino = itemTreino.DiaTreino,
-                                Exercicio = itemTreino.Exercicio,
-                                SeriesRepeticoes = itemTreino.SeriesRepeticoes,
-                                Descanso = itemTreino.Descanso,
-                                Equipamento = itemTreino.Equipamento,
-                                GrupoMuscular = itemTreino.GrupoMuscular,
-                                Dicas = itemTreino.Dicas,
-                                LinksReferenciaisTreino = itemTreino.LinksReferenciaisTreino,
-                                DataCriacao = itemTreino.DataCriacao
-                            };
-                            db.Treinos.Add(treinoDb);
-                        }
-                        await db.SaveChangesAsync();
+                            AlunoIdTreino = itemTreino.AlunoIdTreino,
+                            DiaTreino = itemTreino.DiaTreino,
+                            Exercicio = itemTreino.Exercicio,
+                            SeriesRepeticoes = itemTreino.SeriesRepeticoes,
+                            Descanso = itemTreino.Descanso,
+                            Equipamento = itemTreino.Equipamento,
+                            GrupoMuscular = itemTreino.GrupoMuscular,
+                            Dicas = itemTreino.Dicas,
+                            LinksReferenciaisTreino = itemTreino.LinksReferenciaisTreino,
+                            DataCriacao = DateTime.Now,
+                            NumeroTreino = proximoNumeroTreino // Adiciona o número do treino
+                        };
+
+                        db.Treinos.Add(treinoDb);
                     }
 
+                    await db.SaveChangesAsync();
                     ExibirMensagem("Treino salvo com sucesso!", "success");
-                    gridTreino.DataSource = treinoList;
-                    gridTreino.DataBind();
                 }
-                else
-                {
-                    ExibirMensagem("Erro ao gerar o treino. Tente novamente.", "error");
-                }
+
+                gridTreino.DataSource = treinoList;
+                gridTreino.DataBind();
             }
             catch (Exception ex)
             {
@@ -129,6 +138,19 @@ namespace ProjectFit
             }
         }
 
+        private int ObterProximoNumeroTreino(int alunoId)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                // Obtém o maior número de dieta já salvo para o aluno
+                var ultimoNumeroTreino = db.Treinos
+                    .Where(d => d.AlunoIdTreino == alunoId)
+                    .Max(d => (int?)d.NumeroTreino); // Usamos (int?) para permitir valores nulos
+
+                // Se não houver dietas, retorna 1 (primeira dieta)
+                return ultimoNumeroTreino.HasValue ? ultimoNumeroTreino.Value + 1 : 1;
+            }
+        }
 
         private List<ItemTreino> ProcessarRespostaTreino(string resposta, int alunoId)
         {
