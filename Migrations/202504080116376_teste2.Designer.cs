@@ -7,13 +7,13 @@ namespace ProjectFit.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class numeroTreino : IMigrationMetadata
+    public sealed partial class teste2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(numeroTreino));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(teste2));
         
         string IMigrationMetadata.Id
         {
-            get { return "202503240109453_numeroTreino"; }
+            get { return "202504080116376_teste2"; }
         }
         
         string IMigrationMetadata.Source

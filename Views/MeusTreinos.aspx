@@ -1,42 +1,42 @@
-﻿<%@ Page Title="Minhas Dietas" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="MinhasDietas.aspx.cs" Inherits="ProjectFit.Views.MinhasDietas" Async="true" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="MeusTreinos.aspx.cs" Inherits="ProjectFit.Views.MeusTreinos" %>
 
-<%@ Register Src="~/Views/EditarDieta.ascx" TagName="EditarDieta" TagPrefix="uc" %>
+<%@ Register TagPrefix="uc" TagName="EditarTreino" Src="~/Views/EditarTreino.ascx" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Minhas Dietas</h2>
+        <h2 class="text-center mb-4">Meus Treinos</h2>
 
         <!-- Repeater para exibir os grids -->
-        <asp:Repeater ID="RptDietas" runat="server" OnItemDataBound="RptDietas_ItemDataBound">
+        <asp:Repeater ID="RptTreinos" runat="server" OnItemDataBound="RptTreinos_ItemDataBound">
             <ItemTemplate>
                 <div class="card mb-4 shadow-sm">
                     <div class="card-header d-flex justify-content-between align-items-center text-white">
-                        <span>Dieta <strong><%# ((ProjectFit.Views.MinhasDietas.DietaViewModel)Container.DataItem).NumeroDieta %></strong></span>
-                        <asp:Button ID="btnExcluirGrid" runat="server" Text="Excluir Dieta" CssClass="btn btn-danger btn-sm"
-                            CommandArgument='<%# Eval("NumeroDieta") %>' OnClick="btnExcluirGrid_Click" />
+                        <span>Treino <strong><%# ((ProjectFit.Views.MeusTreinos.TreinoViewModel)Container.DataItem).NumeroTreino %></strong></span>
+                        <asp:Button ID="btnExcluirGrid" runat="server" Text="Excluir Treino" CssClass="btn btn-danger btn-sm"
+                            CommandArgument='<%# Eval("NumeroTreino") %>' OnClick="btnExcluirGrid_Click" />
                     </div>
                     <div class="card-body">
-                        <asp:GridView ID="gridMinhasDietas" runat="server" CssClass="table table-bordered table-hover"
-                            AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataText="Nenhuma refeição cadastrada"
-                            DataKeyNames="Id_Dieta">
+                        <asp:GridView ID="gridMeusTreinos" runat="server" CssClass="table table-bordered table-hover"
+                            AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataText="Nenhum treino cadastrado"
+                            DataKeyNames="Id_Treino">
                             <Columns>
-                                <asp:BoundField DataField="Refeicao" HeaderText="Refeição" ItemStyle-CssClass="text-capitalize fw-bold" />
+                                <asp:BoundField DataField="DiaTreino" HeaderText="Dia do Treino" ItemStyle-CssClass="text-capitalize fw-bold" />
 
-                                <asp:BoundField DataField="Horario" HeaderText="Horário" ItemStyle-CssClass="text-center" />
+                                <asp:BoundField DataField="Exercicio" HeaderText="Exercício" />
 
-                                <asp:TemplateField HeaderText="Alimentos">
-                                    <ItemTemplate>
-                                        <asp:Literal ID="litAlimentos" runat="server" Text='<%# Eval("Alimentos") %>'></asp:Literal>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
+                                <asp:BoundField DataField="SeriesRepeticoes" HeaderText="Séries x Repetições" />
 
-                                <asp:BoundField DataField="Calorias" HeaderText="Calorias (kcal)" ItemStyle-CssClass="text-end" />
+                                <asp:BoundField DataField="Descanso" HeaderText="Descanso" />
 
-                                <asp:BoundField DataField="Observacoes" HeaderText="Observações" />
+                                <asp:BoundField DataField="Equipamento" HeaderText="Equipamento" />
+
+                                <asp:BoundField DataField="GrupoMuscular" HeaderText="Grupo Muscular" />
+
+                                <asp:BoundField DataField="Dicas" HeaderText="Dicas" />
 
                                 <asp:TemplateField HeaderText="Links">
                                     <ItemTemplate>
-                                        <a href='<%# Eval("LinksReferenciais") %>' target="_blank" class="btn btn-link p-0 text-decoration-none text-primary">
+                                        <a href='<%# Eval("LinksReferenciaisTreino") %>' target="_blank" class="btn btn-link p-0 text-decoration-none text-primary">
                                             Abrir Link
                                         </a>
                                     </ItemTemplate>
@@ -48,9 +48,9 @@
                                     <ItemTemplate>
                                         <div class="btn-group" role="group">
                                             <asp:Button ID="btnEditar" runat="server" Text="Editar" CssClass="btn btn-outline-primary btn-sm"
-                                                CommandArgument='<%# Eval("Id_Dieta") %>' OnClick="btnEditar_Click" />
+                                                CommandArgument='<%# Eval("Id_Treino") %>' OnClick="btnEditar_Click" />
                                             <asp:Button ID="btnExcluir" runat="server" Text="Excluir" CssClass="btn btn-outline-danger btn-sm"
-                                                CommandArgument='<%# Eval("Id_Dieta") %>' OnClick="btnExcluir_Click" />
+                                                CommandArgument='<%# Eval("Id_Treino") %>' OnClick="btnExcluir_Click" />
                                         </div>
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -61,20 +61,21 @@
             </ItemTemplate>
         </asp:Repeater>
 
-        <!-- Modal para Edição -->
+        <!-- Modal para Edição de Treino -->
         <div id="modalEditar" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header text-white">
-                        <h5 class="modal-title" id="exampleModalLabel"> Editar Dieta </h5> <i class="fas fa-edit fa-lg"> </i>
+                        <h5 class="modal-title" id="exampleModalLabel">Editar Treino</h5> <i class="fas fa-edit fa-lg"></i>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <uc:EditarDieta ID="EditarDietaControl" runat="server" Visible="false" />
+                        <uc:EditarTreino ID="EditarTreinoControl" runat="server" Visible="false" />
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <style>
@@ -82,78 +83,96 @@
         :root {
             --primary-color: #2C3E50; /* Azul escuro */
             --secondary-color: #E74C3C; /* Vermelho */
+            --success-color: #28a745; /* Verde */
             --text-color: #FFFFFF; /* Branco */
             --background-color: #f9f9f9; /* Fundo claro */
             --shadow-color: rgba(0, 0, 0, 0.1); /* Sombra suave */
         }
+
         /* Estilos Gerais */
         h2 {
             color: var(--primary-color);
             font-weight: bold;
         }
+
         .card {
             background: var(--background-color);
             border: none;
             box-shadow: 0 2px 10px var(--shadow-color);
         }
+
         .card-header {
             background: #536061;
             color: var(--text-color);
             font-size: 18px;
         }
+
         .modal-header {
             background: var(--primary-color);
-            border: none;
+            color: var(--text-color);
         }
         .card-header .btn-danger {
             background: var(--secondary-color);
             border: none;
         }
+
         .card-header .btn-danger:hover {
-            background: var(--primary-color)
+            background:  var(--primary-color);
         }
+
         .table {
             background: var(--text-color);
             color: #333;
         }
+
         .table th {
             background: var(--primary-color);
             color: var(--text-color);
             font-weight: bold;
             text-align: center;
         }
+
         .table td {
             vertical-align: middle;
         }
+
         .table-hover tbody tr:hover {
             background-color: #f1f1f1;
         }
+
         .btn-group {
             display: flex;
             gap: 5px;
         }
+
         .btn-outline-primary {
             border-color: var(--primary-color);
             color: var(--primary-color);
         }
+
         .btn-outline-primary:hover {
             background: var(--primary-color);
             color: var(--text-color);
         }
+
         .btn-outline-danger {
             border-color: var(--secondary-color);
             color: var(--secondary-color);
         }
+
         .btn-outline-danger:hover {
             background: var(--secondary-color);
             color: var(--text-color);
         }
+
         .btn-link {
             color: var(--primary-color);
         }
+
         .btn-link:hover {
-            color: var(--secondary-color);
+            color: var(--primary-color);
         }
+
     </style>
 
     <!-- Script para Manipulação do Modal -->

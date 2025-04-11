@@ -15,6 +15,15 @@ namespace ProjectFit.Account
     {
 
         /// <summary>
+        /// Controle successMessage.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder successMessage;
+
+        /// <summary>
         /// Controle setPassword.
         /// </summary>
         /// <remarks>
@@ -51,15 +60,6 @@ namespace ProjectFit.Account
         protected global::System.Web.UI.WebControls.PlaceHolder changePasswordHolder;
 
         /// <summary>
-        /// Controle CurrentPasswordLabel.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label CurrentPasswordLabel;
-
-        /// <summary>
         /// Controle CurrentPassword.
         /// </summary>
         /// <remarks>
@@ -69,15 +69,6 @@ namespace ProjectFit.Account
         protected global::System.Web.UI.WebControls.TextBox CurrentPassword;
 
         /// <summary>
-        /// Controle NewPasswordLabel.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label NewPasswordLabel;
-
-        /// <summary>
         /// Controle NewPassword.
         /// </summary>
         /// <remarks>
@@ -85,15 +76,6 @@ namespace ProjectFit.Account
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox NewPassword;
-
-        /// <summary>
-        /// Controle ConfirmNewPasswordLabel.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label ConfirmNewPasswordLabel;
 
         /// <summary>
         /// Controle ConfirmNewPassword.

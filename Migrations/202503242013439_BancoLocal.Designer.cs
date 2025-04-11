@@ -7,13 +7,13 @@ namespace ProjectFit.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class InitialCreate : IMigrationMetadata
+    public sealed partial class BancoLocal : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(BancoLocal));
         
         string IMigrationMetadata.Id
         {
-            get { return "202503230650190_InitialCreate"; }
+            get { return "202503242013439_BancoLocal"; }
         }
         
         string IMigrationMetadata.Source

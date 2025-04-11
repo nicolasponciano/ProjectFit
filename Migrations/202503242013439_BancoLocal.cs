@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class BancoLocal : DbMigration
     {
         public override void Up()
         {
@@ -108,6 +108,7 @@
                         DIE_DS_OBSERVACOES = c.String(nullable: false),
                         DIE_DT_REGISTRO = c.DateTime(nullable: false),
                         DIE_DS_LINKS_REFERENCIAIS = c.String(maxLength: 500),
+                        DIE_NR_DIETA = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.DIE_ID_DIETA)
                 .ForeignKey("dbo.T_ALUNOS", t => t.DIE_ID_ALUNO, cascadeDelete: true)
@@ -128,6 +129,7 @@
                         TRE_DS_DICAS = c.String(nullable: false),
                         TRE_DS_LINKS_REFERENCIAIS = c.String(maxLength: 500),
                         TRE_DT_REGISTRO = c.DateTime(nullable: false),
+                        TRE_NR_TREINO = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.TRE_ID_TREINO)
                 .ForeignKey("dbo.T_ALUNOS", t => t.TRE_ID_ALUNO, cascadeDelete: true)

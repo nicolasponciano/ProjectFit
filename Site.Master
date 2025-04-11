@@ -1,5 +1,4 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="ProjectFit.SiteMaster" %>
-
 <!DOCTYPE html>
 <html lang="pt">
 <head runat="server">
@@ -7,48 +6,45 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%: Page.Title %> - Project Fit</title>
-
     <!-- Favicon -->
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-
+    <link href="~/Images/logo-bunny.png" rel="icon" type="image/x-icon" />
     <!-- Modernizr (se necessário) -->
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
-
     <!-- Fontes e Ícones -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-
     <!-- Animações -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-
     <!-- SweetAlert2 -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.0/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.0/dist/sweetalert2.min.js"></script>
-
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Bootstrap JS (com Popper.js incluído) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
     <!-- Plugins Adicionais -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mask-plugin/1.14.15/jquery.mask.min.js"></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-
     <!-- Estilos Personalizados -->
     <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
-
     <style>
+       /* Paleta de Cores */
+        :root {
+            --primary-color: #2C3E50; /* Azul escuro */
+            --secondary-color: #E74C3C; /* Vermelho */
+            --text-color: #FFFFFF; /* Branco */
+            --background-color: #ffffff; /* Branco claro */
+            --shadow-color: rgba(0, 0, 0, 0.1); /* Sombra suave */
+        }
         /* Estilo global */
         body {
-            background-color: #ffffff;
+            background-color: var(--background-color);
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
@@ -56,61 +52,129 @@
             flex-direction: column;
             min-height: 100vh;
         }
-
         /* Navbar */
         .navbar {
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: var(--primary-color);
+            box-shadow: 0 4px 12px var(--shadow-color);
             position: relative;
             z-index: 1000;
-            height: auto; /* Altura automática baseada no conteúdo */
+            height: 80px; /* Altura automática baseada no conteúdo */
             min-height: 80px; /* Altura mínima fixa para garantir consistência */
-            padding: 0.5rem 1rem; /* Espaçamento interno */
+            padding: 0.75rem 1.5rem; /* Espaçamento interno */
             display: flex;
             align-items: center; /* Centraliza verticalmente */
         }
-
         .navbar-brand {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
             font-size: 24px;
-            color: #ffffff !important;
+            color: var(--text-color) !important; /* Texto branco */
             display: flex;
             align-items: center;
-            white-space: nowrap; /* Evita que o texto quebre em várias linhas */
+            white-space: nowrap; /* Evita quebras de linha */
         }
-
-            .navbar-brand i {
-                color: #ffffff;
-                font-size: 28px;
-                margin-right: 10px;
-                transition: transform 0.3s ease;
-            }
-
-            .navbar-brand:hover i {
-                transform: rotate(-10deg);
-            }
-
+        .navbar-brand i {
+            color: var(--text-color);
+            font-size: 28px;
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
+        .navbar-brand:hover i {
+            transform: rotate(-10deg);
+        }
         .nav-link {
-            color: rgba(255, 255, 255, 0.8) !important;
+            color: rgba(255, 255, 255, 0.8) !important; /* Texto claro */
             font-weight: 500;
             margin: 0 15px;
             transition: all 0.3s ease;
         }
-
-            .nav-link:hover {
-                color: #ffffff !important;
-                transform: translateY(-2px);
-            }
-
-        /* Layout principal */
-        .main-container {
-            flex: 1; /* Ocupa o espaço restante da página */
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
+        .nav-link:hover {
+            color: var(--text-color) !important; /* Branco ao passar o mouse */
+            transform: translateY(-2px);
         }
-
+        /* Submenu */
+        .submenu {
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 10px;
+            position: absolute;
+            background-color: var(--primary-color); /* Fundo azul escuro */
+            box-shadow: 0 4px 12px var(--shadow-color);
+            border-radius: 8px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+            transform: translateY(-10px); /* Efeito de movimento suave */
+        }
+        /* Exibe o submenu ao passar o mouse sobre o item pai */
+        .nav-item:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0); /* Retorna à posição original */
+        }
+        /* Estilo dos itens do submenu */
+        .submenu .dropdown-item {
+            color: var(--text-color); /* Texto branco */
+            font-size: 14px; /* Tamanho da fonte */
+            padding: 8px 16px; /* Espaçamento interno */
+            text-decoration: none; /* Remove sublinhado */
+            display: block; /* Garante que os itens ocupem toda a largura */
+            white-space: nowrap; /* Impede quebras de linha */
+            overflow: hidden; /* Oculta texto que exceder o limite */
+            text-overflow: ellipsis; /* Adiciona reticências (...) para texto truncado */
+            transition: background-color 0.3s ease; /* Transição suave */
+        }
+        .submenu .dropdown-item:hover {
+            background-color: var(--secondary-color); /* Fundo vermelho ao passar o mouse */
+        }
+        .submenu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        /* Botão Flutuante */
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--secondary-color); /* Vermelho */
+            color: var(--text-color); /* Branco */
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            z-index: 1000;
+        }
+        .chat-button:hover {
+            background-color: darken(var(--secondary-color), 10%); /* Sombra no hover */
+        }
+        /* Área de Mensagens */
+        .chat-messages {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        /* Estilo das mensagens */
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+        .chat-message.user {
+            background-color: #dcf8c6; /* Verde claro para mensagens do usuário */
+            align-self: flex-end;
+        }
+        .chat-message.bot {
+            background-color: #e9ecef; /* Cinza claro para mensagens do bot */
+            align-self: flex-start;
+        }
         /* Rodapé */
         footer {
             background: #f8f9fa;
@@ -119,32 +183,26 @@
             box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
             text-align: center;
         }
-
         .footer-content {
             font-size: 14px;
             color: #6c757d;
         }
-
         /* Carousel */
         .carousel-item {
             transition: transform 1s ease-in-out;
         }
-
         .carousel-caption {
             background: rgba(0, 0, 0, 0.6);
             border-radius: 15px;
             padding: 15px;
         }
-
         .feature-icon {
             font-size: 2.5rem;
-            color: #007bff;
+            color: var(--secondary-color); /* Vermelho */
         }
-
         .embed-responsive-16by9::before {
             padding-top: 56.25%;
         }
-
         /* Tela de carregamento global */
         .loading-overlay-global {
             position: fixed;
@@ -158,82 +216,53 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #ffffff;
+            color: var(--text-color);
             font-family: 'Poppins', sans-serif;
             text-align: center;
         }
-
         .lottie-container {
             margin-bottom: 20px;
         }
-
         .loading-text {
             font-family: 'Poppins', sans-serif;
             font-size: 20px;
             font-weight: bold;
             letter-spacing: 1px;
             text-transform: uppercase;
-            color: #ffffff;
+            color: var(--text-color);
             animation: pulseText 1.5s infinite ease-in-out;
         }
-
         @keyframes pulseText {
             0%, 100% {
                 transform: scale(1);
             }
-
             50% {
                 transform: scale(1.1);
             }
         }
-/* Estilo para o submenu */
-.submenu {
-    list-style: none;
-    padding-left: 20px;
-    margin-top: 10px;
-    position: absolute;
-    background-color: #000000; /* Fundo preto */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-    transform: translateY(-10px); /* Efeito de movimento suave */
-}
-
-/* Exibe o submenu ao passar o mouse sobre o item pai */
-.nav-item:hover .submenu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0); /* Retorna à posição original */
-}
-
-/* Estilo dos itens do submenu */
-.submenu .dropdown-item {
-    color: #ffffff; /* Texto branco */
-    font-size: 14px; /* Tamanho da fonte */
-    padding: 8px 16px; /* Espaçamento interno */
-    text-decoration: none; /* Remove sublinhado */
-    display: block; /* Garante que os itens ocupem toda a largura */
-    white-space: nowrap; /* Impede quebras de linha */
-    overflow: hidden; /* Oculta texto que exceder o limite */
-    text-overflow: ellipsis; /* Adiciona reticências (...) para texto truncado */
-    transition: background-color 0.3s ease; /* Transição suave */
-}
-
-/* Altera a cor de fundo ao passar o mouse */
-.submenu .dropdown-item:hover {
-    background-color: #333333; /* Fundo cinza escuro ao passar o mouse */
-}
-
-.submenu.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
+        /* Estilo para o logo */
+        .navbar-logo {
+            max-height: 150px; /* Altura máxima da logo */
+            width: auto; /* Mantém a proporção */
+            height: auto; /* Mantém a proporção */
+            margin-right: 15px; /* Espaçamento entre o logo e o texto */
+            text-align: left;
+        }
+        .navbar-coelho {
+            width: 50px; /* Tamanho do coelho */
+            height: auto; /* Mantém a proporção */
+            animation: pular 2s infinite ease-in-out; /* Define a animação */
+        }
+        /* Animação de pulo */
+        @keyframes pular {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px); /* Altura do pulo */
+            }
+        }
     </style>
-
     <script type="text/javascript">
         // Função para exibir a tela de carregamento
         function showGlobalLoading() {
@@ -244,7 +273,6 @@
                 console.error("Elemento 'globalLoading' não encontrado.");
             }
         }
-
         // Função para ocultar a tela de carregamento
         function hideGlobalLoading() {
             var loadingElement = document.getElementById('globalLoading');
@@ -254,87 +282,95 @@
                 console.error("Elemento 'globalLoading' não encontrado.");
             }
         }
-
-        // Função para fechar o carregamento e exibir o SweetAlert
-        function fecharCarregamentoEExibirAlerta(mensagem, tipoAlerta) {
-            // Oculta a tela de carregamento
-            hideGlobalLoading();
-
-            // Exibe o SweetAlert
-            Swal.fire({
-                title: 'Mensagem',
-                text: mensagem,
-                icon: tipoAlerta,
-                confirmButtonText: 'OK'
-            });
-        }
-
-        // Exibir tela de carregamento para navegação entre páginas
-        document.addEventListener("DOMContentLoaded", function () {
-            // Intercepta cliques em links internos e externos
-            document.body.addEventListener("click", function (event) {
-                const target = event.target;
-
-                // Verifica se o clique foi em um link (<a>)
-                if (target.tagName === "A") {
-                    const href = target.getAttribute("href");
-
-                    // Se for um link externo (não contém "#")
-                    if (href && !href.includes("#")) {
-                        // Exibe a tela de carregamento
-                        showGlobalLoading();
-
-                        // Aguarda 500ms antes de seguir o link externo
-                        setTimeout(function () {
-                            window.location.href = href; // Redireciona para o link externo
-                        }, 500); // Ajuste o tempo conforme necessário
-
-                        // Impede o comportamento padrão do link
-                        event.preventDefault();
-                    }
-                }
-            });
-
-            // Intercepta envios de formulários
-            const forms = document.querySelectorAll("form");
-            forms.forEach(form => {
-                form.addEventListener("submit", function () {
-                    showGlobalLoading();
+        // Array para armazenar mensagens
+        let messages = [];
+        // Função para enviar mensagem
+        async function sendMessage() {
+            const input = document.getElementById("chatInput");
+            const message = input.value.trim();
+            if (!message) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Hmm...",
+                    text: "Você precisa digitar algo antes de enviar! 🥕",
+                    confirmButtonText: "Entendi"
                 });
-            });
-        });
-
-        // Para postbacks assíncronos (UpdatePanel)
-        if (typeof Sys !== 'undefined' && Sys.WebForms && Sys.WebForms.PageRequestManager) {
-            Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(function () {
+                return;
+            }
+            // Adiciona a mensagem do usuário à lista
+            messages.push({ sender: "user", text: message });
+            renderMessages();
+            // Limpa o campo de entrada
+            input.value = "";
+            try {
+                // Exibe a tela de carregamento
                 showGlobalLoading();
-            });
-
-            Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
-                hideGlobalLoading();
-
-                // Fecha qualquer alerta SweetAlert aberto anteriormente
-                if (typeof Swal !== 'undefined') {
-                    Swal.close();
+                // Chama a API para obter a resposta da IA
+                const response = await fetch("/api/IAChat/GetChatResponse", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message })
+                });
+                if (!response.ok) {
+                    throw new Error("Erro ao comunicar com a API.");
                 }
+                const data = await response.json();
+                const botResponse = data.reply;
+                // Adiciona a resposta da IA à lista
+                messages.push({ sender: "bot", text: botResponse });
+                renderMessages();
+            } catch (error) {
+                console.error("Erro ao processar a mensagem:", error);
+                messages.push({
+                    sender: "bot",
+                    text: "Ops! 🐇 Parece que a cenoura do servidor quebrou! Tente novamente mais tarde."
+                });
+                Swal.fire({
+                    icon: "error",
+                    title: "Erro na resposta",
+                    text: "Não consegui processar sua solicitação. Verifique sua conexão!",
+                    confirmButtonText: "OK"
+                });
+                renderMessages();
+            } finally {
+                // Oculta a tela de carregamento
+                hideGlobalLoading();
+            }
+        }
+        // Função para renderizar as mensagens
+        function renderMessages() {
+            const chatMessagesDiv = document.getElementById("chatMessages");
+            // Verifica se o elemento existe
+            if (!chatMessagesDiv) return;
+
+            chatMessagesDiv.innerHTML = "";
+            messages.forEach((msg) => {
+                const messageDiv = document.createElement("div");
+                messageDiv.className = `chat-message ${msg.sender}`;
+                messageDiv.innerHTML = msg.text; // Suporte a HTML
+                chatMessagesDiv.appendChild(messageDiv);
             });
-        } else {
-            console.error("Sys.WebForms.PageRequestManager não está disponível.");
+            chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
         }
 
+        // Adicionar mensagem inicial ao abrir o modal
+        document.addEventListener("DOMContentLoaded", function () {
+            // Verifica se o modal existe antes de adicionar eventos
+            const chatModal = document.getElementById('chatModal');
+            if (chatModal) {
+                chatModal.addEventListener('shown.bs.modal', function () {
+                    if (messages.length === 0) {
+                        messages.push({
+                            sender: "bot",
+                            text: "Olá! Eu sou Bunny 🐰<br>Sua Assistente Coelho Fitness!<br><br>Como posso ajudá-lo(a) hoje? 💪🥗"
+                        });
+                        renderMessages();
+                    }
+                });
+            }
 
-      document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', function (e) {
-        const submenu = this.nextElementSibling;
-        if (submenu && submenu.classList.contains('submenu')) {
-            e.preventDefault(); // Impede o comportamento padrão do link
-            submenu.classList.toggle('show'); // Alterna a classe 'show'
-        }
-    });
-});
-
+        });
     </script>
-
 </head>
 <body>
     <form runat="server">
@@ -344,21 +380,23 @@
                 <asp:ScriptReference Name="MsAjaxBundle" />
             </Scripts>
         </asp:ScriptManager>
-
         <!-- Navbar -->
         <asp:Panel runat="server" ID="pnlNavbar">
             <nav class="navbar navbar-expand-lg navbar-dark">
                 <div class="container">
                     <!-- Brand -->
-                    <a class="navbar-brand" runat="server" href="~/">
-                        <i class="fa-solid fa-heart-pulse me-2"></i>ProjectFit
+                    <a class="navbar-brand" runat="server" href="~/Default.aspx">
+                        <asp:Image
+                            ID="imgLogo"
+                            runat="server"
+                            ImageUrl="~/Images/logo-transparent.png"
+                            AlternateText="ProjectFit"
+                            CssClass="navbar-logo me-2" />
                     </a>
-
                     <!-- Toggler Button -->
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-
                     <!-- Links -->
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ms-auto">
@@ -368,58 +406,38 @@
                                     <i class="fa-solid fa-house me-2"></i>Home
                                 </a>
                             </li>
-
                             <!-- Dieta -->
-
-                            <%--                            <li class="nav-item">
-                                <a class="nav-link" runat="server" href="~/Views/Dietas">
-                                    <i class="fa-solid fa-utensils me-2"></i>Dieta
-                                  </a>
-                            </li>--%>
-
                             <li class="nav-item">
                                 <a class="nav-link" runat="server" href="~/Views/Dietas" id="menuDieta">
                                     <i class="fa-solid fa-utensils me-2"></i>Dieta
-       
                                     <i class="fa-solid fa-chevron-down ms-auto"></i>
                                 </a>
                                 <ul class="submenu">
                                     <li><a class="nav-link" runat="server" href="~/Views/MinhasDietas">Minhas Dietas</a></li>
-                                    <%--<li><a class="nav-link" runat="server" href="~/Views/CriarDieta">Criar Dieta</a></li>--%>
                                 </ul>
                             </li>
-
-
-                            <%--  <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDieta" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa-solid fa-utensils me-2"></i>Dieta
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownDieta">
-                                    <li><a class="dropdown-item" runat="server" href="~/Views/MinhasDietas">Minhas Dietas</a></li>
-                                </ul>
-                            </li>--%>
-
                             <!-- Treino -->
                             <li class="nav-item">
-                                <a class="nav-link" runat="server" href="~/Views/Treinos">
+                                <a class="nav-link" runat="server" href="~/Views/Treinos" id="A1">
                                     <i class="fa-solid fa-dumbbell me-2"></i>Treino
+                                    <i class="fa-solid fa-chevron-down ms-auto"></i>
                                 </a>
+                                <ul class="submenu">
+                                    <li><a class="nav-link" runat="server" href="~/Views/MeusTreinos">Meus Treinos</a></li>
+                                </ul>
                             </li>
-
                             <!-- Sobre -->
                             <li class="nav-item">
                                 <a class="nav-link" runat="server" href="~/Views/About">
                                     <i class="fa-solid fa-circle-info me-2"></i>Sobre
                                 </a>
                             </li>
-
                             <!-- Contato -->
                             <li class="nav-item">
                                 <a class="nav-link" runat="server" href="~/Views/Contact">
                                     <i class="fa-solid fa-envelope me-2"></i>Contato
                                 </a>
                             </li>
-
                             <!-- Gerenciamento (Visível apenas para administradores) -->
                             <li class="nav-item" runat="server" id="liCadastro" visible="false">
                                 <a class="nav-link" runat="server" href="~/Views/Cadastro">
@@ -427,7 +445,6 @@
                                 </a>
                             </li>
                         </ul>
-
                         <!-- LoginView -->
                         <asp:LoginView runat="server" ViewStateMode="Disabled">
                             <AnonymousTemplate>
@@ -463,7 +480,6 @@
                 </div>
             </nav>
         </asp:Panel>
-
         <!-- Conteúdo Principal -->
         <main class="main-container">
             <div class="container">
@@ -472,21 +488,52 @@
                     </asp:ContentPlaceHolder>
                 </div>
             </div>
+            <% if (!Page.ResolveUrl("~/Account/Login").Equals(Request.Url.AbsolutePath, StringComparison.OrdinalIgnoreCase) 
+                    && !Page.ResolveUrl("~/Account/Register").Equals(Request.Url.AbsolutePath)) { %>
+            <!-- Botão Flutuante de Chat -->
+            <div id="chatButton" class="chat-button" data-bs-toggle="modal" data-bs-target="#chatModal">
+                <i class="fa-solid fa-comment-dots"></i>Chat
+            </div>
+            <!-- Modal de Chat -->
+            <div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="chatModalLabel">🐇 Bunny - Dúvidas Sobre Saúde e Nutrição</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Área de Exibição das Mensagens -->
+                            <div id="chatMessages" class="chat-messages" style="max-height: 300px; overflow-y: auto;">
+                                <!-- Mensagens serão carregadas aqui -->
+                            </div>
+                            <!-- Formulário para Enviar Mensagens -->
+                            <div class="input-group mt-3">
+                                <input type="text" id="chatInput" class="form-control" placeholder="Digite sua dúvida..." />
+                                <button type="button" class="btn btn-danger" onclick="sendMessage()">
+                                    <i class="fa-solid fa-carrot me-2"></i>Enviar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
             <div id="globalLoading" class="loading-overlay-global" style="display: none;">
                 <div class="lottie-container">
                     <lottie-player
-                        src="/Images/Animation.json"
+                        src="/Images/bunny.json"
                         background="transparent"
-                        speed="1"
+                        speed="3"
                         loop
                         autoplay
-                        style="width: 70px; height: 70px;">
+                        style="width: 150px; height: auto;">
                     </lottie-player>
                 </div>
                 <p class="loading-text">Carregando...</p>
             </div>
         </main>
-
         <!-- Footer -->
         <footer>
             <div class="container">
@@ -500,10 +547,8 @@
             </div>
         </footer>
     </form>
-
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/Scripts/bootstrap.js") %>
     </asp:PlaceHolder>
-
 </body>
 </html>

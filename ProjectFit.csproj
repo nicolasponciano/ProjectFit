@@ -431,7 +431,9 @@
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Views\Cadastro.aspx" />
     <Content Include="Views\Dietas.aspx" />
+    <Content Include="Views\EditarTreino.ascx" />
     <Content Include="Views\EditarDieta.ascx" />
+    <Content Include="Views\MeusTreinos.aspx" />
     <Content Include="Views\MinhasDietas.aspx" />
     <Content Include="Views\Treinos.aspx" />
     <Content Include="Web.config" />
@@ -555,18 +557,15 @@
     <Compile Include="Controllers\BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Controllers\IAChatController.cs" />
     <Compile Include="Controllers\IAController.cs" />
-    <Compile Include="Migrations\202503230650190_InitialCreate.cs" />
-    <Compile Include="Migrations\202503230650190_InitialCreate.Designer.cs">
-      <DependentUpon>202503230650190_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\202503242013439_BancoLocal.cs" />
+    <Compile Include="Migrations\202503242013439_BancoLocal.Designer.cs">
+      <DependentUpon>202503242013439_BancoLocal.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202503232046144_numeroDieta.cs" />
-    <Compile Include="Migrations\202503232046144_numeroDieta.Designer.cs">
-      <DependentUpon>202503232046144_numeroDieta.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202503240109453_numeroTreino.cs" />
-    <Compile Include="Migrations\202503240109453_numeroTreino.Designer.cs">
-      <DependentUpon>202503240109453_numeroTreino.cs</DependentUpon>
+    <Compile Include="Migrations\202504080116376_teste2.cs" />
+    <Compile Include="Migrations\202504080116376_teste2.Designer.cs">
+      <DependentUpon>202504080116376_teste2.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ApiResponse.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -642,12 +641,26 @@
     <Compile Include="Views\Dietas.aspx.designer.cs">
       <DependentUpon>Dietas.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Views\EditarTreino.ascx.cs">
+      <DependentUpon>EditarTreino.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\EditarTreino.ascx.designer.cs">
+      <DependentUpon>EditarTreino.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Views\EditarDieta.ascx.cs">
       <DependentUpon>EditarDieta.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Views\EditarDieta.ascx.designer.cs">
       <DependentUpon>EditarDieta.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MeusTreinos.aspx.cs">
+      <DependentUpon>MeusTreinos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\MeusTreinos.aspx.designer.cs">
+      <DependentUpon>MeusTreinos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\MinhasDietas.aspx.cs">
       <DependentUpon>MinhasDietas.aspx</DependentUpon>
@@ -666,6 +679,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="DynamicData\FieldTemplates\" />
     <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
@@ -703,14 +717,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202503230650190_InitialCreate.resx">
-      <DependentUpon>202503230650190_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202503242013439_BancoLocal.resx">
+      <DependentUpon>202503242013439_BancoLocal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202503232046144_numeroDieta.resx">
-      <DependentUpon>202503232046144_numeroDieta.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202503240109453_numeroTreino.resx">
-      <DependentUpon>202503240109453_numeroTreino.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202504080116376_teste2.resx">
+      <DependentUpon>202504080116376_teste2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
