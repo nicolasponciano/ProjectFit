@@ -1,43 +1,140 @@
 ﻿<%@ Page Title="Registre-se" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="ProjectFit.Account.Register" %>
-
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
-
     <!-- Inclusão de CSS de ícones e SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-    <!-- Inclusão do jQuery e jQuery Mask Plugin para máscaras -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
+    <!-- Importação de Fonte Moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Estilo Customizado -->
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2C3E50, #FF4136); /* Gradiente inicial */
+            transition: background 0.3s ease; /* Transição suave para o fundo */
+            color: #fff;
+        }
+        body:hover {
+            background: linear-gradient(135deg, #FF4136, #2C3E50); /* Gradiente ao passar o mouse */
+        }
+        .min-vh-100 {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative; /* Permite posicionar a logo absolutamente */
+        }
+        .card {
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem; /* Padding padrão */
+            background: #ffffff;
+            width: 100%;
+            max-width: 800px; /* Largura fixa */
+            min-height: auto; /* Altura automática */
+            position: relative; /* Referência para posicionar a logo */
+        }
+        .logo-container {
+            position: absolute; /* Remove a logo do fluxo normal */
+            top: 15px; /* Posiciona a logo acima do card */
+            left: 50%; /* Centraliza horizontalmente */
+            transform: translateX(-50%); /* Ajusta o centro */
+            width: 150px; /* Largura fixa para o contêiner da logo */
+            height: 150px; /* Altura fixa para o contêiner da logo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Garante que a logo não ultrapasse o contêiner */
+        }
+        .logo-container img {
+            max-width: 150px; /* Limita o tamanho máximo da logo */
+            max-height: 150px; /* Limita a altura máxima da logo */
+            width: 150px;
+            height: 150px;
+            object-fit: contain; /* Garante que a logo fique proporcional */
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        h2.card-title {
+            font-family: 'Poppins', sans-serif; /* Fonte moderna */
+            font-size: 1.8rem; /* Tamanho maior */
+            font-weight: 600; /* Negrito */
+            color: #FF4136; /* Cor vermelha vibrante */
+            margin-bottom: 1.5rem;
+            text-transform: uppercase; /* Letras maiúsculas */
+            letter-spacing: 1px; /* Espaçamento entre letras */
+        }
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+            background-color: #eef1f8;
+            color: #333; /* Cor do texto dentro dos campos */
+        }
+        .form-control:focus {
+            border-color: #FF4136;
+            box-shadow: 0 0 0 0.15rem rgba(255, 65, 54, 0.25);
+        }
+        .btn-primary {
+            background: #FF4136;
+            border: none;
+            color: #fff;
+            padding: 0.75rem;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: #E74C3C;
+        }
+        /* Estilos específicos para os links */
+        a.fw-bold {
+            color: #2C3E50 !important; /* Cor principal */
+            text-decoration: none; /* Remove sublinhado */
+            font-weight: bold; /* Texto em negrito */
+            transition: color 0.3s ease; /* Transição suave */
+        }
+        a.fw-bold:hover {
+            color: #FF4136 !important; /* Cor ao passar o mouse */
+            text-decoration: underline; /* Sublinhado ao passar o mouse */
+        }
+        .invalid-feedback {
+            display: block;
+            font-size: 0.8rem;
+            color: #dc3545;
+        }
+    </style>
+
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="card shadow-lg" style="width: 100%; max-width: 800px;">
-            <div class="card-body p-5">
-                <!-- Logo Animado -->
-                <div class="text-center mb-4">
-                    <div class="logo-container mb-4" id="logoAnimation">
-                        <div class="d-flex justify-content-center align-items-center">
-                            <div class="dumbbell-icon">
-                                <i class="bi bi-heart-pulse-fill text-primary fs-1"></i>
-                            </div>
-                            <h1 class="logo-text ms-3 fw-bold">Project<span class="text-primary">Fit</span></h1>
-                        </div>
-                    </div>
-                </div>
-
-                <h2 class="card-title text-center mb-4">Registre-se</h2>
-                <p class="text-center text-muted mb-4">Crie sua conta para começar</p>
-
+        <!-- Contêiner da Logo (Fora do Fluxo Normal) -->
+        <div class="logo-container" id="logoAnimation">
+            <asp:Image 
+                ID="imgLogo" 
+                runat="server" 
+                ImageUrl="~/Images/logo-transparent.png" 
+                AlternateText="ProjectFit" 
+                CssClass="navbar-logo me-2" />
+        </div>
+        <div class="card shadow-lg">
+            <div class="card-body p-4"> <!-- Reduzido padding -->
+                <h2 class="card-title text-center mb-3">Registre-se</h2>
+                <p class="text-center text-muted mb-3">Crie sua conta para começar</p>
+                
                 <!-- Mensagens de Erro -->
-                <asp:ValidationSummary runat="server" CssClass="alert alert-danger mb-4" />
-                <div class="text-danger mb-4">
+                <asp:ValidationSummary runat="server" CssClass="alert alert-danger mb-3" />
+                <div class="text-danger mb-3">
                     <asp:Literal runat="server" ID="ErrorMessage" />
                 </div>
-
+                
                 <!-- Formulário -->
                 <form id="registerForm">
-                    <div class="row g-4">
+                    <div class="row g-3">
                         <!-- Coluna 1 -->
                         <div class="col-12 col-md-6">
                             <!-- Email -->
@@ -52,7 +149,6 @@
                                 </div>
                                 <div class="invalid-feedback" id="emailFeedback"></div>
                             </div>
-
                             <!-- Nome Completo -->
                             <div class="mb-3">
                                 <label for="txtNome" class="form-label fw-bold">Nome Completo</label>
@@ -63,7 +159,6 @@
                                     <asp:TextBox ID="txtNome" CssClass="form-control form-control-lg" runat="server" />
                                 </div>
                             </div>
-
                             <!-- CPF -->
                             <div class="mb-3">
                                 <label for="txtCpf" class="form-label fw-bold">CPF</label>
@@ -71,10 +166,9 @@
                                     <span class="input-group-text">
                                         <i class="bi bi-card-text"></i>
                                     </span>
-                                    <asp:TextBox ID="txtCpf" CssClass="form-control form-control-lg" runat="server" placeholder="000.000.000-00" />
+                                    <asp:TextBox ID="txtCpf" CssClass="form-control form-control-lg cpf-mask" runat="server" placeholder="000.000.000-00" />
                                 </div>
                             </div>
-
                             <!-- Telefone -->
                             <div class="mb-3">
                                 <label for="txtTelefone" class="form-label fw-bold">Telefone</label>
@@ -82,11 +176,10 @@
                                     <span class="input-group-text">
                                         <i class="bi bi-telephone"></i>
                                     </span>
-                                    <asp:TextBox ID="txtTelefone" CssClass="form-control form-control-lg" runat="server" placeholder="(00) 00000-0000" />
+                                    <asp:TextBox ID="txtTelefone" CssClass="form-control form-control-lg phone-mask" runat="server" placeholder="(00) 00000-0000" />
                                 </div>
                             </div>
                         </div>
-
                         <!-- Coluna 2 -->
                         <div class="col-12 col-md-6">
                             <!-- Senha -->
@@ -105,7 +198,6 @@
                                 </div>
                                 <div class="invalid-feedback" id="passwordFeedback"></div>
                             </div>
-
                             <!-- Confirmar Senha com opção de visualizar -->
                             <div class="mb-3">
                                 <label for="ConfirmPassword" class="form-label fw-bold">Confirmar Senha</label>
@@ -122,7 +214,6 @@
                                 </div>
                                 <div class="invalid-feedback" id="confirmPasswordFeedback"></div>
                             </div>
-
                             <!-- Dados Físicos -->
                             <div class="row g-2 mb-3">
                                 <div class="col-6">
@@ -131,7 +222,7 @@
                                         <span class="input-group-text">
                                             <i class="bi bi-speedometer2"></i>
                                         </span>
-                                        <asp:TextBox ID="txtPeso" CssClass="form-control form-control-lg" runat="server" placeholder="Ex: 75" />
+                                        <asp:TextBox ID="txtPeso" CssClass="form-control form-control-lg weight-mask" runat="server" placeholder="Ex: 75" />
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -140,22 +231,14 @@
                                         <span class="input-group-text">
                                             <i class="bi bi-arrow-up"></i>
                                         </span>
-                                        <asp:TextBox ID="txtAltura" CssClass="form-control form-control-lg" runat="server" placeholder="Ex: 1.75" />
+                                        <asp:TextBox ID="txtAltura" CssClass="form-control form-control-lg height-mask" runat="server" placeholder="Ex: 1.75" />
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- IMC -->
-                            <div class="mb-3">
-                                <label for="txtIMC" class="form-label fw-bold">IMC</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-calculator"></i>
-                                    </span>
-                                    <asp:TextBox ID="txtIMC" CssClass="form-control form-control-lg bg-light" runat="server" ReadOnly="True" />
-                                </div>
+                            <!-- Campo IMC oculto -->
+                            <div style="display: none;">
+                                <asp:TextBox ID="txtIMC" CssClass="form-control form-control-lg bg-light" runat="server" ReadOnly="True" />
                             </div>
-
                             <!-- CEP e Meta lado a lado -->
                             <div class="row g-2">
                                 <div class="col-6">
@@ -164,7 +247,7 @@
                                         <span class="input-group-text">
                                             <i class="bi bi-geo-alt"></i>
                                         </span>
-                                        <asp:TextBox ID="txtCep" CssClass="form-control form-control-lg" runat="server" placeholder="00000-000" />
+                                        <asp:TextBox ID="txtCep" CssClass="form-control form-control-lg cep-mask" runat="server" placeholder="00000-000" />
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -184,7 +267,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Botão de Registro -->
                     <div class="d-grid mt-4">
                         <asp:Button runat="server" OnClick="CreateUser_Click"
@@ -192,9 +274,8 @@
                             CssClass="btn btn-primary btn-lg w-100 mb-3 hover-scale" />
                     </div>
                 </form>
-
                 <!-- Link de Login -->
-                <div class="text-center mt-4">
+                <div class="text-center mt-3">
                     <p class="text-muted mb-0">
                         Já tem uma conta?
                         <asp:HyperLink runat="server" NavigateUrl="~/Account/Login" CssClass="fw-bold">Entrar</asp:HyperLink>
@@ -204,88 +285,21 @@
         </div>
     </div>
 
-    <style>
-        .min-vh-100 {
-            min-height: 100vh;
-            background: #ffffff;
-        }
-
-        .card {
-            border-radius: 20px;
-            border: none;
-            transition: transform 0.3s ease;
-        }
-
-        .logo-container {
-            transition: transform 0.3s ease;
-        }
-
-        .logo-container:hover {
-            transform: scale(1.05);
-        }
-
-        .logo-text {
-            font-family: 'Arial Rounded MT Bold', sans-serif;
-            letter-spacing: 1px;
-        }
-
-        .input-group-text {
-            background: #fff;
-            border-right: none;
-        }
-
-        .form-control {
-            border-left: none;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            box-shadow: none;
-            border-color: #dee2e6;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-            border: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #0056b3 0%, #003d80 100%);
-        }
-
-        .hover-scale {
-            transition: transform 0.2s ease;
-        }
-
-        .hover-scale:hover {
-            transform: scale(1.02);
-        }
-
-        .invalid-feedback {
-            display: none;
-        }
-
-        .was-validated .invalid-feedback {
-            display: block;
-        }
-    </style>
-
     <script>
-        // Animação do Logo
+        // Efeito sofisticado na Logo
         const logo = document.getElementById('logoAnimation');
         logo.addEventListener('mouseover', () => {
-            logo.style.transform = 'rotate(-5deg)';
+            logo.querySelector('img').style.transform = 'rotate(-5deg) scale(1.05)';
+            logo.querySelector('img').style.filter = 'brightness(1.2)'; // Brilho aumentado
         });
         logo.addEventListener('mouseout', () => {
-            logo.style.transform = 'rotate(0deg)';
+            logo.querySelector('img').style.transform = 'rotate(0deg) scale(1)';
+            logo.querySelector('img').style.filter = 'brightness(1)'; // Voltar ao brilho normal
         });
 
-        // Toggle para o campo Senha
+        // Toggle Password
         const togglePassword = document.getElementById('togglePassword');
         const passwordField = document.getElementById('<%= Password.ClientID %>');
-
         togglePassword.addEventListener('click', () => {
             const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordField.setAttribute('type', type);
@@ -293,10 +307,9 @@
             togglePassword.querySelector('i').classList.toggle('bi-eye-slash');
         });
 
-        // Toggle para o campo Confirmar Senha
+        // Toggle Confirm Password
         const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
         const confirmPasswordField = document.getElementById('<%= ConfirmPassword.ClientID %>');
-
         toggleConfirmPassword.addEventListener('click', () => {
             const type = confirmPasswordField.getAttribute('type') === 'password' ? 'text' : 'password';
             confirmPasswordField.setAttribute('type', type);
@@ -304,13 +317,13 @@
             toggleConfirmPassword.querySelector('i').classList.toggle('bi-eye-slash');
         });
 
-        // Máscaras para os campos utilizando jQuery Mask Plugin
+        // Máscaras nos campos
         $(document).ready(function () {
-            $('#<%= txtCpf.ClientID %>').mask('000.000.000-00');
-            $('#<%= txtTelefone.ClientID %>').mask('(00) 00000-0000');
-            $('#<%= txtCep.ClientID %>').mask('00000-000');
-            $('#<%= txtPeso.ClientID %>').mask('000,00', {reverse: true});
-            $('#<%= txtAltura.ClientID %>').mask('0,00', { reverse: true });
+            $('.cpf-mask').mask('000.000.000-00', { reverse: true });
+            $('.phone-mask').mask('(00) 00000-0000');
+            $('.cep-mask').mask('00000-000');
+            $('.weight-mask').mask('000', { reverse: true }); // Apenas números para peso
+            $('.height-mask').mask('0.00', { reverse: true }); // Altura em metros
         });
 
         // Validação em Tempo Real
@@ -319,22 +332,26 @@
             if (!this.value.match(/^\S+@\S+\.\S+$/)) {
                 this.classList.add('is-invalid');
                 document.getElementById('emailFeedback').textContent = 'Por favor, insira um e-mail válido';
+            } else {
+                document.getElementById('emailFeedback').textContent = '';
             }
         });
-
         document.getElementById('<%= Password.ClientID %>').addEventListener('input', function () {
             this.classList.remove('is-invalid');
             if (this.value.length < 8) {
                 this.classList.add('is-invalid');
                 document.getElementById('passwordFeedback').textContent = 'A senha deve ter pelo menos 8 caracteres';
+            } else {
+                document.getElementById('passwordFeedback').textContent = '';
             }
         });
-
         document.getElementById('<%= ConfirmPassword.ClientID %>').addEventListener('input', function () {
             this.classList.remove('is-invalid');
             if (this.value !== document.getElementById('<%= Password.ClientID %>').value) {
                 this.classList.add('is-invalid');
                 document.getElementById('confirmPasswordFeedback').textContent = 'As senhas não coincidem';
+            } else {
+                document.getElementById('confirmPasswordFeedback').textContent = '';
             }
         });
     </script>

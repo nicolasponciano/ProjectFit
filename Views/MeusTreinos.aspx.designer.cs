@@ -7,20 +7,29 @@
 // </gerado automaticamente>
 //------------------------------------------------------------------------------
 
-namespace ProjectFit
+namespace ProjectFit.Views
 {
 
 
-    public partial class About
+    public partial class MeusTreinos
     {
 
         /// <summary>
-        /// Controle imgLogo.
+        /// Controle RptTreinos.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgLogo;
+        protected global::System.Web.UI.WebControls.Repeater RptTreinos;
+
+        /// <summary>
+        /// Controle EditarTreinoControl.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::ProjectFit.Views.EditarTreino EditarTreinoControl;
     }
 }
