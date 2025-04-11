@@ -1,250 +1,278 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="ProjectFit._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <main class="container py-5">
+        <!-- Cabeçalho da Página -->
+        <header class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary">Bem-vindo ao Project Fit</h1>
+            <p class="lead text-muted">Seu portal de saúde e fitness personalizado.</p>
+        </header>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="video-background">
-            <video autoplay muted loop id="heroVideo">
-                <source src="~/Videos/hero-video.mp4" type="video/mp4">
-            </video>
-        </div>
-        <div class="container overlay-content">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="hero-title">Transforme Seu Estilo de Vida</h1>
-                    <p class="hero-subtitle">
-                        Com ProjectFit, você terá acesso a planos personalizados de dieta e treino, além de um chatbot exclusivo para tirar suas dúvidas.
-                    </p>
-                    <div class="cta-buttons">
-                        <a href="~/Views/Dietas" runat="server" class="btn btn-primary btn-lg hover-scale">Gerar Dieta Personalizada</a>
-                        <a href="~/Views/Treinos" runat="server" class="btn btn-outline-light btn-lg hover-scale ms-3">Gerar Treino Personalizado</a>
-                    </div>
-                </div>
-                <div class="col-lg-6 text-center">
-                    <img src="~/Images/hero-image.png" alt="Fitness Lifestyle" class="hero-image img-fluid animate__animated animate__fadeInRight" />
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features-section bg-light py-5">
-        <div class="container">
-            <h2 class="text-center mb-5">Por Que Escolher ProjectFit?</h2>
-            <div class="row gy-4">
-                <div class="col-md-4">
-                    <div class="feature-card text-center p-4 rounded shadow-sm hover-scale">
-                        <i class="bi bi-heart-pulse-fill fa-3x text-primary mb-3"></i>
-                        <h4>Planos Personalizados</h4>
-                        <p>
-                            Receba dietas e treinos adaptados às suas necessidades e objetivos específicos.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card text-center p-4 rounded shadow-sm hover-scale">
-                        <i class="bi bi-chat-dots-fill fa-3x text-primary mb-3"></i>
-                        <h4>Suporte 24/7</h4>
-                        <p>
-                            Tire suas dúvidas sobre dieta e treino com nosso assistente virtual inteligente.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card text-center p-4 rounded shadow-sm hover-scale">
-                        <i class="bi bi-bar-chart-line-fill fa-3x text-primary mb-3"></i>
-                        <h4>Acompanhamento de Progresso</h4>
-                        <p>
-                            Monitore seu progresso com gráficos e relatórios detalhados.
-                        </p>
+        <!-- Seção de Funcionalidades Principais -->
+        <section class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-dumbbell fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title fw-bold">Treinos Personalizados</h5>
+                        <p class="card-text text-muted">Crie planos de treino adaptados às suas metas e necessidades.</p>
+                        <a href="~/Views/Treinos" class="btn btn-outline-primary">Gerar Treino</a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials-section py-5">
-        <div class="container">
-            <h2 class="text-center mb-5">O Que Nossos Usuários Dizem</h2>
-            <div class="row gy-4">
-                <div class="col-md-4">
-                    <div class="testimonial-card p-4 rounded shadow-sm text-center">
-                        <img src="~/Images/user1.jpg" alt="User 1" class="testimonial-avatar rounded-circle mb-3" />
-                        <p class="testimonial-text">
-                            "ProjectFit mudou minha vida! Com as dietas personalizadas, perdi 10kg em 3 meses."
-                        </p>
-                        <p class="testimonial-author">- Maria Silva</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="testimonial-card p-4 rounded shadow-sm text-center">
-                        <img src="~/Images/user2.jpg" alt="User 2" class="testimonial-avatar rounded-circle mb-3" />
-                        <p class="testimonial-text">
-                            "Os treinos são incríveis! Ganhei massa muscular e estou mais saudável."
-                        </p>
-                        <p class="testimonial-author">- João Almeida</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="testimonial-card p-4 rounded shadow-sm text-center">
-                        <img src="~/Images/user3.jpg" alt="User 3" class="testimonial-avatar rounded-circle mb-3" />
-                        <p class="testimonial-text">
-                            "O chatbot é sensacional! Sempre tiro minhas dúvidas rapidamente."
-                        </p>
-                        <p class="testimonial-author">- Ana Costa</p>
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-utensils fa-3x text-success mb-3"></i>
+                        <h5 class="card-title fw-bold">Dietas Inteligentes</h5>
+                        <p class="card-text text-muted">Planeje refeições saudáveis com base no seu perfil.</p>
+                        <a href="~/Views/Dietas" class="btn btn-outline-success">Gerar Dieta</a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-heartbeat fa-3x text-danger mb-3"></i>
+                        <h5 class="card-title fw-bold">Saúde e Bem-Estar</h5>
+                        <p class="card-text text-muted">Dicas diárias para melhorar sua qualidade de vida.</p>
+                        <button onclick="loadRandomTip()" class="btn btn-outline-danger">Ver Dica</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Call to Action Section -->
-    <section class="cta-section py-5 text-center">
-        <div class="container">
-            <h2 class="cta-title">Pronto para começar sua transformação?</h2>
-            <p class="cta-subtitle">
-                Registre-se agora e tenha acesso a todas as funcionalidades do ProjectFit.
-            </p>
-            <a href="~/Account/Register" runat="server" class="btn btn-primary btn-lg hover-scale">Cadastre-se Gratuitamente</a>
-        </div>
-    </section>
+        <!-- Carrossel de Destaques -->
+        <section class="carousel-section py-5">
+            <div class="container position-relative">
+                <h2 class="text-center mb-5 text-primary">Descubra Mais Sobre Nossa Jornada</h2>
+                <div id="highlightCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <!-- Indicadores -->
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#highlightCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#highlightCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#highlightCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <!-- Itens do Carrossel -->
+                    <div class="carousel-inner" style="height: 400px; overflow: hidden;">
+                        <!-- Slide 1: Plano Nutricional -->
+                        <div class="carousel-item active">
+                            <img src="/Images/diet-plan.png" class="d-block w-100 h-100 object-fit-cover" alt="Plano Nutricional">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Plano Nutricional Personalizado</h5>
+                                <p>Alcance seus objetivos com dietas adaptadas às suas necessidades.</p>
+                            </div>
+                        </div>
+                        <!-- Slide 2: Vídeo Fitness -->
+                        <div class="carousel-item">
+                            <video class="d-block w-100 h-100 object-fit-cover" autoplay muted loop>
+                                <source src="/Images/videoFit2.mp4" type="video/mp4">
+                                Seu navegador não suporta vídeos.
+                            </video>
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Treino Dinâmico</h5>
+                                <p>Aprimore sua rotina com treinos personalizados e interativos.</p>
+                            </div>
+                        </div>
+                        <!-- Slide 3: Monitoramento Contínuo -->
+                        <div class="carousel-item">
+                            <img src="/Images/progress-tracker.png" class="d-block w-100 h-100 object-fit-cover" alt="Monitoramento Contínuo">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Monitoramento Contínuo</h5>
+                                <p>Acompanhe seu progresso e ajuste suas metas em tempo real.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Controles -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#highlightCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Anterior</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#highlightCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Próximo</span>
+                    </button>
+                </div>
+            </div>
+        </section>
 
+        <!-- Calculadora de IMC -->
+        <section class="mb-5">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-center fw-bold">Calcule Seu IMC</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <input type="number" id="weight" class="form-control" placeholder="Peso (kg)">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" id="height" class="form-control" placeholder="Altura (cm)">
+                        </div>
+                        <div class="col-12 text-center">
+                            <button onclick="calculateBMI()" class="btn btn-primary btn-lg">Calcular</button>
+                        </div>
+                        <div class="col-12 mt-3 text-center">
+                            <div id="bmi-result" class="alert alert-info fade show" role="alert" style="display: none;">
+                                <strong>Seu IMC:</strong> <span id="bmi-value"></span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Styles -->
+        <!-- Dica de Saúde Aleatória -->
+        <section>
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">Dica de Saúde e Fitness</h5>
+                    <p id="health-tip" class="lead text-muted">Carregando...</p>
+                    <button onclick="loadRandomTip()" class="btn btn-outline-secondary">Nova Dica</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Estilos Customizados -->
     <style>
-        /* Hero Section */
-        .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/Images/hero-bg.jpg') no-repeat center center;
-            background-size: cover;
-            color: white;
-            padding: 100px 0;
-            border-radius: 0 0 20px 20px;
+        /* Paleta de Cores */
+        :root {
+            --primary-color: #2C3E50;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --text-color: #FFFFFF;
+            --background-color: #f9f9f9;
+        }
+        /* Estilo Geral */
+        body {
+            background-color: var(--background-color);
+            font-family: 'Poppins', sans-serif;
         }
 
-        .video-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            }
+
+        .btn-lg {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        .alert-info {
+            background-color: #e9ecef;
+            color: #2C3E50;
+        }
+
+        /* Estilo do Carrossel */
+        .carousel-section {
+            position: relative;
+            height: auto;
+            background-color: #f9f9f9;
+        }
+
+        .carousel-inner {
+            height: 400px; /* Altura fixa */
             overflow: hidden;
         }
 
-        #heroVideo {
-            min-width: 100%;
-            min-height: 100%;
-            object-fit: cover;
+        .carousel-item img,
+        .carousel-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Garante que as imagens e vídeos preencham o espaço sem distorção */
         }
 
-        .overlay-content {
-            position: relative;
-            z-index: 1;
-            color: white;
+        .carousel-caption {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 8px;
         }
 
-        .hero-title {
-            font-size: 3rem;
-            font-weight: bold;
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 5%; /* Ajusta o tamanho dos botões de navegação */
+            filter: brightness(1.5); /* Torna os ícones mais visíveis */
         }
 
-        .hero-subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+        .carousel-indicators [data-bs-target] {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #007bff;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
         }
 
-        .hero-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 15px;
-        }
-
-        /* Features Section */
-        .feature-card {
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .feature-card:hover {
-            transform: scale(1.05);
-        }
-
-        /* Testimonials Section */
-        .testimonial-card {
-            background-color: #fff;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .testimonial-avatar {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            background-color: #f8f9fa;
-        }
-
-        .cta-title {
-            font-size: 2rem;
-            font-weight: bold;
-        }
-
-        /* Hover Effects */
-        .hover-scale {
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .hover-scale:hover {
-            transform: scale(1.05);
-        }
-
-        /* Footer */
-        .footer-section {
-            background-color: #343a40;
-            color: white;
-        }
+            .carousel-indicators [data-bs-target]:hover,
+            .carousel-indicators .active {
+                opacity: 1;
+            }
     </style>
 
-    <!-- Scripts -->
+    <!-- Bibliotecas Necessárias -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+
+    <!-- Scripts Personalizados -->
     <script>
-        // Animações ao rolar a página
-        document.addEventListener("DOMContentLoaded", function () {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("animate__animated", "animate__fadeInUp");
-                    }
-                });
+
+
+        // Calculadora de IMC
+        function calculateBMI() {
+            const weight = parseFloat($('#weight').val());
+            const height = parseFloat($('#height').val()) / 100;
+            if (isNaN(weight) || isNaN(height)) {
+                Swal.fire('Atenção', 'Preencha todos os campos!', 'warning');
+                return;
+            }
+            const bmi = (weight / (height * height)).toFixed(1);
+            $('#bmi-value').text(bmi);
+            $('#bmi-result').show();
+            Swal.fire({
+                title: 'Seu IMC',
+                html: `
+                    <div class="text-start">
+                        <p>IMC: ${bmi}</p>
+                        <p>${getBMIStatus(bmi)}</p>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Entendi'
             });
+        }
 
-            document.querySelectorAll(".animate-on-scroll").forEach((el) => observer.observe(el));
+        function getBMIStatus(bmi) {
+            if (bmi < 18.5) return 'Abaixo do peso';
+            if (bmi < 25) return 'Peso normal';
+            if (bmi < 30) return 'Sobrepeso';
+            return 'Obesidade';
+        }
+
+        // Dica de Saúde Aleatória (Advice Slip API)
+        async function loadRandomTip() {
+            try {
+                const { data } = await axios.get('https://api.adviceslip.com/advice');
+                const tip = data.slip.advice;
+                $('#health-tip').text(tip);
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro ao carregar dica',
+                    text: 'Não foi possível carregar a dica. Verifique sua conexão ou tente novamente mais tarde.'
+                });
+            }
+        }
+
+        // Inicializar Página
+        document.addEventListener('DOMContentLoaded', () => {
+            loadRandomTip();
         });
-
-        // Função para exibir a tela de carregamento global
-        function showGlobalLoading() {
-            var loadingElement = document.getElementById('globalLoading');
-            if (loadingElement) {
-                loadingElement.style.display = 'flex';
-            } else {
-                console.error("Elemento 'globalLoading' não encontrado.");
-            }
-        }
-
-        // Função para ocultar a tela de carregamento global
-        function hideGlobalLoading() {
-            var loadingElement = document.getElementById('globalLoading');
-            if (loadingElement) {
-                loadingElement.style.display = 'none';
-            } else {
-                console.error("Elemento 'globalLoading' não encontrado.");
-            }
-        }
     </script>
 </asp:Content>
