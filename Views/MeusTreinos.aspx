@@ -12,8 +12,17 @@
                 <div class="card mb-4 shadow-sm">
                     <div class="card-header d-flex justify-content-between align-items-center text-white">
                         <span>Treino <strong><%# ((ProjectFit.Views.MeusTreinos.TreinoViewModel)Container.DataItem).NumeroTreino %></strong></span>
-                        <asp:Button ID="btnExcluirGrid" runat="server" Text="Excluir Treino" CssClass="btn btn-danger btn-sm"
-                            CommandArgument='<%# Eval("NumeroTreino") %>' OnClick="btnExcluirGrid_Click" />
+                        <div class="btn-group">
+                            <asp:Button ID="btnExportarPdf" runat="server" Text="Exportar PDF"
+                                CssClass="btn btn-success btn-sm"
+                                CommandArgument='<%# Eval("NumeroTreino") %>'
+                                OnClick="btnExportarPdf_Click" />
+
+                            <asp:Button ID="btnExcluirGrid" runat="server" Text="Excluir Treino"
+                                CssClass="btn btn-danger btn-sm"
+                                CommandArgument='<%# Eval("NumeroTreino") %>'
+                                OnClick="btnExcluirGrid_Click" />
+                        </div>
                     </div>
                     <div class="card-body">
                         <asp:GridView ID="gridMeusTreinos" runat="server" CssClass="table table-bordered table-hover"
@@ -36,8 +45,7 @@
 
                                 <asp:TemplateField HeaderText="Links">
                                     <ItemTemplate>
-                                        <a href='<%# Eval("LinksReferenciaisTreino") %>' target="_blank" class="btn btn-link p-0 text-decoration-none text-primary">
-                                            Abrir Link
+                                        <a href='<%# Eval("LinksReferenciaisTreino") %>' target="_blank" class="btn btn-link p-0 text-decoration-none text-primary">Abrir Link
                                         </a>
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -66,7 +74,8 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header text-white">
-                        <h5 class="modal-title" id="exampleModalLabel">Editar Treino</h5> <i class="fas fa-edit fa-lg"></i>
+                        <h5 class="modal-title" id="exampleModalLabel">Editar Treino</h5>
+                        <i class="fas fa-edit fa-lg"></i>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -111,30 +120,31 @@
             background: var(--primary-color);
             color: var(--text-color);
         }
+
         .card-header .btn-danger {
             background: var(--secondary-color);
             border: none;
         }
 
-        .card-header .btn-danger:hover {
-            background:  var(--primary-color);
-        }
+            .card-header .btn-danger:hover {
+                background: var(--primary-color);
+            }
 
         .table {
             background: var(--text-color);
             color: #333;
         }
 
-        .table th {
-            background: var(--primary-color);
-            color: var(--text-color);
-            font-weight: bold;
-            text-align: center;
-        }
+            .table th {
+                background: var(--primary-color);
+                color: var(--text-color);
+                font-weight: bold;
+                text-align: center;
+            }
 
-        .table td {
-            vertical-align: middle;
-        }
+            .table td {
+                vertical-align: middle;
+            }
 
         .table-hover tbody tr:hover {
             background-color: #f1f1f1;
@@ -150,29 +160,28 @@
             color: var(--primary-color);
         }
 
-        .btn-outline-primary:hover {
-            background: var(--primary-color);
-            color: var(--text-color);
-        }
+            .btn-outline-primary:hover {
+                background: var(--primary-color);
+                color: var(--text-color);
+            }
 
         .btn-outline-danger {
             border-color: var(--secondary-color);
             color: var(--secondary-color);
         }
 
-        .btn-outline-danger:hover {
-            background: var(--secondary-color);
-            color: var(--text-color);
-        }
+            .btn-outline-danger:hover {
+                background: var(--secondary-color);
+                color: var(--text-color);
+            }
 
         .btn-link {
             color: var(--primary-color);
         }
 
-        .btn-link:hover {
-            color: var(--primary-color);
-        }
-
+            .btn-link:hover {
+                color: var(--primary-color);
+            }
     </style>
 
     <!-- Script para Manipulação do Modal -->
