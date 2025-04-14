@@ -16,7 +16,7 @@
                         <i class="fas fa-dumbbell fa-3x text-primary mb-3"></i>
                         <h5 class="card-title fw-bold">Treinos Personalizados</h5>
                         <p class="card-text text-muted">Crie planos de treino adaptados às suas metas e necessidades.</p>
-                        <a href="~/Views/Treinos" class="btn btn-outline-primary">Gerar Treino</a>
+                        <a href="Views/Treinos.aspx" class="btn btn-outline-primary">Gerar Treino</a>
                     </div>
                 </div>
             </div>
@@ -26,20 +26,20 @@
                         <i class="fas fa-utensils fa-3x text-success mb-3"></i>
                         <h5 class="card-title fw-bold">Dietas Inteligentes</h5>
                         <p class="card-text text-muted">Planeje refeições saudáveis com base no seu perfil.</p>
-                        <a href="~/Views/Dietas" class="btn btn-outline-success">Gerar Dieta</a>
+                         <a href="Views/Dietas.aspx" class="btn btn-outline-success">Gerar Dieta</a>
+                    </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card shadow-sm h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-heartbeat fa-3x text-danger mb-3"></i>
-                        <h5 class="card-title fw-bold">Saúde e Bem-Estar</h5>
-                        <p class="card-text text-muted">Dicas diárias para melhorar sua qualidade de vida.</p>
-                        <button onclick="loadRandomTip()" class="btn btn-outline-danger">Ver Dica</button>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-heartbeat fa-3x text-danger mb-3"></i>
+                                <h5 class="card-title fw-bold">Saúde e Bem-Estar</h5>
+                                <p class="card-text text-muted">Dicas diárias para melhorar sua qualidade de vida.</p>
+                                <button onclick="loadRandomTip(event)" class="btn btn-outline-danger">Ver Dica</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
         </section>
 
         <!-- Carrossel de Destaques -->
@@ -109,7 +109,7 @@
                             <input type="number" id="height" class="form-control" placeholder="Altura (cm)">
                         </div>
                         <div class="col-12 text-center">
-                            <button onclick="calculateBMI()" class="btn btn-primary btn-lg">Calcular</button>
+                            <button onclick="calculateBMI(event)" class="btn btn-primary btn-lg">Calcular</button>
                         </div>
                         <div class="col-12 mt-3 text-center">
                             <div id="bmi-result" class="alert alert-info fade show" role="alert" style="display: none;">
@@ -122,17 +122,7 @@
             </div>
         </section>
 
-        <!-- Dica de Saúde Aleatória -->
-        <section>
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5 class="card-title fw-bold">Dica de Saúde e Fitness</h5>
-                    <p id="health-tip" class="lead text-muted">Carregando...</p>
-                    <button onclick="loadRandomTip()" class="btn btn-outline-secondary">Nova Dica</button>
-                </div>
-            </div>
-        </section>
-    </main>
+ 
 
     <!-- Estilos Customizados -->
     <style>
@@ -225,24 +215,29 @@
 
 
         // Calculadora de IMC
-        function calculateBMI() {
+        function calculateBMI(event) {
+            if (event) event.preventDefault();
+
             const weight = parseFloat($('#weight').val());
             const height = parseFloat($('#height').val()) / 100;
+
             if (isNaN(weight) || isNaN(height)) {
                 Swal.fire('Atenção', 'Preencha todos os campos!', 'warning');
                 return;
             }
+
             const bmi = (weight / (height * height)).toFixed(1);
             $('#bmi-value').text(bmi);
             $('#bmi-result').show();
+
             Swal.fire({
                 title: 'Seu IMC',
                 html: `
-                    <div class="text-start">
-                        <p>IMC: ${bmi}</p>
-                        <p>${getBMIStatus(bmi)}</p>
-                    </div>
-                `,
+            <div class="text-start">
+                <p>IMC: ${bmi}</p>
+                <p>${getBMIStatus(bmi)}</p>
+            </div>
+        `,
                 icon: 'info',
                 confirmButtonText: 'Entendi'
             });
@@ -256,19 +251,46 @@
         }
 
         // Dica de Saúde Aleatória (Advice Slip API)
-        async function loadRandomTip() {
-            try {
-                const { data } = await axios.get('https://api.adviceslip.com/advice');
-                const tip = data.slip.advice;
-                $('#health-tip').text(tip);
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erro ao carregar dica',
-                    text: 'Não foi possível carregar a dica. Verifique sua conexão ou tente novamente mais tarde.'
-                });
-            }
+        async function loadRandomTip(event) {
+            if (event) event.preventDefault();
+
+            const healthTipsPt = [
+                "Beba bastante água ao longo do dia.",
+                "Durma pelo menos 7 a 8 horas por noite.",
+                "Pratique atividades físicas regularmente.",
+                "Inclua frutas e vegetais na sua alimentação.",
+                "Evite o consumo excessivo de açúcares e gorduras.",
+                "Faça pausas durante o trabalho para se alongar.",
+                "Evite o estresse com momentos de lazer e descanso.",
+                "Mantenha-se atualizado com exames médicos regulares.",
+                "Evite o cigarro e o consumo excessivo de álcool.",
+                "Use protetor solar todos os dias, mesmo em dias nublados.",
+                "Evite pular refeições, isso pode afetar seu metabolismo.",
+                "Mantenha a postura correta ao sentar ou ao trabalhar.",
+                "Tente reduzir o consumo de cafeína para melhorar a qualidade do sono.",
+                "Pratique meditação para reduzir o estresse e melhorar a saúde mental.",
+                "Coma porções menores, mas com mais frequência ao longo do dia.",
+                "Evite o consumo de alimentos processados e fast food.",
+                "Pratique atividades ao ar livre para melhorar sua disposição.",
+                "Inclua proteínas magras, como peixes e frango, em sua alimentação.",
+                "Evite a auto-medicação, sempre consulte um médico antes de tomar qualquer remédio.",
+                "Tenha uma alimentação balanceada e diversificada, com alimentos naturais."
+            ];
+
+            const randomIndex = Math.floor(Math.random() * healthTipsPt.length);
+            const tip = healthTipsPt[randomIndex];
+
+            // Exibindo a dica com SweetAlert
+            Swal.fire({
+                title: '💡 Dica de Saúde',
+                text: tip,
+                icon: 'info',
+                confirmButtonText: 'Legal!',
+                confirmButtonColor: '#dc3545'
+            });
         }
+
+
 
         // Inicializar Página
         document.addEventListener('DOMContentLoaded', () => {
