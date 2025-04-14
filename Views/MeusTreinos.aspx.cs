@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -168,6 +169,101 @@ namespace ProjectFit.Views
                 }
             }
         }
+        protected void btnExportarPdf_Click(object sender, EventArgs e)
+        {
+            var btn = (Button)sender;
+            string numeroTreino = btn.CommandArgument; // Obtém o número do treino
+            var aluno = ObterAlunoLogado();
+
+            if (aluno == null)
+            {
+                ExibirMensagem("Erro ao carregar perfil do usuário.", "error");
+                return;
+            }
+
+            // Gera o HTML do treino
+            string htmlContent = GerarHtmlDoTreino(numeroTreino, aluno.Id_Aluno);
+            string nomeArquivo = $"Treino_{numeroTreino}.pdf";
+
+            // Configura o conversor de HTML para PDF
+            var converter = new SelectPdf.HtmlToPdf();
+            converter.Options.PdfPageSize = SelectPdf.PdfPageSize.A4;
+            converter.Options.MarginTop = 20;
+            converter.Options.MarginBottom = 20;
+            converter.Options.MarginLeft = 20;
+            converter.Options.MarginRight = 20;
+
+            // Converte o HTML em PDF
+            var pdfDocument = converter.ConvertHtmlString(htmlContent);
+
+            // Retorna o PDF ao navegador
+            Response.Clear();
+            Response.ContentType = "application/pdf";
+            Response.AddHeader("content-disposition", $"attachment;filename={nomeArquivo}");
+            pdfDocument.Save(Response.OutputStream);
+            Response.End();
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "hideLoading",
+        "if (window.parent.hideGlobalLoading) window.parent.hideGlobalLoading();", true);
+        }
+
+        private string GerarHtmlDoTreino(string numeroTreino, int alunoId)
+        {
+            // Busca TODOS os exercícios do treino pelo número e ID do aluno
+            int numero = Convert.ToInt32(numeroTreino);
+            if (numero <= 0)
+                return "<h3>Nenhum exercício encontrado para este treino.</h3>";
+
+            using (var db = new ApplicationDbContext())
+            {
+                var treinos = db.Treinos
+                    .Where(t => t.NumeroTreino == numero && t.AlunoIdTreino == alunoId)
+                    .ToList();
+
+                if (!treinos.Any())
+                    return "<h3>Nenhum exercício encontrado para este treino.</h3>";
+
+                // Monta o HTML
+                StringBuilder html = new StringBuilder();
+                html.Append("<html><head>");
+                html.Append("<style>");
+                html.Append("body { font-family: 'Arial'; margin: 20px; }");
+                html.Append("h2 { color: #2C3E50; }");
+                html.Append("table { width: 100%; border-collapse: collapse; margin-top: 20px; }");
+                html.Append("th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }");
+                html.Append("th { background-color: #2C3E50; color: white; }");
+                html.Append("</style></head><body>");
+
+                html.Append($"<h2>Treino #{numeroTreino}</h2>");
+                html.Append("<table>");
+                html.Append("<tr>");
+                html.Append("<th>Dia do Treino</th>");
+                html.Append("<th>Exercício</th>");
+                html.Append("<th>Séries x Repetições</th>");
+                html.Append("<th>Descanso</th>");
+                html.Append("<th>Equipamento</th>");
+                html.Append("<th>Grupo Muscular</th>");
+                html.Append("<th>Dicas</th>");
+                html.Append("</tr>");
+
+                foreach (var treino in treinos)
+                {
+                    html.Append("<tr>");
+                    html.Append($"<td>{treino.DiaTreino}</td>");
+                    html.Append($"<td>{treino.Exercicio}</td>");
+                    html.Append($"<td>{treino.SeriesRepeticoes}</td>");
+                    html.Append($"<td>{treino.Descanso}</td>");
+                    html.Append($"<td>{treino.Equipamento}</td>");
+                    html.Append($"<td>{treino.GrupoMuscular}</td>");
+                    html.Append($"<td>{treino.Dicas}</td>");
+                    html.Append("</tr>");
+                }
+
+                html.Append("</table></body></html>");
+                return html.ToString();
+            }
+        }
+
         public class TreinoViewModel
         {
             public int NumeroTreino { get; set; }
@@ -187,5 +283,6 @@ namespace ProjectFit.Views
             public string LinksReferenciaisTreino { get; set; }
             public DateTime DataRegistro { get; set; }
         }
+
     }
 }

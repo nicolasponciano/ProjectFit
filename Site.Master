@@ -264,7 +264,6 @@
         }
     </style>
     <script type="text/javascript">
-        // Função para exibir a tela de carregamento
         function showGlobalLoading() {
             var loadingElement = document.getElementById('globalLoading');
             if (loadingElement) {
@@ -273,6 +272,7 @@
                 console.error("Elemento 'globalLoading' não encontrado.");
             }
         }
+
         // Função para ocultar a tela de carregamento
         function hideGlobalLoading() {
             var loadingElement = document.getElementById('globalLoading');
@@ -370,6 +370,113 @@
             }
 
         });
+
+        // Função para fechar o carregamento e exibir o SweetAlert
+        function fecharCarregamentoEExibirAlerta(mensagem, tipoAlerta) {
+            // Oculta a tela de carregamento
+            hideGlobalLoading();
+
+            // Exibe o SweetAlert
+            Swal.fire({
+                title: 'Mensagem',
+                text: mensagem,
+                icon: tipoAlerta,
+                confirmButtonText: 'OK'
+            });
+        }
+
+        // Exibir tela de carregamento para navegação entre páginas
+        document.addEventListener("DOMContentLoaded", function () {
+            // Intercepta cliques em links internos e externos
+            document.body.addEventListener("click", function (event) {
+                const target = event.target;
+
+                // Verifica se o clique foi em um link (<a>)
+                if (target.tagName === "A") {
+                    const href = target.getAttribute("href");
+
+                    // Se for um link externo (não contém "#")
+                    if (href && !href.includes("#")) {
+                        // Exibe a tela de carregamento
+                        showGlobalLoading();
+
+                        // Aguarda 500ms antes de seguir o link externo
+                        setTimeout(function () {
+                            window.location.href = href; // Redireciona para o link externo
+                        }, 500); // Ajuste o tempo conforme necessário
+
+                        // Impede o comportamento padrão do link
+                        event.preventDefault();
+                    }
+                }
+            });
+
+            // Intercepta envios de formulários
+            const forms = document.querySelectorAll("form");
+            forms.forEach(form => {
+                form.addEventListener("submit", function () {
+                    showGlobalLoading();
+                });
+            });
+        });
+
+        // Para postbacks assíncronos (UpdatePanel)
+        if (typeof Sys !== 'undefined' && Sys.WebForms && Sys.WebForms.PageRequestManager) {
+            Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(function () {
+                showGlobalLoading();
+            });
+
+            Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
+                hideGlobalLoading();
+
+                // Fecha qualquer alerta SweetAlert aberto anteriormente
+                if (typeof Swal !== 'undefined') {
+                    Swal.close();
+                }
+            });
+        } else {
+            console.error("Sys.WebForms.PageRequestManager não está disponível.");
+        }
+
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const submenu = this.nextElementSibling;
+                if (submenu && submenu.classList.contains('submenu')) {
+                    e.preventDefault(); // Impede o comportamento padrão do link
+                    submenu.classList.toggle('show'); // Alterna a classe 'show'
+                }
+            });
+        });
+
+        // Adiciona um listener para o evento beforeunload
+        window.addEventListener('beforeunload', function () {
+            hideGlobalLoading();
+        });
+
+        // Para formulários que geram PDF, adicione um listener específico
+        document.addEventListener("DOMContentLoaded", function () {
+            // Intercepta envios de formulários que podem gerar PDF
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    // Verifica se é um formulário que gera PDF (ajuste conforme sua implementação)
+                    if (this.action.includes('GerarPDF') || this.id.includes('PDF')) {
+                        showGlobalLoading();
+
+                        // Adiciona um timeout extra para garantir que o loading seja escondido
+                        setTimeout(hideGlobalLoading, 5000);
+                    }
+                });
+            });
+        });
+
+        if (typeof Sys !== 'undefined') {
+            Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
+                // Esconde o loading após qualquer postback assíncrono
+                hideGlobalLoading();
+            });
+        }
+
     </script>
 </head>
 <body>
