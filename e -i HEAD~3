@@ -1,0 +1,22 @@
+[33m061b677[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mminhasDietas[m[33m)[m v1
+[33mb0403cf[m prototipo V1
+[33mbfc5218[m[33m ([m[1;31morigin/minhasDietas[m[33m)[m melhorias e pdf export
+[33m47e8f9a[m bunny layout
+[33mf8b2ce6[m Implementada IA de chatBot ao projeto
+[33mbb9dc0a[m[33m ([m[1;32mmaster[m[33m)[m incluido tela de minhas Dietas, melhorado visual do projeto
+[33mb1a3c22[m dieta e treino refeitos
+[33med7ce81[m Merge pull request #4 from nicolasponciano/ia_teste
+[33m3511453[m[33m ([m[1;31morigin/ia_teste[m[33m)[m tabela dieta
+[33m815a52b[m melhorado gridview de dieta
+[33mf838ab2[m incluido a ia no projeto
+[33m40fcc3c[m api de ia
+[33m720bc7d[m Merge pull request #3 from nicolasponciano/AdminPermissão
+[33m48a23db[m Merge pull request #2 from nicolasponciano/AdminConfigs
+[33m30b7530[m[33m ([m[1;31morigin/AdminPermissão[m[33m)[m Feita tela de abou e permissão para admin na tela de gerenciamneto
+[33m96b6419[m[33m ([m[1;31morigin/AdminConfigs[m[33m)[m Configurado conexão para as 2 classes e ajustada logica para inserir e alterar os dados
+[33mfc822b7[m Merge pull request #1 from nicolasponciano/senhaHash
+[33m7b18b84[m[33m ([m[1;31morigin/senhaHash[m[33m)[m implementado novo layout na aplicação
+[33m0f97fc7[m alterações na tela de login
+[33m2e03bec[m coluna hash inserida
+[33m3c3f1e3[m Adicionar arquivos de projeto.
+[33m496c3ef[m Adicione .gitattributes e .gitignore.
