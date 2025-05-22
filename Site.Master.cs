@@ -80,6 +80,9 @@ namespace ProjectFit
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            UserGoogleFitPictureUrl();
+
+
             if (!IsPostBack)
             {
                 // Verifica se o usuário está autenticado
@@ -115,6 +118,56 @@ namespace ProjectFit
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
         {
             Context.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+        }
+
+
+        // Método para obter a URL da foto do Google do usuário vinculado
+        public string UserGoogleFitPictureUrl()
+        {
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                var userId = HttpContext.Current.User.Identity.GetUserId();
+                using (var db = new ApplicationDbContext())
+                {
+                    // Busca o registro mais recente na tabela UserGoogleFits para o usuário
+                    var userGoogleFit = db.UsersGoogleFits
+                        .Where(ugf => ugf.FitUserId == userId && !string.IsNullOrEmpty(ugf.UrlFotoPerfil))
+                        .OrderByDescending(ugf => ugf.DataColeta) // Pega o registro mais recente
+                        .FirstOrDefault();
+
+                    if (userGoogleFit != null)
+                    {
+                        return userGoogleFit.UrlFotoPerfil; // Retorna a URL da foto do Google Fit
+                    }
+                }
+            }
+            return null;
+        }
+
+        // Método para obter o nome do usuário logado
+        public string GetUserDisplayName()
+        {
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                var userId = HttpContext.Current.User.Identity.GetUserId();
+                using (var db = new ApplicationDbContext())
+                {
+                    // Busca o aluno associado ao usuário autenticado
+                    var aluno = db.Alunos.FirstOrDefault(a => a.UserId == userId);
+                    if (aluno != null)
+                    {
+                        return aluno.Nome; // Retorna o nome do aluno, se existir
+                    }
+
+                    // Se não houver aluno, retorna o nome do usuário padrão
+                    var user = db.Users.FirstOrDefault(u => u.Id == userId);
+                    if (user != null)
+                    {
+                        return user.UserName; // Fallback para o nome de usuário
+                    }
+                }
+            }
+            return "Perfil";
         }
     }
 
