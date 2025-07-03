@@ -7,13 +7,13 @@ namespace ProjectFit.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class teste2 : IMigrationMetadata
+    public sealed partial class RemoveGoogleFit : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(teste2));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(RemoveGoogleFit));
         
         string IMigrationMetadata.Id
         {
-            get { return "202504080116376_teste2"; }
+            get { return "202507030119564_RemoveGoogleFit"; }
         }
         
         string IMigrationMetadata.Source

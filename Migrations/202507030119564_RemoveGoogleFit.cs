@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class BancoLocal : DbMigration
+    public partial class RemoveGoogleFit : DbMigration
     {
         public override void Up()
         {
@@ -42,6 +42,9 @@
                     {
                         Id = c.String(nullable: false, maxLength: 128),
                         IsAdmin = c.Boolean(nullable: false),
+                        GoogleRefreshToken = c.String(),
+                        GoogleAccessToken = c.String(),
+                        ExpiresIn = c.String(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),

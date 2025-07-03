@@ -10,7 +10,7 @@ namespace ProjectFit.Models
         public DbSet<Aluno> Alunos { get; set; }
         public DbSet<Dieta> Dietas { get; set; }
         public DbSet<Treino> Treinos { get; set; }
-        public DbSet<UserGoogleFit> UsersGoogleFits { get; set; }
+        //public DbSet<UserGoogleFit> UsersGoogleFits { get; set; }
 
         // Construtor que utiliza a string de conexão definida no Web.config
         public ApplicationDbContext()
@@ -39,10 +39,10 @@ namespace ProjectFit.Models
                 .WithMany(a => a.Treinos)
                 .HasForeignKey(t => t.AlunoIdTreino);
 
-            modelBuilder.Entity<UserGoogleFit>()
-                .HasRequired(u => u.ApplicationUser)
-                .WithMany()
-                .HasForeignKey(u => u.FitUserId);
+            //modelBuilder.Entity<UserGoogleFit>()
+            //    .HasRequired(u => u.ApplicationUser)
+            //    .WithMany()
+            //    .HasForeignKey(u => u.FitUserId);
 
             // Mapeia a entidade para a tabela customizada, se desejado
             modelBuilder.Entity<Aluno>().ToTable("T_ALUNOS");

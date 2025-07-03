@@ -80,7 +80,7 @@ namespace ProjectFit
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            UserGoogleFitPictureUrl();
+            //UserGoogleFitPictureUrl();
 
 
             if (!IsPostBack)
@@ -122,27 +122,27 @@ namespace ProjectFit
 
 
         // Método para obter a URL da foto do Google do usuário vinculado
-        public string UserGoogleFitPictureUrl()
-        {
-            if (HttpContext.Current.User.Identity.IsAuthenticated)
-            {
-                var userId = HttpContext.Current.User.Identity.GetUserId();
-                using (var db = new ApplicationDbContext())
-                {
-                    // Busca o registro mais recente na tabela UserGoogleFits para o usuário
-                    var userGoogleFit = db.UsersGoogleFits
-                        .Where(ugf => ugf.FitUserId == userId && !string.IsNullOrEmpty(ugf.UrlFotoPerfil))
-                        .OrderByDescending(ugf => ugf.DataColeta) // Pega o registro mais recente
-                        .FirstOrDefault();
+        //public string UserGoogleFitPictureUrl()
+        //{
+        //    if (HttpContext.Current.User.Identity.IsAuthenticated)
+        //    {
+        //        var userId = HttpContext.Current.User.Identity.GetUserId();
+        //        using (var db = new ApplicationDbContext())
+        //        {
+        //            // Busca o registro mais recente na tabela UserGoogleFits para o usuário
+        //            var userGoogleFit = db.UsersGoogleFits
+        //                .Where(ugf => ugf.FitUserId == userId && !string.IsNullOrEmpty(ugf.UrlFotoPerfil))
+        //                .OrderByDescending(ugf => ugf.DataColeta) // Pega o registro mais recente
+        //                .FirstOrDefault();
 
-                    if (userGoogleFit != null)
-                    {
-                        return userGoogleFit.UrlFotoPerfil; // Retorna a URL da foto do Google Fit
-                    }
-                }
-            }
-            return null;
-        }
+        //            if (userGoogleFit != null)
+        //            {
+        //                return userGoogleFit.UrlFotoPerfil; // Retorna a URL da foto do Google Fit
+        //            }
+        //        }
+        //    }
+        //    return null;
+        //}
 
         // Método para obter o nome do usuário logado
         public string GetUserDisplayName()

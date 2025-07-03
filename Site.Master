@@ -557,23 +557,8 @@
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
                                         <a runat="server" class="nav-link" href="~/Account/Manage">
-                                            <% 
-                                                var userDisplayName = GetUserDisplayName(); // Chama o método para obter o nome
-                                                var userPictureUrl = UserGoogleFitPictureUrl(); // Chama o método para obter a URL da foto
-                                                if (!string.IsNullOrEmpty(userPictureUrl))
-                                                {
-    %>
-                                            <img src="<%= userPictureUrl %>" alt="Foto do Perfil" class="profile-picture rounded-circle" style="width: 30px; height: 30px;" />
-                                            <%= userDisplayName %>
-                                            <% 
-                                            }
-                                            else
-                                            {
-    %>
-                                            <i class="fa-solid fa-user-circle me-2"></i><%= userDisplayName %>
-                                            <% 
+                                            <i class="fa-solid fa-user-circle me-2"></i>
                                         }
-    %>
 </a>
                                     </li>
                                     <li class="nav-item">

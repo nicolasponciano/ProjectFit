@@ -19,7 +19,7 @@ namespace ProjectFit.Models
         public virtual ICollection<Aluno> Alunos { get; set; }
 
         // Relacionamento com UserGoogleFit (opcional)
-        public virtual ICollection<UserGoogleFit> UserGoogleFitData { get; set; }
+        //public virtual ICollection<UserGoogleFit> UserGoogleFitData { get; set; }
 
         // Adicione esta propriedade para armazenar o refresh token do Google
         public string GoogleRefreshToken { get; set; }

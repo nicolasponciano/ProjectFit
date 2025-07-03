@@ -703,37 +703,17 @@
     <Compile Include="Controllers\BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Controllers\GoogleFitController.cs" />
     <Compile Include="Controllers\IAChatController.cs" />
     <Compile Include="Controllers\IAController.cs" />
-    <Compile Include="Migrations\202503242013439_BancoLocal.cs" />
-    <Compile Include="Migrations\202503242013439_BancoLocal.Designer.cs">
-      <DependentUpon>202503242013439_BancoLocal.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202504080116376_teste2.cs" />
-    <Compile Include="Migrations\202504080116376_teste2.Designer.cs">
-      <DependentUpon>202504080116376_teste2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202504160017258_AddGoogleRefreshTokenToUser.cs" />
-    <Compile Include="Migrations\202504160017258_AddGoogleRefreshTokenToUser.Designer.cs">
-      <DependentUpon>202504160017258_AddGoogleRefreshTokenToUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202504160102291_AddHangfire.cs" />
-    <Compile Include="Migrations\202504160102291_AddHangfire.Designer.cs">
-      <DependentUpon>202504160102291_AddHangfire.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202504160225292_AddfitGoogle.cs" />
-    <Compile Include="Migrations\202504160225292_AddfitGoogle.Designer.cs">
-      <DependentUpon>202504160225292_AddfitGoogle.cs</DependentUpon>
+    <Compile Include="Migrations\202507030119564_RemoveGoogleFit.cs" />
+    <Compile Include="Migrations\202507030119564_RemoveGoogleFit.Designer.cs">
+      <DependentUpon>202507030119564_RemoveGoogleFit.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ApiResponse.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Dieta.cs" />
     <Compile Include="Models\DietaModel.cs" />
     <Compile Include="Models\Treino.cs" />
-    <Compile Include="Models\UserGoogleFit.cs" />
-    <Compile Include="Services\GoogleFitService.cs" />
-    <Compile Include="Services\GoogleFitSyncService.cs" />
     <Compile Include="Views\About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -864,20 +844,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202503242013439_BancoLocal.resx">
-      <DependentUpon>202503242013439_BancoLocal.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504080116376_teste2.resx">
-      <DependentUpon>202504080116376_teste2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504160017258_AddGoogleRefreshTokenToUser.resx">
-      <DependentUpon>202504160017258_AddGoogleRefreshTokenToUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504160102291_AddHangfire.resx">
-      <DependentUpon>202504160102291_AddHangfire.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504160225292_AddfitGoogle.resx">
-      <DependentUpon>202504160225292_AddfitGoogle.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202507030119564_RemoveGoogleFit.resx">
+      <DependentUpon>202507030119564_RemoveGoogleFit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
