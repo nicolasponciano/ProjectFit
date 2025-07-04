@@ -124,5 +124,12 @@ namespace ProjectFit.Account
 
             Response.Redirect("/Account/Manage");
         }
+
+        protected void btnGoogleFit_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/api/GoogleFit/Authorize");
+        }
+
+
     }
 }

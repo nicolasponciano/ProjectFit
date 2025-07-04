@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProjectFit.Models;
+
+using SelectPdf;
+
 
 namespace ProjectFit.Views
 {
@@ -205,6 +209,135 @@ namespace ProjectFit.Views
                 }
             }
         }
+
+
+
+        protected void btnExportarPdf_Click(object sender, EventArgs e)
+        {
+            var btn = (Button)sender;
+            string numeroDieta = btn.CommandArgument;
+            var aluno = ObterAlunoLogado();
+
+            if (aluno == null)
+            {
+                ExibirMensagem("Erro ao carregar perfil do aluno.", "error");
+                return;
+            }
+
+            // Gera o HTML da dieta
+            string htmlContent = GerarHtmlDaDieta(numeroDieta, aluno.Id_Aluno);
+            string nomeArquivo = $"Dieta_{numeroDieta}.pdf";
+
+            // Configura o conversor de HTML para PDF
+            var converter = new HtmlToPdf();
+            converter.Options.PdfPageSize = PdfPageSize.A4;
+            converter.Options.MarginTop = 20;
+            converter.Options.MarginBottom = 20;
+            converter.Options.MarginLeft = 20;
+            converter.Options.MarginRight = 20;
+
+            // Converte o HTML em PDF
+            var pdfDocument = converter.ConvertHtmlString(htmlContent);
+
+            // Retorna o PDF ao navegador
+            Response.Clear();
+            Response.ContentType = "application/pdf";
+            Response.AddHeader("content-disposition", $"attachment;filename={nomeArquivo}");
+            pdfDocument.Save(Response.OutputStream);
+            Response.End();
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "hideLoading",
+                "if (window.parent.hideGlobalLoading) window.parent.hideGlobalLoading();", true);
+        }
+
+        private string GerarHtmlDaDieta(string numeroDieta, int alunoId)
+        {
+            // Busca TODAS as refeições da dieta pelo número e ID do aluno
+            int numero = Convert.ToInt32(numeroDieta);
+            if (numero <= 0)
+                return "<h3>Nenhuma refeição encontrada para esta dieta.</h3>";
+
+            using (var db = new ApplicationDbContext())
+            {
+                var refeicoes = db.Dietas
+                    .Where(d => d.NumeroDieta == numero && d.AlunoIdDieta == alunoId)
+                    .OrderBy(d => d.Horario) // Ordena por horário
+                    .ToList();
+
+                if (!refeicoes.Any())
+                    return "<h3>Nenhuma refeição encontrada para esta dieta.</h3>";
+
+                // Monta o HTML
+                StringBuilder html = new StringBuilder();
+                html.Append("<html><head>");
+                html.Append("<style>");
+                html.Append("body { font-family: 'Arial'; margin: 20px; }");
+                html.Append("h2 { color: #2C3E50; text-align: center; margin-bottom: 30px; }");
+                html.Append("h3 { color: #3498db; margin-top: 25px; }");
+                html.Append("table { width: 100%; border-collapse: collapse; margin-top: 10px; }");
+                html.Append("th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }");
+                html.Append("th { background-color: #2C3E50; color: white; }");
+                html.Append("tr:nth-child(even) { background-color: #f2f2f2; }");
+                html.Append(".total { font-weight: bold; margin-top: 20px; }");
+                html.Append(".observacoes { margin-top: 15px; padding: 10px; background-color: #f9f9f9; border-left: 4px solid #3498db; }");
+                html.Append("</style></head><body>");
+
+                html.Append($"<h2>Dieta #{numeroDieta}</h2>");
+
+                // Agrupa por refeição
+                var refeicoesAgrupadas = refeicoes.GroupBy(r => r.Refeicao);
+
+                foreach (var grupo in refeicoesAgrupadas)
+                {
+                    html.Append($"<h3>{grupo.Key}</h3>");
+                    html.Append("<table>");
+                    html.Append("<tr>");
+                    html.Append("<th>Horário</th>");
+                    html.Append("<th>Alimentos</th>");
+                    html.Append("<th>Calorias</th>");
+                    html.Append("</tr>");
+
+                    foreach (var refeicao in grupo)
+                    {
+                        html.Append("<tr>");
+                        html.Append($"<td>{refeicao.Horario}</td>");
+                        html.Append($"<td>{refeicao.Alimentos}</td>");
+                        html.Append($"<td>{refeicao.Calorias}</td>");
+                        html.Append("</tr>");
+                    }
+
+                    html.Append("</table>");
+
+                    // Adiciona observações se houver
+                    var observacoes = grupo.FirstOrDefault(r => !string.IsNullOrEmpty(r.Observacoes))?.Observacoes;
+                    if (!string.IsNullOrEmpty(observacoes))
+                    {
+                        html.Append($"<div class='observacoes'><strong>Observações:</strong> {observacoes}</div>");
+                    }
+                }
+
+                // Cálculo do total de calorias
+                var totalCalorias = refeicoes.Sum(r =>
+                    string.IsNullOrEmpty(r.Calorias) ? 0 :
+                    int.TryParse(r.Calorias.Replace("kcal", "").Trim(), out int cal) ? cal : 0);
+
+                html.Append($"<div class='total'>Total de calorias diárias: {totalCalorias} kcal</div>");
+
+                // Links referenciais se houver
+                var links = refeicoes.FirstOrDefault(r => !string.IsNullOrEmpty(r.LinksReferenciaisDieta))?.LinksReferenciaisDieta;
+                if (!string.IsNullOrEmpty(links))
+                {
+                    html.Append("<div class='observacoes' style='margin-top: 20px;'>");
+                    html.Append("<strong>Links de referência:</strong><br>");
+                    html.Append(links.Replace(",", "<br>"));
+                    html.Append("</div>");
+                }
+
+                html.Append("</body></html>");
+                return html.ToString();
+            }
+        }
+
 
 
 

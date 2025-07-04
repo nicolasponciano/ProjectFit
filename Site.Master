@@ -34,7 +34,9 @@
     <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <style>
-       /* Paleta de Cores */
+
+        /* Paleta de Cores */
+
         :root {
             --primary-color: #2C3E50; /* Azul escuro */
             --secondary-color: #E74C3C; /* Vermelho */
@@ -73,25 +75,32 @@
             align-items: center;
             white-space: nowrap; /* Evita quebras de linha */
         }
-        .navbar-brand i {
-            color: var(--text-color);
-            font-size: 28px;
-            margin-right: 10px;
-            transition: transform 0.3s ease;
-        }
-        .navbar-brand:hover i {
-            transform: rotate(-10deg);
-        }
+
+
+            .navbar-brand i {
+                color: var(--text-color);
+                font-size: 28px;
+                margin-right: 10px;
+                transition: transform 0.3s ease;
+            }
+
+            .navbar-brand:hover i {
+                transform: rotate(-10deg);
+            }
+
+
         .nav-link {
             color: rgba(255, 255, 255, 0.8) !important; /* Texto claro */
             font-weight: 500;
             margin: 0 15px;
             transition: all 0.3s ease;
         }
-        .nav-link:hover {
-            color: var(--text-color) !important; /* Branco ao passar o mouse */
-            transform: translateY(-2px);
-        }
+
+
+            .nav-link:hover {
+                color: var(--text-color) !important; /* Branco ao passar o mouse */
+                transform: translateY(-2px);
+            }
         /* Submenu */
         .submenu {
             list-style: none;
@@ -125,9 +134,12 @@
             text-overflow: ellipsis; /* Adiciona reticências (...) para texto truncado */
             transition: background-color 0.3s ease; /* Transição suave */
         }
-        .submenu .dropdown-item:hover {
-            background-color: var(--secondary-color); /* Fundo vermelho ao passar o mouse */
-        }
+
+            .submenu .dropdown-item:hover {
+                background-color: var(--secondary-color); /* Fundo vermelho ao passar o mouse */
+            }
+
+
         .submenu.show {
             opacity: 1;
             visibility: visible;
@@ -149,10 +161,12 @@
             justify-content: center;
             font-size: 18px;
             z-index: 1000;
+
         }
-        .chat-button:hover {
-            background-color: darken(var(--secondary-color), 10%); /* Sombra no hover */
-        }
+
+            .chat-button:hover {
+                background-color: darken(var(--secondary-color), 10%); /* Sombra no hover */
+            }
         /* Área de Mensagens */
         .chat-messages {
             border: 1px solid #ddd;
@@ -160,6 +174,7 @@
             padding: 10px;
             background-color: #f9f9f9;
         }
+
         /* Estilo das mensagens */
         .chat-message {
             margin-bottom: 10px;
@@ -167,14 +182,18 @@
             border-radius: 8px;
             max-width: 80%;
         }
-        .chat-message.user {
-            background-color: #dcf8c6; /* Verde claro para mensagens do usuário */
-            align-self: flex-end;
-        }
-        .chat-message.bot {
-            background-color: #e9ecef; /* Cinza claro para mensagens do bot */
-            align-self: flex-start;
-        }
+
+
+            .chat-message.user {
+                background-color: #dcf8c6; /* Verde claro para mensagens do usuário */
+                align-self: flex-end;
+            }
+
+            .chat-message.bot {
+                background-color: #e9ecef; /* Cinza claro para mensagens do bot */
+                align-self: flex-start;
+            }
+
         /* Rodapé */
         footer {
             background: #f8f9fa;
@@ -191,15 +210,18 @@
         .carousel-item {
             transition: transform 1s ease-in-out;
         }
+
         .carousel-caption {
             background: rgba(0, 0, 0, 0.6);
             border-radius: 15px;
             padding: 15px;
         }
+
         .feature-icon {
             font-size: 2.5rem;
             color: var(--secondary-color); /* Vermelho */
         }
+
         .embed-responsive-16by9::before {
             padding-top: 56.25%;
         }
@@ -220,9 +242,13 @@
             font-family: 'Poppins', sans-serif;
             text-align: center;
         }
+
+
         .lottie-container {
             margin-bottom: 20px;
         }
+
+
         .loading-text {
             font-family: 'Poppins', sans-serif;
             font-size: 20px;
@@ -232,10 +258,14 @@
             color: var(--text-color);
             animation: pulseText 1.5s infinite ease-in-out;
         }
+
+
+
         @keyframes pulseText {
             0%, 100% {
                 transform: scale(1);
             }
+
             50% {
                 transform: scale(1.1);
             }
@@ -248,6 +278,7 @@
             margin-right: 15px; /* Espaçamento entre o logo e o texto */
             text-align: left;
         }
+
         .navbar-coelho {
             width: 50px; /* Tamanho do coelho */
             height: auto; /* Mantém a proporção */
@@ -258,6 +289,26 @@
             0%, 100% {
                 transform: translateY(0);
             }
+
+
+            50% {
+                transform: translateY(-10px); /* Altura do pulo */
+            }
+        }
+
+        .profile-picture {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%; /* Formato circular */
+            object-fit: cover; /* Garante que a imagem cubra o espaço sem distorções */
+            margin-right: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        // Função para exibir a tela de carregamento
+        function showGlobalLoading() {
+            const loadingElement = document.getElementById('globalLoading');
+
             50% {
                 transform: translateY(-10px); /* Altura do pulo */
             }
@@ -266,6 +317,7 @@
     <script type="text/javascript">
         function showGlobalLoading() {
             var loadingElement = document.getElementById('globalLoading');
+
             if (loadingElement) {
                 loadingElement.style.display = 'flex';
             } else {
@@ -275,15 +327,21 @@
 
         // Função para ocultar a tela de carregamento
         function hideGlobalLoading() {
-            var loadingElement = document.getElementById('globalLoading');
+
+            const loadingElement = document.getElementById('globalLoading');
+
             if (loadingElement) {
                 loadingElement.style.display = 'none';
             } else {
                 console.error("Elemento 'globalLoading' não encontrado.");
             }
         }
+
+
         // Array para armazenar mensagens
         let messages = [];
+
+
         // Função para enviar mensagem
         async function sendMessage() {
             const input = document.getElementById("chatInput");
@@ -297,6 +355,20 @@
                 });
                 return;
             }
+
+
+            // Adiciona a mensagem do usuário à lista
+            messages.push({ sender: "user", text: message });
+            renderMessages();
+
+            // Limpa o campo de entrada
+            input.value = "";
+
+            try {
+                // Exibe a tela de carregamento
+                showGlobalLoading();
+
+
             // Adiciona a mensagem do usuário à lista
             messages.push({ sender: "user", text: message });
             renderMessages();
@@ -305,17 +377,23 @@
             try {
                 // Exibe a tela de carregamento
                 showGlobalLoading();
+
                 // Chama a API para obter a resposta da IA
                 const response = await fetch("/api/IAChat/GetChatResponse", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ message })
                 });
+
+
                 if (!response.ok) {
                     throw new Error("Erro ao comunicar com a API.");
                 }
+
                 const data = await response.json();
                 const botResponse = data.reply;
+
+
                 // Adiciona a resposta da IA à lista
                 messages.push({ sender: "bot", text: botResponse });
                 renderMessages();
@@ -337,10 +415,12 @@
                 hideGlobalLoading();
             }
         }
+
+
         // Função para renderizar as mensagens
         function renderMessages() {
             const chatMessagesDiv = document.getElementById("chatMessages");
-            // Verifica se o elemento existe
+
             if (!chatMessagesDiv) return;
 
             chatMessagesDiv.innerHTML = "";
@@ -350,12 +430,13 @@
                 messageDiv.innerHTML = msg.text; // Suporte a HTML
                 chatMessagesDiv.appendChild(messageDiv);
             });
+
             chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
         }
 
         // Adicionar mensagem inicial ao abrir o modal
         document.addEventListener("DOMContentLoaded", function () {
-            // Verifica se o modal existe antes de adicionar eventos
+
             const chatModal = document.getElementById('chatModal');
             if (chatModal) {
                 chatModal.addEventListener('shown.bs.modal', function () {
@@ -368,6 +449,12 @@
                     }
                 });
             }
+
+        });
+
+        // Intercepta cliques em links internos e externos
+        document.addEventListener("DOMContentLoaded", function () {
+
 
         });
 
@@ -388,6 +475,7 @@
         // Exibir tela de carregamento para navegação entre páginas
         document.addEventListener("DOMContentLoaded", function () {
             // Intercepta cliques em links internos e externos
+
             document.body.addEventListener("click", function (event) {
                 const target = event.target;
 
@@ -403,13 +491,16 @@
                         // Aguarda 500ms antes de seguir o link externo
                         setTimeout(function () {
                             window.location.href = href; // Redireciona para o link externo
-                        }, 500); // Ajuste o tempo conforme necessário
+
+                        }, 500);
+
 
                         // Impede o comportamento padrão do link
                         event.preventDefault();
                     }
                 }
             });
+
 
             // Intercepta envios de formulários
             const forms = document.querySelectorAll("form");
@@ -418,6 +509,7 @@
                     showGlobalLoading();
                 });
             });
+
         });
 
         // Para postbacks assíncronos (UpdatePanel)
@@ -429,7 +521,6 @@
             Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
                 hideGlobalLoading();
 
-                // Fecha qualquer alerta SweetAlert aberto anteriormente
                 if (typeof Swal !== 'undefined') {
                     Swal.close();
                 }
@@ -437,6 +528,16 @@
         } else {
             console.error("Sys.WebForms.PageRequestManager não está disponível.");
         }
+
+
+        // Fecha qualquer alerta SweetAlert aberto durante o unload
+        window.addEventListener('beforeunload', function () {
+            hideGlobalLoading();
+            if (typeof Swal !== 'undefined') {
+                Swal.close();
+            }
+        });
+
 
 
         document.querySelectorAll('.nav-link').forEach(link => {
@@ -477,6 +578,7 @@
             });
         }
 
+
     </script>
 </head>
 <body>
@@ -512,6 +614,11 @@
                                 <a class="nav-link" runat="server" href="~/">
                                     <i class="fa-solid fa-house me-2"></i>Home
                                 </a>
+
+                                <ul class="submenu">
+                                    <li><a class="nav-link" runat="server" href="~/Views/ProxAcademias">Academias Próximas</a></li>
+                                </ul>
+
                             </li>
                             <!-- Dieta -->
                             <li class="nav-item">
@@ -572,8 +679,11 @@
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
                                         <a runat="server" class="nav-link" href="~/Account/Manage">
+
+
                                             <i class="fa-solid fa-user-circle me-2"></i>Perfil
                                         </a>
+
                                     </li>
                                     <li class="nav-item">
                                         <a runat="server" class="nav-link" href="~/Account/Logout">
@@ -595,8 +705,10 @@
                     </asp:ContentPlaceHolder>
                 </div>
             </div>
+
             <% if (!Page.ResolveUrl("~/Account/Login").Equals(Request.Url.AbsolutePath, StringComparison.OrdinalIgnoreCase) 
                     && !Page.ResolveUrl("~/Account/Register").Equals(Request.Url.AbsolutePath)) { %>
+
             <!-- Botão Flutuante de Chat -->
             <div id="chatButton" class="chat-button" data-bs-toggle="modal" data-bs-target="#chatModal">
                 <i class="fa-solid fa-comment-dots"></i>Chat

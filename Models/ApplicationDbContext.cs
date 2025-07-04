@@ -11,6 +11,7 @@ namespace ProjectFit.Models
         public DbSet<Dieta> Dietas { get; set; }
         public DbSet<Treino> Treinos { get; set; }
 
+
         // Construtor que utiliza a string de conexão definida no Web.config
         public ApplicationDbContext()
             : base("ProjectFitDbContext", throwIfV1Schema: false)
