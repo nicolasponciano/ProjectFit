@@ -18,6 +18,7 @@ namespace ProjectFit.Models
         public bool IsAdmin { get; set; } // Adicione esta propriedade
         public virtual ICollection<Aluno> Alunos { get; set; }
 
+
         // Relacionamento com UserGoogleFit (opcional)
         //public virtual ICollection<UserGoogleFit> UserGoogleFitData { get; set; }
 
@@ -25,6 +26,7 @@ namespace ProjectFit.Models
         public string GoogleRefreshToken { get; set; }
         public string GoogleAccessToken { get; internal set; }
         public string ExpiresIn { get; internal set; }
+
 
         // Método para gerar a identidade do usuário com Claims
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

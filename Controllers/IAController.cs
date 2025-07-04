@@ -12,7 +12,9 @@ namespace ProjectFit.Controllers
     public class IAController : ApiController
     {
         private static readonly HttpClient _httpClient = new HttpClient();
+
         private readonly string _apiKey = "AIzaSyA2HZeqtO3PleSwsQmKz68tcLVZiHg49Fs";
+
 
         /// <summary>
         /// Gera um resultado personalizado com base no contexto (dieta, treino ou preparo).

@@ -15,6 +15,7 @@ namespace ProjectFit.Views
     {
 
         /// <summary>
+
         /// Controle btnAnterior.
         /// </summary>
         /// <remarks>
@@ -33,6 +34,7 @@ namespace ProjectFit.Views
         protected global::System.Web.UI.WebControls.Button btnProximo;
 
         /// <summary>
+
         /// Controle RptDietas.
         /// </summary>
         /// <remarks>

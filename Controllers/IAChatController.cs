@@ -22,7 +22,9 @@ namespace ProjectFit.Controllers
     public class IAChatController : ApiController
     {
         private static readonly HttpClient _httpClient = new HttpClient();
+
         private readonly string _apiKey = "AIzaSyD6mjoirfs8dNxw3lSBeZ2vMZrrkyFxjDo";
+
 
         /// <summary>
         /// Processa uma mensagem de chat e retorna uma resposta.

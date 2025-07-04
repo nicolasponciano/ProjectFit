@@ -6,7 +6,9 @@ using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProjectFit.Models;
+
 using SelectPdf;
+
 
 namespace ProjectFit.Views
 {
@@ -209,6 +211,7 @@ namespace ProjectFit.Views
         }
 
 
+
         protected void btnExportarPdf_Click(object sender, EventArgs e)
         {
             var btn = (Button)sender;
@@ -334,6 +337,7 @@ namespace ProjectFit.Views
                 return html.ToString();
             }
         }
+
 
 
 
